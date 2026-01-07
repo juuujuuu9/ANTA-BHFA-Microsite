@@ -1,127 +1,237 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-let success = false;
-let error = '';
-
-if (Astro.request.method === 'POST') {
-  const formData = await Astro.request.formData();
-  const name = formData.get('name')?.toString() || '';
-  const email = formData.get('email')?.toString() || '';
-  const message = formData.get('message')?.toString() || '';
-  
-  if (message) {
-    const { getAllAdmins } = await import('../lib/auth');
-    const { sendFormSubmissionEmail } = await import('../lib/email');
-    const { createFormSubmission } = await import('../lib/submissions');
-    
-    // Save to database
-    try {
-      await createFormSubmission({
-        name: name || undefined,
-        email: email || undefined,
-        message,
-      });
-    } catch (dbError) {
-      console.error('Error saving submission to database:', dbError);
-      // Continue even if DB save fails, still try to send email
-    }
-    
-    // Send email to admins
-    const admins = await getAllAdmins();
-    const adminEmails = admins.map(admin => admin.email);
-    
-    if (adminEmails.length > 0) {
-      const result = await sendFormSubmissionEmail(adminEmails, {
-        name: name || undefined,
-        email: email || undefined,
-        message,
-      });
-      
-      if (result.success) {
-        success = true;
-      } else {
-        error = 'Failed to send message. Please try again later.';
-      }
-    } else {
-      error = 'No administrators configured. Please contact support.';
-    }
-  } else {
-    error = 'Please enter a message';
-  }
-}
-
-// Default content - can be customized per microsite
-const title = 'Welcome to Our Microsite';
-const bodyText = 'This is a customizable microsite boilerplate. Fill out the form below to get in touch with us.';
+const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
 ---
 
 <Layout title={title}>
   <div class="microsite-container">
     <div class="content-wrapper">
       <header class="header">
-        <h1>{title}</h1>
+        <h1>ANTA BEVERLY HILLS FIRST ACCESS</h1>
       </header>
       
       <main class="main-content">
-        <div class="text-body">
-          <p>{bodyText}</p>
+        <div class="intro-section">
+          <p class="intro-text">
+            Join us for first access to the new ANTA Beverly Hills store.
+            Experience the space before it opens and be among the first to see the Chinese New Year KAI's.
+          </p>
+          
+          <div class="event-details">
+            <p class="event-date"><strong>Friday, January 17</strong></p>
+            <p class="event-time">10:00 AM – 2:00 PM</p>
+          </div>
         </div>
         
-        {success ? (
-          <div class="success-card">
-            <h2>Thank You!</h2>
-            <p>Your message has been sent successfully. We'll get back to you soon.</p>
-          </div>
-        ) : (
-          <form method="POST" class="contact-form">
-            {error && <div class="error-message">{error}</div>}
-            
+        <div class="rsvp-section">
+          <h2>RSVP SECTION</h2>
+          <p class="rsvp-instructions">Please complete the form below to request first access.</p>
+          
+          <form id="registration-form" class="contact-form" method="POST">
             <div class="form-group">
-              <label for="name">Name (Optional)</label>
+              <label for="firstName">First Name <span class="required">*</span></label>
               <input 
                 type="text" 
-                id="name" 
-                name="name" 
-                autocomplete="name"
-                placeholder="Your name"
+                id="firstName" 
+                name="firstName" 
+                required
+                autocomplete="given-name"
+                placeholder="Your first name"
               />
             </div>
             
             <div class="form-group">
-              <label for="email">Email (Optional)</label>
+              <label for="lastName">Last Name <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="lastName" 
+                name="lastName" 
+                required
+                autocomplete="family-name"
+                placeholder="Your last name"
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email Address <span class="required">*</span></label>
               <input 
                 type="email" 
                 id="email" 
                 name="email" 
+                required
                 autocomplete="email"
                 placeholder="your.email@example.com"
               />
             </div>
             
             <div class="form-group">
-              <label for="message">Message <span class="required">*</span></label>
-              <textarea 
-                id="message" 
-                name="message" 
-                required 
-                rows="6"
-                placeholder="Enter your message here..."
-              ></textarea>
+              <label for="phone">Phone Number</label>
+              <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                autocomplete="tel"
+                placeholder="(555) 123-4567"
+              />
             </div>
             
-            <button type="submit" class="btn-submit">Send Message</button>
+            <div class="form-group">
+              <label for="shirtSize">Shirt Size</label>
+              <select id="shirtSize" name="shirtSize">
+                <option value="">Select size</option>
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="sneakerSize">Sneaker Size</label>
+              <select id="sneakerSize" name="sneakerSize">
+                <option value="">Select size</option>
+                <option value="5">5</option>
+                <option value="5.5">5.5</option>
+                <option value="6">6</option>
+                <option value="6.5">6.5</option>
+                <option value="7">7</option>
+                <option value="7.5">7.5</option>
+                <option value="8">8</option>
+                <option value="8.5">8.5</option>
+                <option value="9">9</option>
+                <option value="9.5">9.5</option>
+                <option value="10">10</option>
+                <option value="10.5">10.5</option>
+                <option value="11">11</option>
+                <option value="11.5">11.5</option>
+                <option value="12">12</option>
+                <option value="12.5">12.5</option>
+                <option value="13">13</option>
+              </select>
+            </div>
+
+            <!-- Submit Button / Inline Confirmation Area -->
+            <div id="registration-action" class="text-center pt-10" aria-live="polite">
+              <button
+                id="register-button"
+                type="submit"
+                class="btn-submit"
+              >
+                RSVP Now
+              </button>
+            </div>
+
+            <!-- Inline error box (hidden by default) -->
+            <div
+              id="registration-error"
+              class="hidden mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-[18px] text-center"
+              aria-live="polite"
+            ></div>
           </form>
-        )}
+        </div>
+        
+        <div class="confirmation-note">
+          <h3>CONFIRMATION NOTE</h3>
+          <p>
+            Thank you for signing up for ANTA First Access.
+            Confirmed guests will receive additional event details prior to January 17.
+          </p>
+        </div>
       </main>
     </div>
   </div>
 </Layout>
 
+<script>
+  document.getElementById('registration-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    const actionContainer = document.getElementById('registration-action');
+    const errorContainer = document.getElementById('registration-error');
+    const registerButton = document.getElementById('register-button') as HTMLButtonElement;
+
+    // Clear previous error
+    if (errorContainer) {
+      errorContainer.textContent = '';
+      errorContainer.classList.add('hidden');
+    }
+
+    // Loading state
+    let originalButtonHTML: string | null = null;
+    if (registerButton) {
+      originalButtonHTML = registerButton.innerHTML;
+      registerButton.disabled = true;
+      registerButton.classList.add('opacity-60', 'cursor-not-allowed');
+      registerButton.setAttribute('aria-busy', 'true');
+      registerButton.innerHTML = `
+        <span class="inline-flex items-center gap-3">
+          <svg class="animate-spin h-6 w-6 text-white" viewBox="0 0 24 24" fill="none">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          </svg>
+          Submitting...
+        </span>
+      `;
+    }
+
+    try {
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        if (actionContainer) {
+          actionContainer.setAttribute('aria-live', 'polite');
+          actionContainer.innerHTML = `
+            <div class="inline-block mt-2 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg text-[20px] font-semibold">
+              🎉 You're in! We'll be in touch soon with details about the event.
+            </div>
+          `;
+        }
+        form.reset();
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Server error:', errorData);
+        if (errorContainer) {
+          errorContainer.textContent = 'Something went wrong. Please try again.';
+          errorContainer.classList.remove('hidden');
+        }
+        if (registerButton && originalButtonHTML !== null) {
+          registerButton.disabled = false;
+          registerButton.classList.remove('opacity-60', 'cursor-not-allowed');
+          registerButton.removeAttribute('aria-busy');
+          registerButton.innerHTML = originalButtonHTML;
+        }
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      if (errorContainer) {
+        errorContainer.textContent = 'Something went wrong. Please try again.';
+        errorContainer.classList.remove('hidden');
+      }
+      if (registerButton && originalButtonHTML !== null) {
+        registerButton.disabled = false;
+        registerButton.classList.remove('opacity-60', 'cursor-not-allowed');
+        registerButton.removeAttribute('aria-busy');
+        registerButton.innerHTML = originalButtonHTML;
+      }
+    }
+  });
+</script>
+
 <style>
   .microsite-container {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
     padding: 2rem;
     display: flex;
     align-items: center;
@@ -143,22 +253,68 @@ const bodyText = 'This is a customizable microsite boilerplate. Fill out the for
   }
   
   .header h1 {
-    color: #333;
-    font-size: 2.5rem;
+    color: #1a1a1a;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
     margin: 0;
+    text-transform: uppercase;
   }
   
   .main-content {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
   }
   
-  .text-body {
+  .intro-section {
+    text-align: center;
+  }
+  
+  .intro-text {
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  
+  .event-details {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .event-date {
+    color: #1a1a1a;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .event-time {
     color: #666;
     font-size: 1.1rem;
-    line-height: 1.6;
-    text-align: center;
+    margin: 0;
+  }
+  
+  .rsvp-section {
+    border-top: 2px solid #e0e0e0;
+    padding-top: 2rem;
+  }
+  
+  .rsvp-section h2 {
+    color: #1a1a1a;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .rsvp-instructions {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
   }
   
   .contact-form {
@@ -184,7 +340,7 @@ const bodyText = 'This is a customizable microsite boilerplate. Fill out the for
   }
   
   .form-group input,
-  .form-group textarea {
+  .form-group select {
     padding: 0.75rem;
     border: 2px solid #e0e0e0;
     border-radius: 8px;
@@ -194,58 +350,60 @@ const bodyText = 'This is a customizable microsite boilerplate. Fill out the for
   }
   
   .form-group input:focus,
-  .form-group textarea:focus {
+  .form-group select:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #1a1a1a;
   }
   
-  .form-group textarea {
-    resize: vertical;
+  .form-group select {
+    background-color: white;
+    cursor: pointer;
   }
   
   .btn-submit {
-    padding: 1rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 1rem 2rem;
+    background: #1a1a1a;
     color: white;
     border: none;
     border-radius: 8px;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
   
-  .btn-submit:hover {
+  .btn-submit:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 5px 20px rgba(26, 26, 26, 0.3);
+    background: #333;
   }
   
-  .success-card {
-    background: #f0f9ff;
-    border: 2px solid #3b82f6;
-    border-radius: 12px;
-    padding: 2rem;
+  .btn-submit:disabled {
+    cursor: not-allowed;
+  }
+  
+  .confirmation-note {
+    border-top: 2px solid #e0e0e0;
+    padding-top: 2rem;
     text-align: center;
   }
   
-  .success-card h2 {
-    color: #1e40af;
-    margin: 0 0 1rem 0;
-    font-size: 1.8rem;
+  .confirmation-note h3 {
+    color: #1a1a1a;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
   
-  .success-card p {
-    color: #1e3a8a;
+  .confirmation-note p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
     margin: 0;
-    font-size: 1.1rem;
-  }
-  
-  .error-message {
-    background: #fee;
-    color: #c33;
-    padding: 0.75rem;
-    border-radius: 8px;
-    border: 1px solid #fcc;
   }
   
   @media (max-width: 768px) {
@@ -254,8 +412,19 @@ const bodyText = 'This is a customizable microsite boilerplate. Fill out the for
     }
     
     .header h1 {
-      font-size: 2rem;
+      font-size: 1.5rem;
+    }
+    
+    .intro-text {
+      font-size: 1rem;
+    }
+    
+    .event-date {
+      font-size: 1.1rem;
+    }
+    
+    .rsvp-section h2 {
+      font-size: 1.3rem;
     }
   }
 </style>
-

@@ -32,9 +32,12 @@ async function seed() {
     await sql(`
       CREATE TABLE IF NOT EXISTS form_submissions (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
+        first_name VARCHAR(255),
+        last_name VARCHAR(255),
         email VARCHAR(255),
-        message TEXT NOT NULL,
+        phone VARCHAR(255),
+        shirt_size VARCHAR(50),
+        sneaker_size VARCHAR(50),
         created_at TIMESTAMP DEFAULT NOW() NOT NULL
       );
     `);

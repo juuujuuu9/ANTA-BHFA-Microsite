@@ -2,14 +2,20 @@ import { db, formSubmissions } from './db';
 import { eq, desc } from 'drizzle-orm';
 
 export async function createFormSubmission(data: {
-  name?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
-  message: string;
+  phone?: string;
+  shirtSize?: string;
+  sneakerSize?: string;
 }) {
   const [submission] = await db.insert(formSubmissions).values({
-    name: data.name || null,
+    firstName: data.firstName || null,
+    lastName: data.lastName || null,
     email: data.email || null,
-    message: data.message,
+    phone: data.phone || null,
+    shirtSize: data.shirtSize || null,
+    sneakerSize: data.sneakerSize || null,
   }).returning();
   
   return submission;

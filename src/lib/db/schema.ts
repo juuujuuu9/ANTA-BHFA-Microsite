@@ -13,9 +13,12 @@ export const admins = pgTable('admins', {
 
 export const formSubmissions = pgTable('form_submissions', {
   id: serial('id').primaryKey(),
-  name: varchar('name', { length: 255 }),
+  firstName: varchar('first_name', { length: 255 }),
+  lastName: varchar('last_name', { length: 255 }),
   email: varchar('email', { length: 255 }),
-  message: text('message').notNull(),
+  phone: varchar('phone', { length: 255 }),
+  shirtSize: varchar('shirt_size', { length: 50 }),
+  sneakerSize: varchar('sneaker_size', { length: 50 }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 

@@ -13,34 +13,31 @@ try {
 // Fetch submissions from database
 let submissions: Array<{
   id: number;
-  name: string | null;
+  firstName: string | null;
+  lastName: string | null;
   email: string | null;
-  message: string;
-  created_at: Date;
+  phone: string | null;
+  shirtSize: string | null;
+  sneakerSize: string | null;
+  createdAt: Date;
 }> = [];
 
 try {
   submissions = await getAllSubmissions();
-  // Sort entries alphabetically by name (case-insensitive)
+  // Sort entries alphabetically by last name (case-insensitive)
   submissions.sort((a, b) => {
-    const nameA = (a.name || '').toLowerCase();
-    const nameB = (b.name || '').toLowerCase();
-    return nameA.localeCompare(nameB);
+    const lastNameA = (a.lastName || '').toLowerCase();
+    const lastNameB = (b.lastName || '').toLowerCase();
+    if (lastNameA !== lastNameB) {
+      return lastNameA.localeCompare(lastNameB);
+    }
+    // If last names are the same, sort by first name
+    const firstNameA = (a.firstName || '').toLowerCase();
+    const firstNameB = (b.firstName || '').toLowerCase();
+    return firstNameA.localeCompare(firstNameB);
   });
 } catch (error) {
   console.error('Error loading submissions:', error);
-}
-
-// Helper function to split name into first and last
-function splitName(name: string | null): { firstName: string; lastName: string } {
-  if (!name) return { firstName: '', lastName: '' };
-  const parts = name.trim().split(/\s+/);
-  if (parts.length === 1) {
-    return { firstName: parts[0], lastName: '' };
-  }
-  const lastName = parts.pop() || '';
-  const firstName = parts.join(' ');
-  return { firstName, lastName };
 }
 ---
 
@@ -174,40 +171,44 @@ function splitName(name: string | null): { firstName: string; lastName: string }
               <tr class="bg-[#F1F3F5]">
                 <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300" style="font-family: Helvetica, Arial, sans-serif;">Name</th>
                 <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Email</th>
-                <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Message</th>
+                <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Phone</th>
+                <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Shirt Size</th>
+                <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Sneaker Size</th>
                 <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Date</th>
                 <th class="px-2 py-2 md:px-6 md:py-4 text-center text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Actions</th>
               </tr>
             </thead>
             <tbody id="entries-tbody" class="divide-y divide-gray-200">
               {submissions.map((submission) => {
-              const { firstName } = splitName(submission.name);
-              const dateValue = submission.created_at instanceof Date 
-                ? submission.created_at.toISOString() 
-                : new Date(submission.created_at).toISOString();
-              const formattedDate = submission.created_at instanceof Date 
-                ? submission.created_at.toLocaleDateString() + ' ' + submission.created_at.toLocaleTimeString()
-                : new Date(submission.created_at).toLocaleDateString() + ' ' + new Date(submission.created_at).toLocaleTimeString();
+              const fullName = `${submission.firstName || ''} ${submission.lastName || ''}`.trim() || '—';
+              const firstName = (submission.firstName || '').toLowerCase();
+              const dateValue = submission.createdAt instanceof Date 
+                ? submission.createdAt.toISOString() 
+                : new Date(submission.createdAt).toISOString();
+              const formattedDate = submission.createdAt instanceof Date 
+                ? submission.createdAt.toLocaleDateString() + ' ' + submission.createdAt.toLocaleTimeString()
+                : new Date(submission.createdAt).toLocaleDateString() + ' ' + new Date(submission.createdAt).toLocaleTimeString();
               
               return (
                 <tr 
                   class="hover:bg-gray-50/50 transition-colors" 
                   style="font-family: Helvetica, Arial, sans-serif;" 
                   data-entry-id={submission.id}
-                  data-first-name={firstName.toLowerCase()}
+                  data-first-name={firstName}
+                  data-last-name={(submission.lastName || '').toLowerCase()}
                   data-created-at={dateValue}
                 >
-                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 capitalize border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">{submission.name || '—'}</td>
+                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 capitalize border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">{fullName}</td>
                   <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">{submission.email || '—'}</td>
-                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 border-l border-gray-100 max-w-md" style="font-family: Helvetica, Arial, sans-serif;">
-                    <div class="truncate" title={submission.message}>{submission.message}</div>
-                  </td>
+                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">{submission.phone || '—'}</td>
+                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">{submission.shirtSize || '—'}</td>
+                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">{submission.sneakerSize || '—'}</td>
                   <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 border-l border-gray-100 whitespace-nowrap" style="font-family: Helvetica, Arial, sans-serif;">{formattedDate}</td>
                   <td class="px-2 py-2 md:px-6 md:py-4 text-center border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">
                     <button
                       class="delete-entry-btn px-3 py-1.5 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm font-semibold uppercase flex items-center gap-2 mx-auto"
                       data-entry-id={submission.id}
-                      data-entry-name={submission.name || 'Submission'}
+                      data-entry-name={fullName}
                       style="font-family: Helvetica, Arial, sans-serif;"
                     >
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -317,10 +318,20 @@ function splitName(name: string | null): { firstName: string; lastName: string }
         const rowB = b as HTMLElement;
         
         if (currentSort === 'name-asc') {
+          const lastNameA = rowA.getAttribute('data-last-name') || '';
+          const lastNameB = rowB.getAttribute('data-last-name') || '';
+          if (lastNameA !== lastNameB) {
+            return lastNameA.localeCompare(lastNameB);
+          }
           const firstNameA = rowA.getAttribute('data-first-name') || '';
           const firstNameB = rowB.getAttribute('data-first-name') || '';
           return firstNameA.localeCompare(firstNameB);
         } else if (currentSort === 'name-desc') {
+          const lastNameA = rowA.getAttribute('data-last-name') || '';
+          const lastNameB = rowB.getAttribute('data-last-name') || '';
+          if (lastNameA !== lastNameB) {
+            return lastNameB.localeCompare(lastNameA);
+          }
           const firstNameA = rowA.getAttribute('data-first-name') || '';
           const firstNameB = rowB.getAttribute('data-first-name') || '';
           return firstNameB.localeCompare(firstNameA);
@@ -346,15 +357,19 @@ function splitName(name: string | null): { firstName: string; lastName: string }
       const visibleRows: Element[] = [];
       rows.forEach((row) => {
         const cells = row.querySelectorAll('td');
-        // Column order: Name (0), Email (1), Message (2), Date (3), Actions (4)
+        // Column order: Name (0), Email (1), Phone (2), Shirt Size (3), Sneaker Size (4), Date (5), Actions (6)
         const name = cells[0]?.textContent?.toLowerCase() || '';
         const email = cells[1]?.textContent?.toLowerCase() || '';
-        const message = cells[2]?.textContent?.toLowerCase() || '';
+        const phone = cells[2]?.textContent?.toLowerCase() || '';
+        const shirtSize = cells[3]?.textContent?.toLowerCase() || '';
+        const sneakerSize = cells[4]?.textContent?.toLowerCase() || '';
         
         const matchesSearch = !searchTerm || 
           name.includes(searchTerm) || 
           email.includes(searchTerm) ||
-          message.includes(searchTerm);
+          phone.includes(searchTerm) ||
+          shirtSize.includes(searchTerm) ||
+          sneakerSize.includes(searchTerm);
         
         if (matchesSearch) {
           (row as HTMLElement).style.display = '';
@@ -383,7 +398,7 @@ function splitName(name: string | null): { firstName: string; lastName: string }
     const exportCsvBtn = document.getElementById('export-csv-btn');
     exportCsvBtn?.addEventListener('click', () => {
       const rows = entriesTbody?.querySelectorAll('tr[data-entry-id]') || [];
-      const csvRows: string[] = ['Name,Email,Message,Date'];
+      const csvRows: string[] = ['Name,Email,Phone,Shirt Size,Sneaker Size,Date'];
       
       rows.forEach((row) => {
         // Only export visible rows
@@ -391,18 +406,22 @@ function splitName(name: string | null): { firstName: string; lastName: string }
         if (!isVisible) return;
         
         const cells = row.querySelectorAll('td');
-        if (cells.length >= 4) {
+        if (cells.length >= 6) {
           const name = cells[0]?.textContent?.trim() || '';
           const email = cells[1]?.textContent?.trim() || '';
-          const message = cells[2]?.textContent?.trim() || '';
-          const date = cells[3]?.textContent?.trim() || '';
+          const phone = cells[2]?.textContent?.trim() || '';
+          const shirtSize = cells[3]?.textContent?.trim() || '';
+          const sneakerSize = cells[4]?.textContent?.trim() || '';
+          const date = cells[5]?.textContent?.trim() || '';
           
           // Escape commas and quotes in CSV
           const escapeCsv = (str: string) => `"${str.replace(/"/g, '""')}"`;
           csvRows.push([
             escapeCsv(name),
             escapeCsv(email),
-            escapeCsv(message),
+            escapeCsv(phone),
+            escapeCsv(shirtSize),
+            escapeCsv(sneakerSize),
             escapeCsv(date)
           ].join(','));
         }

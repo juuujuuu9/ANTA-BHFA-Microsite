@@ -28,23 +28,28 @@ export async function sendPasswordResetEmail(email: string, resetLink: string) {
 }
 
 export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
-  name?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
-  message: string;
+  phone?: string;
+  shirtSize?: string;
+  sneakerSize?: string;
 }) {
   try {
     const emailContent = `
-      <h2>New Form Submission</h2>
-      ${formData.name ? `<p><strong>Name:</strong> ${formData.name}</p>` : ''}
+      <h2>New ANTA First Access RSVP</h2>
+      ${formData.firstName ? `<p><strong>First Name:</strong> ${formData.firstName}</p>` : ''}
+      ${formData.lastName ? `<p><strong>Last Name:</strong> ${formData.lastName}</p>` : ''}
       ${formData.email ? `<p><strong>Email:</strong> ${formData.email}</p>` : ''}
-      <p><strong>Message:</strong></p>
-      <p>${formData.message}</p>
+      ${formData.phone ? `<p><strong>Phone:</strong> ${formData.phone}</p>` : ''}
+      ${formData.shirtSize ? `<p><strong>Shirt Size:</strong> ${formData.shirtSize}</p>` : ''}
+      ${formData.sneakerSize ? `<p><strong>Sneaker Size:</strong> ${formData.sneakerSize}</p>` : ''}
     `;
 
     await resend.emails.send({
       from: 'noreply@yourdomain.com', // Update with your verified domain
       to: adminEmails,
-      subject: 'New Form Submission',
+      subject: 'New ANTA First Access RSVP',
       html: emailContent,
     });
     return { success: true };

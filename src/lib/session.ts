@@ -2,7 +2,7 @@ import type { AstroCookies } from 'astro';
 import { nanoid } from 'nanoid';
 
 const SESSION_COOKIE_NAME = 'admin_session';
-const SESSION_SECRET = process.env.SESSION_SECRET || 'default-secret-change-in-production';
+const SESSION_SECRET = import.meta.env.SESSION_SECRET || process.env.SESSION_SECRET || 'default-secret-change-in-production';
 
 // Simple session storage (in production, use Redis or a database)
 const sessions = new Map<string, { adminId: string; expiresAt: Date }>();
@@ -16,7 +16,7 @@ export function createSession(cookies: AstroCookies, adminId: string) {
   
   cookies.set(SESSION_COOKIE_NAME, sessionId, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: (import.meta.env.MODE || process.env.NODE_ENV) === 'production',
     sameSite: 'lax',
     maxAge: 60 * 60 * 24 * 7, // 7 days
     path: '/',

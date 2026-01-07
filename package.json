@@ -25,8 +25,11 @@
     "resend": "^4.0.0"
   },
   "devDependencies": {
+    "@astrojs/tailwind": "^6.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20.14.0",
+    "dotenv": "^17.2.3",
+    "tailwindcss": "^3.4.19",
     "tsx": "^4.16.0",
     "typescript": "^5.5.0"
   }

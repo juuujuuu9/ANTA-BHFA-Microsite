@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { neon } from '@neondatabase/serverless';
 
 async function migrate() {
@@ -11,12 +12,12 @@ async function migrate() {
     const sql = neon(process.env.DATABASE_URL);
     
     // Check if old columns exist
-    const checkColumns = await sql(`
+    const checkColumns = await sql`
       SELECT column_name 
       FROM information_schema.columns 
       WHERE table_name = 'form_submissions' 
       AND column_name IN ('name', 'message')
-    `);
+    `;
     
     const hasOldColumns = checkColumns.length > 0;
     
@@ -24,17 +25,17 @@ async function migrate() {
       console.log('Old schema detected. Migrating to new schema...');
       
       // Add new columns if they don't exist
-      await sql(`
+      await sql`
         ALTER TABLE form_submissions
         ADD COLUMN IF NOT EXISTS first_name VARCHAR(255),
         ADD COLUMN IF NOT EXISTS last_name VARCHAR(255),
         ADD COLUMN IF NOT EXISTS phone VARCHAR(255),
         ADD COLUMN IF NOT EXISTS shirt_size VARCHAR(50),
-        ADD COLUMN IF NOT EXISTS sneaker_size VARCHAR(50);
-      `);
+        ADD COLUMN IF NOT EXISTS sneaker_size VARCHAR(50)
+      `;
       
       // Migrate existing data: split name into first_name and last_name
-      await sql(`
+      await sql`
         UPDATE form_submissions
         SET first_name = CASE 
           WHEN name IS NOT NULL THEN 
@@ -50,8 +51,8 @@ async function migrate() {
             substring(name from position(' ' in name) + 1)
           ELSE NULL
         END
-        WHERE name IS NOT NULL;
-      `);
+        WHERE name IS NOT NULL
+      `;
       
       console.log('Data migration completed.');
       

@@ -17,7 +17,7 @@ if (Astro.request.method === 'POST') {
     
     if (admin && await verifyPassword(password, admin.passwordHash)) {
       createSession(Astro.cookies, admin.id);
-      return Astro.redirect('/');
+      return Astro.redirect('/admin');
     } else {
       error = 'Invalid username or password';
     }

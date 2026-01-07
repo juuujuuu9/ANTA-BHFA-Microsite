@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { neon } from '@neondatabase/serverless';
 import { db, admins } from './index';
 import { createAdmin } from '../auth';
@@ -15,7 +16,7 @@ async function seed() {
     const sql = neon(process.env.DATABASE_URL);
     
     // Create admins table
-    await sql(`
+    await sql`
       CREATE TABLE IF NOT EXISTS admins (
         id VARCHAR(255) PRIMARY KEY,
         username VARCHAR(255) NOT NULL UNIQUE,
@@ -25,11 +26,11 @@ async function seed() {
         reset_token_expiry TIMESTAMP,
         created_at TIMESTAMP DEFAULT NOW() NOT NULL,
         updated_at TIMESTAMP DEFAULT NOW() NOT NULL
-      );
-    `);
+      )
+    `;
     
     // Create form_submissions table
-    await sql(`
+    await sql`
       CREATE TABLE IF NOT EXISTS form_submissions (
         id SERIAL PRIMARY KEY,
         first_name VARCHAR(255),
@@ -39,8 +40,8 @@ async function seed() {
         shirt_size VARCHAR(50),
         sneaker_size VARCHAR(50),
         created_at TIMESTAMP DEFAULT NOW() NOT NULL
-      );
-    `);
+      )
+    `;
     
     console.log('Checking for existing admin...');
     

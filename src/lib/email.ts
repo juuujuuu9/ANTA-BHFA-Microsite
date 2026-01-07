@@ -1,15 +1,18 @@
 import { Resend } from 'resend';
 
-if (!process.env.RESEND_API_KEY) {
+const resendApiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
+
+if (!resendApiKey) {
   throw new Error('RESEND_API_KEY environment variable is not set');
 }
 
-export const resend = new Resend(process.env.RESEND_API_KEY);
+export const resend = new Resend(resendApiKey);
 
 export async function sendPasswordResetEmail(email: string, resetLink: string) {
   try {
+    const fromEmail = import.meta.env.FROM_EMAIL || process.env.FROM_EMAIL || 'noreply@yourdomain.com';
     await resend.emails.send({
-      from: 'noreply@yourdomain.com', // Update with your verified domain
+      from: fromEmail,
       to: email,
       subject: 'Password Reset Request',
       html: `
@@ -46,8 +49,9 @@ export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
       ${formData.sneakerSize ? `<p><strong>Sneaker Size:</strong> ${formData.sneakerSize}</p>` : ''}
     `;
 
+    const fromEmail = import.meta.env.FROM_EMAIL || process.env.FROM_EMAIL || 'noreply@yourdomain.com';
     await resend.emails.send({
-      from: 'noreply@yourdomain.com', // Update with your verified domain
+      from: fromEmail,
       to: adminEmails,
       subject: 'New ANTA First Access RSVP',
       html: emailContent,

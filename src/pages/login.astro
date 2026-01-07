@@ -3,27 +3,76 @@ import Layout from '../layouts/Layout.astro';
 
 let error = '';
 let success = '';
+let debugInfo = '';
 
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData();
   const username = formData.get('username')?.toString() || '';
   const password = formData.get('password')?.toString() || '';
   
+  console.log('=== LOGIN ATTEMPT ===');
+  console.log('Username/Email:', username);
+  console.log('Password length:', password.length);
+  
   if (username && password) {
-    const { getAdminByUsername, verifyPassword } = await import('../lib/auth');
-    const { createSession } = await import('../lib/session');
-    
-    const admin = await getAdminByUsername(username);
-    
-    if (admin && await verifyPassword(password, admin.passwordHash)) {
-      createSession(Astro.cookies, admin.id);
-      return Astro.redirect('/admin');
-    } else {
-      error = 'Invalid username or password';
+    try {
+      console.log('Importing auth module...');
+      const { getAdminByUsername, getAdminByEmail, verifyPassword } = await import('../lib/auth');
+      const { createSession } = await import('../lib/session');
+      
+      console.log('Auth module imported successfully');
+      console.log('Checking for admin with:', username);
+      
+      // Try username first, then email
+      let admin = await getAdminByUsername(username);
+      console.log('Username lookup result:', admin ? 'Found' : 'Not found');
+      
+      if (!admin) {
+        admin = await getAdminByEmail(username);
+        console.log('Email lookup result:', admin ? 'Found' : 'Not found');
+      }
+      
+      if (!admin) {
+        console.log('❌ Admin not found');
+        error = 'Invalid username or password';
+        debugInfo = `No admin found with username or email: ${username}`;
+      } else {
+        console.log('✅ Admin found:', admin.username, admin.email);
+        console.log('Verifying password...');
+        
+        const isValid = await verifyPassword(password, admin.passwordHash);
+        console.log('Password verification result:', isValid);
+        
+        if (isValid) {
+          console.log('Creating session...');
+          const sessionId = createSession(Astro.cookies, admin.id);
+          console.log('✅ Session created:', sessionId);
+          console.log('Redirecting to /admin...');
+          return Astro.redirect('/admin');
+        } else {
+          console.log('❌ Password verification failed');
+          error = 'Invalid username or password';
+          debugInfo = 'Password does not match';
+        }
+      }
+    } catch (err) {
+      console.error('❌ LOGIN ERROR:', err);
+      if (err instanceof Error) {
+        console.error('Error message:', err.message);
+        console.error('Error stack:', err.stack);
+        error = `Login error: ${err.message}`;
+        debugInfo = err.stack || '';
+      } else {
+        error = 'An error occurred during login. Please try again.';
+        debugInfo = String(err);
+      }
     }
   } else {
     error = 'Please fill in all fields';
+    debugInfo = `Username: ${username ? 'provided' : 'missing'}, Password: ${password ? 'provided' : 'missing'}`;
   }
+  
+  console.log('=== LOGIN ATTEMPT END ===');
 }
 
 const resetMessage = Astro.url.searchParams.get('reset');
@@ -37,7 +86,16 @@ if (resetMessage === 'success') {
     <div class="login-card">
       <h1>Admin Login</h1>
       
-      {error && <div class="error-message">{error}</div>}
+      {error && (
+        <div class="error-message">
+          {error}
+          {debugInfo && import.meta.env.MODE === 'development' && (
+            <div style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">
+              Debug: {debugInfo}
+            </div>
+          )}
+        </div>
+      )}
       {success && <div class="success-message">{success}</div>}
       
       <form method="POST" class="login-form">

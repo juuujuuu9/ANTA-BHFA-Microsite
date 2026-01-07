@@ -21,8 +21,9 @@ export const POST: APIRoute = async ({ request }) => {
     }
     
     // Save to database
+    let submission;
     try {
-      await createFormSubmission({
+      submission = await createFormSubmission({
         firstName,
         lastName,
         email,
@@ -46,12 +47,28 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
     
+    // Get total count of entries after saving
+    let totalEntries = 0;
+    try {
+      const { getTotalSubmissionCount } = await import('@/lib/submissions');
+      totalEntries = await getTotalSubmissionCount();
+    } catch (countError) {
+      console.error('Error getting total submission count:', countError);
+      // Continue even if count fails
+    }
+    
     // Send email to admins
     try {
+      console.log('=== EMAIL NOTIFICATION PROCESS ===');
       const admins = await getAllAdmins();
-      const adminEmails = admins.map(admin => admin.email);
+      console.log('Total admins found:', admins.length);
+      console.log('Admin details:', admins.map(a => ({ username: a.username, email: a.email })));
+      
+      const adminEmails = admins.map(admin => admin.email).filter(Boolean);
+      console.log('Admin emails to notify:', adminEmails);
       
       if (adminEmails.length > 0) {
+        console.log('Sending email notification...');
         const result = await sendFormSubmissionEmail(adminEmails, {
           firstName,
           lastName,
@@ -59,15 +76,25 @@ export const POST: APIRoute = async ({ request }) => {
           phone,
           shirtSize,
           sneakerSize,
+          submittedAt: submission.createdAt,
+          totalEntries,
         });
         
-        if (!result.success) {
-          console.error('Failed to send email:', result.error);
+        if (result.success) {
+          console.log('✅ Email notification sent successfully');
+        } else {
+          console.error('❌ Failed to send email:', result.error);
           // Don't fail the request if email fails, submission is saved
         }
+      } else {
+        console.warn('⚠️ No admin emails found to send notification to');
       }
     } catch (emailError) {
-      console.error('Error sending email:', emailError);
+      console.error('❌ Error in email notification process:', emailError);
+      if (emailError instanceof Error) {
+        console.error('Error message:', emailError.message);
+        console.error('Error stack:', emailError.stack);
+      }
       // Don't fail the request if email fails, submission is saved
     }
     

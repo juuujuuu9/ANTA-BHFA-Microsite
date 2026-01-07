@@ -1,18 +1,45 @@
 import { Resend } from 'resend';
 
-const resendApiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
-
-if (!resendApiKey) {
-  throw new Error('RESEND_API_KEY environment variable is not set');
+function getResendApiKey(): string {
+  // Try import.meta.env first (Astro/Vite), then process.env (Node.js)
+  let key: string | undefined;
+  
+  try {
+    if (typeof import.meta !== 'undefined' && import.meta.env) {
+      key = import.meta.env.RESEND_API_KEY;
+    }
+  } catch {
+    // import.meta not available, will use process.env
+  }
+  
+  key = key || process.env.RESEND_API_KEY;
+  
+  if (!key) {
+    throw new Error('RESEND_API_KEY environment variable is not set');
+  }
+  
+  return key;
 }
 
+const resendApiKey = getResendApiKey();
 export const resend = new Resend(resendApiKey);
+
+function getFromEmail(): string {
+  try {
+    if (typeof import.meta !== 'undefined' && import.meta.env) {
+      return import.meta.env.FROM_EMAIL || process.env.FROM_EMAIL || 'noreply@yourdomain.com';
+    }
+  } catch {
+    // import.meta not available
+  }
+  return process.env.FROM_EMAIL || 'noreply@yourdomain.com';
+}
 
 export async function sendPasswordResetEmail(email: string, resetLink: string) {
   try {
-    const fromEmail = import.meta.env.FROM_EMAIL || process.env.FROM_EMAIL || 'noreply@yourdomain.com';
+    const fromEmail = getFromEmail();
     await resend.emails.send({
-      from: fromEmail,
+      from: `ANTA <${fromEmail}>`,
       to: email,
       subject: 'Password Reset Request',
       html: `
@@ -37,29 +64,96 @@ export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
   phone?: string;
   shirtSize?: string;
   sneakerSize?: string;
+  submittedAt?: Date;
+  totalEntries?: number;
 }) {
   try {
+    console.log('=== EMAIL SENDING DEBUG ===');
+    console.log('Admin emails to send to:', adminEmails);
+    console.log('Number of admins:', adminEmails.length);
+    
+    if (!adminEmails || adminEmails.length === 0) {
+      console.error('❌ No admin emails provided');
+      return { success: false, error: 'No admin emails provided' };
+    }
+    
+    // Format date and time
+    const submittedDate = formData.submittedAt 
+      ? new Date(formData.submittedAt).toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        })
+      : new Date().toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+    
+    const submittedTime = formData.submittedAt
+      ? new Date(formData.submittedAt).toLocaleTimeString('en-US', { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        })
+      : new Date().toLocaleTimeString('en-US', { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        });
+
     const emailContent = `
-      <h2>New ANTA First Access RSVP</h2>
-      ${formData.firstName ? `<p><strong>First Name:</strong> ${formData.firstName}</p>` : ''}
-      ${formData.lastName ? `<p><strong>Last Name:</strong> ${formData.lastName}</p>` : ''}
-      ${formData.email ? `<p><strong>Email:</strong> ${formData.email}</p>` : ''}
-      ${formData.phone ? `<p><strong>Phone:</strong> ${formData.phone}</p>` : ''}
-      ${formData.shirtSize ? `<p><strong>Shirt Size:</strong> ${formData.shirtSize}</p>` : ''}
-      ${formData.sneakerSize ? `<p><strong>Sneaker Size:</strong> ${formData.sneakerSize}</p>` : ''}
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h2 style="color: #333; border-bottom: 2px solid #D7000F; padding-bottom: 10px;">New ANTA First Access RSVP</h2>
+        
+        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
+          <h3 style="margin-top: 0; color: #333;">Submission Details</h3>
+          <p style="margin: 5px 0;"><strong>Date:</strong> ${submittedDate}</p>
+          <p style="margin: 5px 0;"><strong>Time:</strong> ${submittedTime}</p>
+          <p style="margin: 5px 0;"><strong>Total Entries:</strong> ${formData.totalEntries ?? 'N/A'}</p>
+        </div>
+        
+        <div style="background-color: #fff; padding: 15px; border: 1px solid #ddd; border-radius: 5px; margin: 20px 0;">
+          <h3 style="margin-top: 0; color: #333;">Entry Information</h3>
+          ${formData.firstName ? `<p style="margin: 8px 0;"><strong>First Name:</strong> ${formData.firstName}</p>` : ''}
+          ${formData.lastName ? `<p style="margin: 8px 0;"><strong>Last Name:</strong> ${formData.lastName}</p>` : ''}
+          ${formData.email ? `<p style="margin: 8px 0;"><strong>Email:</strong> <a href="mailto:${formData.email}">${formData.email}</a></p>` : ''}
+          ${formData.phone ? `<p style="margin: 8px 0;"><strong>Phone:</strong> ${formData.phone}</p>` : ''}
+          ${formData.shirtSize ? `<p style="margin: 8px 0;"><strong>Shirt Size:</strong> ${formData.shirtSize}</p>` : ''}
+          ${formData.sneakerSize ? `<p style="margin: 8px 0;"><strong>Sneaker Size:</strong> ${formData.sneakerSize}</p>` : ''}
+        </div>
+      </div>
     `;
 
-    const fromEmail = import.meta.env.FROM_EMAIL || process.env.FROM_EMAIL || 'noreply@yourdomain.com';
-    await resend.emails.send({
-      from: fromEmail,
+    const fromEmail = getFromEmail();
+    const apiKey = getResendApiKey();
+    console.log('From email:', fromEmail);
+    console.log('Resend API key present:', !!apiKey);
+    console.log('Resend API key starts with "re_":', apiKey?.startsWith('re_'));
+    
+    console.log('Attempting to send email via Resend...');
+    const result = await resend.emails.send({
+      from: `ANTA <${fromEmail}>`,
       to: adminEmails,
       subject: 'New ANTA First Access RSVP',
       html: emailContent,
     });
-    return { success: true };
+    
+    console.log('✅ Email sent successfully!');
+    console.log('Resend response:', JSON.stringify(result, null, 2));
+    return { success: true, resendResult: result };
   } catch (error) {
-    console.error('Error sending form submission email:', error);
-    return { success: false, error };
+    console.error('❌ Error sending form submission email:', error);
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+      if ('response' in error) {
+        console.error('Resend API response:', (error as any).response);
+      }
+    }
+    return { success: false, error: error instanceof Error ? error.message : String(error) };
   }
 }
 

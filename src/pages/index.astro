@@ -1,0 +1,261 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+let success = false;
+let error = '';
+
+if (Astro.request.method === 'POST') {
+  const formData = await Astro.request.formData();
+  const name = formData.get('name')?.toString() || '';
+  const email = formData.get('email')?.toString() || '';
+  const message = formData.get('message')?.toString() || '';
+  
+  if (message) {
+    const { getAllAdmins } = await import('../lib/auth');
+    const { sendFormSubmissionEmail } = await import('../lib/email');
+    const { createFormSubmission } = await import('../lib/submissions');
+    
+    // Save to database
+    try {
+      await createFormSubmission({
+        name: name || undefined,
+        email: email || undefined,
+        message,
+      });
+    } catch (dbError) {
+      console.error('Error saving submission to database:', dbError);
+      // Continue even if DB save fails, still try to send email
+    }
+    
+    // Send email to admins
+    const admins = await getAllAdmins();
+    const adminEmails = admins.map(admin => admin.email);
+    
+    if (adminEmails.length > 0) {
+      const result = await sendFormSubmissionEmail(adminEmails, {
+        name: name || undefined,
+        email: email || undefined,
+        message,
+      });
+      
+      if (result.success) {
+        success = true;
+      } else {
+        error = 'Failed to send message. Please try again later.';
+      }
+    } else {
+      error = 'No administrators configured. Please contact support.';
+    }
+  } else {
+    error = 'Please enter a message';
+  }
+}
+
+// Default content - can be customized per microsite
+const title = 'Welcome to Our Microsite';
+const bodyText = 'This is a customizable microsite boilerplate. Fill out the form below to get in touch with us.';
+---
+
+<Layout title={title}>
+  <div class="microsite-container">
+    <div class="content-wrapper">
+      <header class="header">
+        <h1>{title}</h1>
+      </header>
+      
+      <main class="main-content">
+        <div class="text-body">
+          <p>{bodyText}</p>
+        </div>
+        
+        {success ? (
+          <div class="success-card">
+            <h2>Thank You!</h2>
+            <p>Your message has been sent successfully. We'll get back to you soon.</p>
+          </div>
+        ) : (
+          <form method="POST" class="contact-form">
+            {error && <div class="error-message">{error}</div>}
+            
+            <div class="form-group">
+              <label for="name">Name (Optional)</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                autocomplete="name"
+                placeholder="Your name"
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email (Optional)</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                autocomplete="email"
+                placeholder="your.email@example.com"
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="message">Message <span class="required">*</span></label>
+              <textarea 
+                id="message" 
+                name="message" 
+                required 
+                rows="6"
+                placeholder="Enter your message here..."
+              ></textarea>
+            </div>
+            
+            <button type="submit" class="btn-submit">Send Message</button>
+          </form>
+        )}
+      </main>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .microsite-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .content-wrapper {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 3rem;
+    width: 100%;
+    max-width: 700px;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .header h1 {
+    color: #333;
+    font-size: 2.5rem;
+    margin: 0;
+  }
+  
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .text-body {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    text-align: center;
+  }
+  
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form-group label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95rem;
+  }
+  
+  .required {
+    color: #e74c3c;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    padding: 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+  }
+  
+  .btn-submit {
+    padding: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+  }
+  
+  .success-card {
+    background: #f0f9ff;
+    border: 2px solid #3b82f6;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .success-card h2 {
+    color: #1e40af;
+    margin: 0 0 1rem 0;
+    font-size: 1.8rem;
+  }
+  
+  .success-card p {
+    color: #1e3a8a;
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  
+  .error-message {
+    background: #fee;
+    color: #c33;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #fcc;
+  }
+  
+  @media (max-width: 768px) {
+    .content-wrapper {
+      padding: 2rem 1.5rem;
+    }
+    
+    .header h1 {
+      font-size: 2rem;
+    }
+  }
+</style>
+

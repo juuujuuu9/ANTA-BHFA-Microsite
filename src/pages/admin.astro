@@ -1,0 +1,517 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getAllSubmissions } from '../lib/submissions';
+import { requireAuth } from '../lib/session';
+
+// Check authentication
+try {
+  requireAuth(Astro.cookies);
+} catch {
+  return Astro.redirect('/login', 302);
+}
+
+// Fetch submissions from database
+let submissions: Array<{
+  id: number;
+  name: string | null;
+  email: string | null;
+  message: string;
+  created_at: Date;
+}> = [];
+
+try {
+  submissions = await getAllSubmissions();
+  // Sort entries alphabetically by name (case-insensitive)
+  submissions.sort((a, b) => {
+    const nameA = (a.name || '').toLowerCase();
+    const nameB = (b.name || '').toLowerCase();
+    return nameA.localeCompare(nameB);
+  });
+} catch (error) {
+  console.error('Error loading submissions:', error);
+}
+
+// Helper function to split name into first and last
+function splitName(name: string | null): { firstName: string; lastName: string } {
+  if (!name) return { firstName: '', lastName: '' };
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) {
+    return { firstName: parts[0], lastName: '' };
+  }
+  const lastName = parts.pop() || '';
+  const firstName = parts.join(' ');
+  return { firstName, lastName };
+}
+---
+
+<Layout title="Admin Dashboard">
+  <div class="relative min-h-screen md:py-12 py-4 md:px-6 px-2 bg-black" style="font-family: Helvetica, Arial, sans-serif;">
+    <div 
+      aria-hidden="true" 
+      class="fixed inset-0 pointer-events-none bg-gradient-to-b from-transparent to-black/60 z-0"
+    ></div>
+
+    <!-- Header -->
+    <div class="relative z-10 flex justify-between items-center md:mb-4 mb-4 md:pb-6 pb-4 border-b border-gray-200 max-w-7xl mx-auto">
+        <div class="flex flex-row gap-4">
+            <a href="/" class="h-[60px] overflow-clip relative shrink-0 w-[95px] md:w-[127px] md:h-[80px] md:ml-0 ml-3 text-white text-2xl font-bold">
+              Admin Dashboard
+            </a>
+        </div>
+        <div class="flex gap-2">
+          <!-- Export CSV Button -->
+            <button
+            id="export-csv-btn"
+            class="md:px-6 px-3 md:py-3 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors flex items-center gap-2.5 font-semibold uppercase text-sm shadow-sm"
+            style="font-family: Helvetica, Arial, sans-serif;"
+            >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Export CSV
+            </button>
+            <button
+            id="logout-btn"
+            class="md:px-6 px-3 md:py-3 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors flex items-center gap-2.5 font-semibold uppercase text-sm shadow-sm"
+            style="font-family: Helvetica, Arial, sans-serif;"
+            >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Logout
+            </button>
+        </div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto bg-white/90 rounded-xl shadow-md md:p-10 p-2">
+      <!-- Search and Filter Section -->
+      <div class="flex flex-col sm:flex-row gap-2 sm:gap-5 md:mb-8 mb-3 sm:items-center">
+        <div class="flex-1 relative w-full">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="SEARCH SUBMISSIONS"
+            class="w-full pl-12 pr-5 py-3.5 border border-gray-200 rounded-lg bg-gray-50/50 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent font-semibold uppercase text-sm"
+            style="font-family: Helvetica, Arial, sans-serif;"
+          />
+        </div>
+        <div class="relative w-full sm:w-auto">
+          <button
+            id="sort-btn"
+            class="w-full sm:w-auto md:px-6 px-3 md:py-3.5 py-3.5 border border-gray-200 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors flex items-center gap-2 font-semibold uppercase text-sm shadow-sm sm:min-w-[140px] justify-between"
+            style="font-family: Helvetica, Arial, sans-serif;"
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
+            <span class="flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+              </svg>
+              <span id="sort-label">Name (A-Z)</span>
+            </span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div
+            id="sort-dropdown"
+            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
+            style="font-family: Helvetica, Arial, sans-serif;"
+          >
+            <button
+              class="sort-option w-full text-left px-4 py-3 text-sm font-semibold uppercase text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-between"
+              data-sort="name-asc"
+            >
+              <span>Name (A-Z)</span>
+              <svg class="w-4 h-4 hidden check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </button>
+            <button
+              class="sort-option w-full text-left px-4 py-3 text-sm font-semibold uppercase text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-between border-t border-gray-100"
+              data-sort="name-desc"
+            >
+              <span>Name (Z-A)</span>
+              <svg class="w-4 h-4 hidden check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </button>
+            <button
+              class="sort-option w-full text-left px-4 py-3 text-sm font-semibold uppercase text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-between border-t border-gray-100"
+              data-sort="date"
+            >
+              <span>Date</span>
+              <svg class="w-4 h-4 hidden check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide text-center sm:text-left md:pr-0 pr-3" style="font-family: Helvetica, Arial, sans-serif;">
+            Showing <span id="entry-count" class="font-bold text-gray-700">{submissions.length}</span> Submissions
+        </p>
+      </div>
+
+      <!-- Table Section -->
+      <div class="md:mb-8 mb-2">
+        <h2 class="text-2xl font-bold text-gray-800 uppercase tracking-tight md:mb-4 mb-2 md:pl-0 pl-3 text-center md:text-left" style="font-family: Helvetica, Arial, sans-serif;">Form Submissions</h2>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl shadow-md border bg-white border-gray-200">
+        {submissions.length === 0 ? (
+          <div class="text-center py-16 text-gray-500" style="font-family: Helvetica, Arial, sans-serif;">
+            <p class="text-lg font-semibold mb-2">No submissions found.</p>
+            <p class="text-sm">Submissions will appear here once users submit the contact form.</p>
+          </div>
+        ) : (
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-[#F1F3F5]">
+                <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300" style="font-family: Helvetica, Arial, sans-serif;">Name</th>
+                <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Email</th>
+                <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Message</th>
+                <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Date</th>
+                <th class="px-2 py-2 md:px-6 md:py-4 text-center text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="entries-tbody" class="divide-y divide-gray-200">
+              {submissions.map((submission) => {
+              const { firstName } = splitName(submission.name);
+              const dateValue = submission.created_at instanceof Date 
+                ? submission.created_at.toISOString() 
+                : new Date(submission.created_at).toISOString();
+              const formattedDate = submission.created_at instanceof Date 
+                ? submission.created_at.toLocaleDateString() + ' ' + submission.created_at.toLocaleTimeString()
+                : new Date(submission.created_at).toLocaleDateString() + ' ' + new Date(submission.created_at).toLocaleTimeString();
+              
+              return (
+                <tr 
+                  class="hover:bg-gray-50/50 transition-colors" 
+                  style="font-family: Helvetica, Arial, sans-serif;" 
+                  data-entry-id={submission.id}
+                  data-first-name={firstName.toLowerCase()}
+                  data-created-at={dateValue}
+                >
+                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 capitalize border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">{submission.name || '—'}</td>
+                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">{submission.email || '—'}</td>
+                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 border-l border-gray-100 max-w-md" style="font-family: Helvetica, Arial, sans-serif;">
+                    <div class="truncate" title={submission.message}>{submission.message}</div>
+                  </td>
+                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 border-l border-gray-100 whitespace-nowrap" style="font-family: Helvetica, Arial, sans-serif;">{formattedDate}</td>
+                  <td class="px-2 py-2 md:px-6 md:py-4 text-center border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">
+                    <button
+                      class="delete-entry-btn px-3 py-1.5 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm font-semibold uppercase flex items-center gap-2 mx-auto"
+                      data-entry-id={submission.id}
+                      data-entry-name={submission.name || 'Submission'}
+                      style="font-family: Helvetica, Arial, sans-serif;"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              );
+              })}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Store original entries data
+    const originalEntries = { entries: [...document.querySelectorAll('[data-entry-id]')] };
+
+    // Search functionality
+    const searchInput = document.getElementById('search-input');
+    const entriesTbody = document.getElementById('entries-tbody');
+    let currentSort = 'name-asc'; // Default sort
+    
+    searchInput?.addEventListener('input', (e) => {
+      const searchTerm = (e.target as HTMLInputElement).value.toLowerCase();
+      filterAndSortEntries();
+    });
+
+    // Sort dropdown functionality
+    const sortBtn = document.getElementById('sort-btn');
+    const sortDropdown = document.getElementById('sort-dropdown');
+    const sortLabel = document.getElementById('sort-label');
+    const sortOptions = document.querySelectorAll('.sort-option');
+
+    // Toggle dropdown
+    sortBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = sortDropdown?.classList.contains('hidden');
+      if (isOpen) {
+        sortDropdown?.classList.remove('hidden');
+        sortBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        sortDropdown?.classList.add('hidden');
+        sortBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!sortBtn?.contains(e.target as Node) && !sortDropdown?.contains(e.target as Node)) {
+        sortDropdown?.classList.add('hidden');
+        sortBtn?.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Handle sort option clicks
+    sortOptions.forEach((option) => {
+      option.addEventListener('click', () => {
+        const sortValue = option.getAttribute('data-sort');
+        if (sortValue) {
+          currentSort = sortValue;
+          
+          // Update label
+          const labels: Record<string, string> = {
+            'name-asc': 'Name (A-Z)',
+            'name-desc': 'Name (Z-A)',
+            'date': 'Date'
+          };
+          if (sortLabel) {
+            sortLabel.textContent = labels[sortValue] || 'Name (A-Z)';
+          }
+          
+          // Update checkmarks
+          sortOptions.forEach((opt) => {
+            const icon = opt.querySelector('.check-icon');
+            icon?.classList.add('hidden');
+          });
+          const selectedIcon = option.querySelector('.check-icon');
+          selectedIcon?.classList.remove('hidden');
+          
+          // Close dropdown
+          sortDropdown?.classList.add('hidden');
+          sortBtn?.setAttribute('aria-expanded', 'false');
+          
+          // Apply sort
+          filterAndSortEntries();
+        }
+      });
+    });
+
+    // Set default sort option as selected
+    const defaultOption = document.querySelector('[data-sort="name-asc"]');
+    defaultOption?.querySelector('.check-icon')?.classList.remove('hidden');
+
+    // Apply initial sort on page load
+    filterAndSortEntries();
+
+    // Sort entries based on current sort option
+    function sortEntries(rows: NodeListOf<Element>): Element[] {
+      const rowsArray = Array.from(rows);
+      
+      rowsArray.sort((a, b) => {
+        const rowA = a as HTMLElement;
+        const rowB = b as HTMLElement;
+        
+        if (currentSort === 'name-asc') {
+          const firstNameA = rowA.getAttribute('data-first-name') || '';
+          const firstNameB = rowB.getAttribute('data-first-name') || '';
+          return firstNameA.localeCompare(firstNameB);
+        } else if (currentSort === 'name-desc') {
+          const firstNameA = rowA.getAttribute('data-first-name') || '';
+          const firstNameB = rowB.getAttribute('data-first-name') || '';
+          return firstNameB.localeCompare(firstNameA);
+        } else if (currentSort === 'date') {
+          const dateA = rowA.getAttribute('data-created-at') || '';
+          const dateB = rowB.getAttribute('data-created-at') || '';
+          // Sort descending (newest first)
+          return new Date(dateB).getTime() - new Date(dateA).getTime();
+        }
+        return 0;
+      });
+      
+      return rowsArray;
+    }
+
+    // Filter and sort entries based on search and sort
+    function filterAndSortEntries() {
+      const searchTerm = (searchInput as HTMLInputElement).value.toLowerCase();
+      const rows = entriesTbody?.querySelectorAll('tr[data-entry-id]') || [];
+      let visibleCount = 0;
+
+      // First, filter entries
+      const visibleRows: Element[] = [];
+      rows.forEach((row) => {
+        const cells = row.querySelectorAll('td');
+        // Column order: Name (0), Email (1), Message (2), Date (3), Actions (4)
+        const name = cells[0]?.textContent?.toLowerCase() || '';
+        const email = cells[1]?.textContent?.toLowerCase() || '';
+        const message = cells[2]?.textContent?.toLowerCase() || '';
+        
+        const matchesSearch = !searchTerm || 
+          name.includes(searchTerm) || 
+          email.includes(searchTerm) ||
+          message.includes(searchTerm);
+        
+        if (matchesSearch) {
+          (row as HTMLElement).style.display = '';
+          visibleRows.push(row);
+          visibleCount++;
+        } else {
+          (row as HTMLElement).style.display = 'none';
+        }
+      });
+
+      // Then, sort visible rows
+      const sortedRows = sortEntries(visibleRows as any);
+      
+      // Reorder DOM elements
+      sortedRows.forEach((row) => {
+        entriesTbody?.appendChild(row);
+      });
+
+      const entryCount = document.getElementById('entry-count');
+      if (entryCount) {
+        entryCount.textContent = visibleCount.toString();
+      }
+    }
+
+    // CSV Export functionality
+    const exportCsvBtn = document.getElementById('export-csv-btn');
+    exportCsvBtn?.addEventListener('click', () => {
+      const rows = entriesTbody?.querySelectorAll('tr[data-entry-id]') || [];
+      const csvRows: string[] = ['Name,Email,Message,Date'];
+      
+      rows.forEach((row) => {
+        // Only export visible rows
+        const isVisible = (row as HTMLElement).style.display !== 'none';
+        if (!isVisible) return;
+        
+        const cells = row.querySelectorAll('td');
+        if (cells.length >= 4) {
+          const name = cells[0]?.textContent?.trim() || '';
+          const email = cells[1]?.textContent?.trim() || '';
+          const message = cells[2]?.textContent?.trim() || '';
+          const date = cells[3]?.textContent?.trim() || '';
+          
+          // Escape commas and quotes in CSV
+          const escapeCsv = (str: string) => `"${str.replace(/"/g, '""')}"`;
+          csvRows.push([
+            escapeCsv(name),
+            escapeCsv(email),
+            escapeCsv(message),
+            escapeCsv(date)
+          ].join(','));
+        }
+      });
+      
+      if (csvRows.length === 1) {
+        alert('No submissions to export.');
+        return;
+      }
+      
+      const csvContent = csvRows.join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `submissions-${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    // Delete entry functionality
+    const deleteButtons = document.querySelectorAll('.delete-entry-btn');
+    deleteButtons.forEach((button) => {
+      button.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const target = e.target as HTMLElement;
+        const deleteBtn = target.closest('.delete-entry-btn') as HTMLButtonElement;
+        const entryId = parseInt(deleteBtn.getAttribute('data-entry-id') || '0', 10);
+        const entryName = deleteBtn.getAttribute('data-entry-name') || 'this submission';
+        
+        if (!confirm(`Are you sure you want to delete "${entryName}"? This action cannot be undone.`)) {
+          return;
+        }
+
+        const originalHTML = deleteBtn.innerHTML;
+        const originalDisabled = deleteBtn.hasAttribute('disabled');
+        
+        try {
+          // Disable button and show loading state
+          deleteBtn.setAttribute('disabled', 'true');
+          deleteBtn.classList.add('opacity-60', 'cursor-not-allowed');
+          deleteBtn.innerHTML = `
+            <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+          `;
+
+          const response = await fetch('/api/admin/delete-submission', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: entryId })
+          });
+          
+          const data = await response.json();
+          
+          if (data.success) {
+            // Remove the row from the table
+            const row = deleteBtn.closest('tr[data-entry-id]');
+            if (row) {
+              row.remove();
+              // Update entry count
+              const entryCount = document.getElementById('entry-count');
+              if (entryCount) {
+                const currentCount = parseInt(entryCount.textContent || '0', 10);
+                entryCount.textContent = Math.max(0, currentCount - 1).toString();
+              }
+            }
+          } else {
+            alert(`Failed to delete submission: ${data.error || 'Unknown error'}`);
+            // Restore button state
+            deleteBtn.innerHTML = originalHTML;
+            if (!originalDisabled) {
+              deleteBtn.removeAttribute('disabled');
+            }
+            deleteBtn.classList.remove('opacity-60', 'cursor-not-allowed');
+          }
+        } catch (error) {
+          console.error('Error deleting submission:', error);
+          alert('Failed to delete submission. Please try again.');
+          // Restore button state
+          deleteBtn.innerHTML = originalHTML;
+          if (!originalDisabled) {
+            deleteBtn.removeAttribute('disabled');
+          }
+          deleteBtn.classList.remove('opacity-60', 'cursor-not-allowed');
+        }
+      });
+    });
+
+    // Logout functionality
+    const logoutBtn = document.getElementById('logout-btn');
+    logoutBtn?.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/api/logout', {
+          method: 'POST',
+        });
+        
+        if (response.ok || response.redirected) {
+          window.location.href = '/login';
+        }
+      } catch (error) {
+        console.error('Logout error:', error);
+        // Still redirect to login on error
+        window.location.href = '/login';
+      }
+    });
+  </script>
+</Layout>
+

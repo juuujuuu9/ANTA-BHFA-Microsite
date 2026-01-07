@@ -1,0 +1,775 @@
+# .cursorrules
+
+ruleset: 1.0.0
+
+## Meta-Directive
+This file defines how Cursor should interpret, enforce, and adapt to this project's evolving codebase. Cursor must treat this as a living contract that reflects actual development patterns.
+
+## Core Principles
+- Explicit > implicit
+- Determinism > magic  
+- Local clarity > global cleverness
+- **Simple > clever: Choose the most straightforward solution**
+- **Minimal > maximal: Solve the immediate problem, not hypothetical futures**
+- **Direct > abstracted: Avoid premature optimization and over-engineering**
+- Enforce conventions through inline diagnostics and autofix suggestions
+- Reference rules by ID (RULE-###) in all completions and refactors
+
+## Simplicity Mandate
+
+### Default to Minimal Solutions
+- Solve the actual problem at hand, not imagined edge cases
+- Add complexity only when justified by real requirements
+- Prefer boring, proven patterns over novel approaches
+- Question every abstraction: "Does this add value now?"
+
+### Anti-Bloat Checklist
+Before suggesting code, verify:
+- ✓ Is this the simplest approach that works?
+- ✓ Can this be solved with existing tools/patterns?
+- ✓ Am I adding layers that aren't needed yet?
+- ✓ Would a junior developer understand this in 6 months?
+
+### Red Flags to Avoid
+- Generic wrappers around single-use functions
+- Premature abstraction of logic used once
+- Complex inheritance hierarchies
+- Over-engineered state management for simple data
+- Dependency injection where direct imports suffice
+- Configuration systems for static values
+- Middleware for operations that could be inline
+
+### When to Add Complexity
+Only introduce abstractions when:
+1. Pattern appears ≥3 times across codebase
+2. Complexity reduces cognitive load (not just lines of code)
+3. Change frequency justifies the indirection
+4. Team explicitly requests the pattern
+
+## Active Learning Protocol
+
+### 1. Pattern Recognition
+- Scan repo on initialization to infer architecture, stack, and conventions
+- Monitor for repeated patterns (≥3 occurrences across distinct files)
+- Detect anti-patterns and rule violations
+- **Flag over-engineered solutions and suggest simplifications**
+- Propose rule additions when stable patterns emerge
+- Suggest rule refinement when violations are frequent and justified
+
+### 2. Auto-Documentation
+- Maintain `/cursor-guides/` directory with:
+  - `RULE-###.md` for each rule (rationale, examples, cross-references)
+  - `index.json` manifest linking rule IDs to files
+  - `audit.log` for all rule modifications
+- Generate documentation automatically when rules change
+- Include code examples from actual project files
+- **Document why simple solutions were chosen over complex alternatives**
+
+### 3. Enforcement Mechanism
+- Provide inline diagnostics for rule violations
+- Show rule references in completion tooltips
+- Suggest autofixes with rule context
+- Flag critical violations that should block commits
+- **Warn when solutions introduce unnecessary complexity**
+
+## Project Rules
+
+### RULE-000: Simplicity First
+- Choose the most direct path to solve the problem
+- Avoid speculative generalization
+- Refactor toward simplicity, not complexity
+- Delete code more often than you add it
+- Inline small abstractions that obscure rather than clarify
+**Severity:** Warning  
+**Applies to:** All code suggestions and refactors
+
+### RULE-001: TypeScript Configuration
+- Strict mode enabled
+- No `any` type usage
+- Prefer explicit return types for exported functions
+- **Avoid complex generic gymnastics; use simple unions/intersections**
+**Severity:** Error
+
+### RULE-002: Project Structure  
+- Organize by feature, not file type
+- Use path aliases (`@/`, `@components/`, etc.)
+- Keep related code colocated
+- **Flat structure > deep nesting; avoid folder hierarchies beyond 3 levels**
+**Severity:** Warning
+
+### RULE-003: Styling Standards
+- Tailwind utilities are default
+- No inline `style` props
+- Use design tokens for spacing/colors
+- **Compose utilities inline; avoid @apply unless truly repetitive (≥5 uses)**
+**Severity:** Warning
+
+### RULE-004: Font Handling
+- Omit `"Satoshi Variable"` references
+- Map `"Lexend Mega"` → `.font-lexend-mega` class
+- Map `"Roboto"` → `.font-roboto` class  
+- Expand CSS variables manually
+- Add `/* VAR_NEEDED:<name> */` comment if variable is unresolved
+**Severity:** Error
+
+### RULE-005: Framework Architecture
+- Keep Astro pages minimal (routing/layout only)
+- Extract logic into typed modules/components
+- Share stateful logic through explicit imports
+- **No framework wrappers or abstract base classes; use composition**
+**Severity:** Warning
+
+### RULE-006: Data Validation
+- Validate all external data with Zod or schema guards
+- No unvalidated API responses or user input
+- Type guards for runtime checks
+- **Simple schemas only; avoid complex transforms unless necessary**
+**Severity:** Error
+
+### RULE-007: State Management
+- Prefer server-side caching over global stores
+- Use explicit state hydration patterns
+- Document state dependencies
+- **Start with component state; introduce stores only when sharing across ≥3 components**
+**Severity:** Warning
+
+### RULE-008: Accessibility
+- Enforce keyboard navigation support
+- Include ARIA attributes where semantic HTML insufficient
+- Test focus management in interactive components
+- **Use semantic HTML first; ARIA only when HTML semantics are insufficient**
+**Severity:** Error
+
+### RULE-009: Performance
+- Optimize all images before commit
+- Limit client-side hydration (`client:load` sparingly)
+- Lazy load heavy components
+- **Measure before optimizing; avoid speculative performance code**
+**Severity:** Warning
+
+### RULE-010: Security
+- No secrets in client-side code
+- Use parameterized queries only (no string concatenation)
+- Sanitize user-generated content
+- **Use framework/library security features; avoid custom crypto/auth**
+**Severity:** Error
+
+### RULE-011: Development Workflow
+- Use conventional commits (feat:, fix:, docs:, etc.)
+- Include "Rule Impact: RULE-###" in PR descriptions when relevant
+- Update tests when changing rule-enforced patterns
+- **Write tests for behavior, not implementation; avoid brittle tests**
+**Severity:** Warning
+
+### RULE-012: Dependency Management
+- Justify every new dependency
+- Prefer platform/framework features over libraries
+- Remove unused dependencies immediately
+- **Ask: "Can I write this in 20 lines instead of importing a package?"**
+**Severity:** Warning
+
+### RULE-013: Figma-to-Code Workflow
+- Extract design tokens directly to Tailwind classes
+- One Astro component per Figma section/component
+- Use arbitrary values for one-off styles, config for repeated patterns
+- Mobile-first responsive: base → `md:` → `lg:` → `xl:`
+- Ship working code fast, iterate based on feedback
+- **Don't over-engineer: match Figma, don't anticipate future needs**
+**Severity:** Warning  
+**Applies to:** All design implementation tasks
+
+## Cursor Behavior Instructions
+
+### Code Completion
+- Always check completion against active rules
+- Annotate suggestions with relevant rule IDs
+- Prefer rule-compliant alternatives over raw suggestions
+- **Default to the simplest approach that satisfies requirements**
+- **Avoid suggesting abstractions, helpers, or utilities for single-use code**
+
+### Refactoring
+- Verify refactor maintains rule compliance
+- Flag rules that would be violated by proposed changes
+- Suggest rule-aligned alternative approaches
+- **Prioritize clarity over cleverness in all refactors**
+- **Remove unnecessary indirection and abstraction layers**
+- **Inline small functions that are only called once**
+
+### Problem-Solving Approach
+1. Understand the immediate requirement (not future possibilities)
+2. Identify the most direct solution using existing code
+3. Check if the solution can be simpler
+4. Only then suggest the code
+5. Note when resisting the urge to over-engineer
+
+### Code Review Mindset
+When reviewing or suggesting code, ask:
+- "What's the simplest thing that could work?"
+- "Am I solving a problem that doesn't exist yet?"
+- "Will this be obvious to someone new in 6 months?"
+- "Can I delete code instead of adding it?"
+
+### Rule Updates
+1. Detect pattern requiring new rule
+2. Draft rule with ID, description, severity
+3. Generate `/cursor-guides/RULE-###.md` with examples
+4. Update `index.json` and `audit.log`
+5. Present proposal to developer for approval
+6. **Include simplicity analysis: Why this rule prevents bloat**
+
+### Audit Log Format
+
+[YYYY-MM-DD HH:MM] ACTION: RULE-### | DESCRIPTION | AUTHOR
+
+## Integration Points
+
+### CI/CD
+- `scripts/rules-check.ts` validates compliance
+- `.github/workflows/rules.yml` runs on PR
+- Critical rule violations block merge
+
+### Documentation Sync
+- Rules changes trigger docs regeneration
+- Examples pulled from real project code
+- Cross-references maintained automatically
+- **Include "simple vs. complex" comparison examples**
+
+## Evolution Protocol
+1. New patterns emerge → Cursor proposes rule
+2. Rule violations spike → Cursor suggests refinement  
+3. Rules unused for 90 days → Cursor flags for deprecation
+4. Deprecated rules stay in history (never deleted)
+5. **Complexity detected → Cursor suggests simplification and documents rationale**
+
+## Complexity Warnings
+Cursor will flag and suggest alternatives for:
+- Functions longer than 50 lines without clear reason
+- Files longer than 300 lines
+- Nesting depth > 4 levels
+- Cyclomatic complexity > 10
+- Abstractions used only once
+- More than 2 layers of indirection to accomplish a task
+
+---
+
+## Landing Page Template - Project Specific Rules
+
+These rules guide Cursor when assisting development in this repo. Keep UX consistent, accessible, and production-ready.
+
+### Global
+- Prefer Astro + TypeScript + Tailwind conventions already used in this template
+- Never use `alert()` for runtime UX; prefer inline feedback components
+- Keep accessibility in mind: `aria-live`, focus states, proper semantics, color contrast
+
+### Form UX Rules (Inline confirmation + error + loading state)
+
+- Inline confirmation replaces submit button on success; do not use `alert`
+- Inline error appears under the form on failure; keep submit button visible
+- Loading state on submit: disable button, show spinner + “Submitting…”, set `aria-busy=true`; re-enable on failure
+- Accessibility: use `aria-live="polite"` on action container and error container; maintain good contrast
+- Styling: success uses `bg-green-100 border border-green-400 text-green-700`; error uses `bg-red-100 border border-red-400 text-red-700`
+- IDs and structure: include `registration-action` (wrapping submit) and `registration-error` (hidden by default); submit button id `register-button`
+- Server interaction: POST JSON; on non-2xx parse JSON and show generic inline error; log details to console; reset form only on success
+- No runtime alerts: do not use `alert()` for form UX
+
+#### Boilerplate snippet (structure and behavior)
+
+```html
+<form id="registration-form" class="space-y-10">
+  <!-- ...inputs... -->
+
+  <!-- Submit Button / Inline Confirmation Area -->
+  <div id="registration-action" class="text-center pt-10" aria-live="polite">
+    <button
+      id="register-button"
+      type="submit"
+      class="bg-[#D7000F] text-white px-12 py-6 rounded-lg text-[24px] font-semibold uppercase hover:bg-[#b8323d] transition-colors"
+    >
+      Register Now
+    </button>
+  </div>
+
+  <!-- Inline error box (hidden by default) -->
+  <div
+    id="registration-error"
+    class="hidden mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-[18px] text-center"
+    aria-live="polite"
+  ></div>
+</form>
+
+<script>
+  document.getElementById('registration-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    const actionContainer = document.getElementById('registration-action');
+    const errorContainer = document.getElementById('registration-error');
+    const registerButton = document.getElementById('register-button');
+
+    // Clear previous error
+    if (errorContainer) {
+      errorContainer.textContent = '';
+      errorContainer.classList.add('hidden');
+    }
+
+    // Loading state
+    let originalButtonHTML = null;
+    if (registerButton) {
+      originalButtonHTML = registerButton.innerHTML;
+      registerButton.disabled = true;
+      registerButton.classList.add('opacity-60', 'cursor-not-allowed');
+      registerButton.setAttribute('aria-busy', 'true');
+      registerButton.innerHTML = `
+        <span class="inline-flex items-center gap-3">
+          <svg class="animate-spin h-6 w-6 text-white" viewBox="0 0 24 24" fill="none">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          </svg>
+          Submitting...
+        </span>
+      `;
+    }
+
+    try {
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        if (actionContainer) {
+          actionContainer.setAttribute('aria-live', 'polite');
+          actionContainer.innerHTML = `
+            <div class="inline-block mt-2 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg text-[20px] font-semibold">
+              🎉 You're in! We'll be in touch soon with details about the run.
+            </div>
+          `;
+        }
+        form.reset();
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Server error:', errorData);
+        if (errorContainer) {
+          errorContainer.textContent = 'Something went wrong. Please try again.';
+          errorContainer.classList.remove('hidden');
+        }
+        if (registerButton && originalButtonHTML !== null) {
+          registerButton.disabled = false;
+          registerButton.classList.remove('opacity-60', 'cursor-not-allowed');
+          registerButton.removeAttribute('aria-busy');
+          registerButton.innerHTML = originalButtonHTML;
+        }
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      if (errorContainer) {
+        errorContainer.textContent = 'Something went wrong. Please try again.';
+        errorContainer.classList.remove('hidden');
+      }
+      if (registerButton && originalButtonHTML !== null) {
+        registerButton.disabled = false;
+        registerButton.classList.remove('opacity-60', 'cursor-not-allowed');
+        registerButton.removeAttribute('aria-busy');
+        registerButton.innerHTML = originalButtonHTML;
+      }
+    }
+  });
+</script>
+```
+
+#### Enforcement checklist (apply to all new forms)
+
+- No `alert()` for UX feedback
+- Has `registration-action` and `registration-error` containers
+- Button `id="register-button"` with loading state support
+- Green success replaces button; red error below form
+- `aria-live` on action container and error container
+- Form reset only on success
+
+# Landing Page Template - Cursor Rules
+
+You are working on a streamlined landing page template for client events. This template uses Astro + TypeScript + Tailwind CSS + PostgreSQL + Resend email service, deployed on Vercel.
+
+## Project Architecture
+- **Frontend**: Astro with TypeScript, Tailwind CSS
+- **Backend**: Astro API routes with serverless functions
+- **Database**: PostgreSQL with connection pooling
+- **Email**: Resend service for notifications
+- **Deployment**: Vercel with zero-config deployment
+- **Authentication**: Simple admin authentication (no complex auth systems)
+
+## Database & Authentication Setup Rules
+
+### Database Setup Checklist
+- [ ] Verify DATABASE_URL is properly configured in .env
+- [ ] Test database connection before starting development
+- [ ] Ensure admin user exists in database (create if missing)
+- [ ] For bcryptjs in serverless environments, always use `bcrypt.default.compare()` and `bcrypt.default.hash()`
+- [ ] Initialize database schema on first run
+
+### Common bcryptjs Issues
+When using dynamic imports with bcryptjs in Astro/Vercel:
+```typescript
+// ❌ WRONG - causes "bcrypt.compare is not a function"
+const bcrypt = await import('bcryptjs');
+const isValid = await bcrypt.compare(password, hash);
+
+// ✅ CORRECT - use .default
+const bcrypt = await import('bcryptjs');
+const isValid = await bcrypt.default.compare(password, hash);
+```
+
+### Database Connection Patterns
+```typescript
+// This project uses Drizzle ORM with Neon HTTP (serverless-optimized)
+// Connection is handled automatically - no manual pooling needed
+import { db } from '@/lib/db';
+
+// Use Drizzle queries directly - connection is managed
+const result = await db.select().from(admins).where(eq(admins.id, adminId));
+```
+
+## Development Server Debugging
+
+### Quick Debugging Steps
+1. Check server logs for specific error messages
+2. Test API endpoints with curl to isolate issues
+3. Verify environment variables are loaded
+4. Test database connection independently
+5. Add temporary console.log statements for debugging
+
+### Port Management
+- Astro dev server may use different ports (4321, 4322, etc.)
+- Use `lsof -i :4321` to find active ports
+- Always check which port the server is actually running on
+
+## Error Handling Patterns
+
+### API Error Handling Best Practices
+- Always include specific error details in development
+- Use try-catch with proper error logging
+- Return meaningful error messages to frontend
+- Log both error message and stack trace for debugging
+
+### Environment Setup Validation
+```typescript
+// Pre-flight checks for environment variables
+const getApiKey = () => {
+  const apiKey = import.meta.env.RESEND_API_KEY || process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error('RESEND_API_KEY is not set in environment variables');
+    return null;
+  }
+  if (!apiKey.startsWith('re_')) {
+    console.error('RESEND_API_KEY appears to be invalid (should start with "re_")');
+    return null;
+  }
+  return apiKey;
+};
+```
+
+## Pre-flight Checks (Quick Start)
+- [ ] Copy `env.example` to `.env` and fill in values
+- [ ] Neon DB: Create database, copy connection string (includes `?sslmode=require`)
+- [ ] Resend: Get API key (starts with `re_`), verify domain
+- [ ] Run `npm install`
+- [ ] Run `npm run db:seed` to create admin user
+- [ ] Run `npm run dev` - should start on port 4321
+- [ ] Test `/login` with seeded credentials
+- [ ] Test form submission on `/` (index page)
+
+### Environment Variables Checklist
+```env
+DATABASE_URL=postgresql://...neon.tech/...?sslmode=require  # Neon DB
+RESEND_API_KEY=re_xxxxxxxxxxxxx                              # Resend API
+APP_URL=http://localhost:4321                                # Dev URL
+SESSION_SECRET=random-secret-string                          # Session key
+FROM_EMAIL=noreply@yourdomain.com                            # Verified Resend domain
+```
+
+## Code Patterns & Best Practices
+
+### Form Handling
+- Always validate required fields on both client and server
+- Use proper TypeScript interfaces for form data
+- Implement proper error states and success feedback
+- Use FormData API for form submissions
+
+### Email Notifications
+- Implement rate limiting for multiple admin emails
+- Use proper HTML email templates
+- Handle email service failures gracefully
+- Log email sending attempts and results
+
+### Database Operations
+- Use parameterized queries to prevent SQL injection
+- Implement proper error handling for database operations
+- Use transactions for related operations
+- Always validate data before database operations
+
+## File Structure Conventions
+```
+src/
+├── components/        # Reusable UI components (create from Figma sections)
+├── layouts/          # Page layouts (Layout.astro base)
+├── lib/             # Core functionality
+│   ├── db/          # Database (Drizzle schema, connection, seed)
+│   │   ├── index.ts # DB connection (exports db, schema)
+│   │   ├── schema.ts # Drizzle table definitions
+│   │   └── seed.ts  # Initial admin user creation
+│   ├── auth.ts      # Authentication helpers
+│   ├── session.ts   # Session management
+│   ├── email.ts     # Resend email functions
+│   └── submissions.ts # Form submission helpers
+├── pages/           # Astro pages and API routes
+│   ├── index.astro # Landing page (main form)
+│   ├── login.astro  # Admin login
+│   ├── admin.astro  # Admin dashboard
+│   └── api/        # API endpoints
+│       ├── logout.ts
+│       └── admin/   # Admin-protected routes
+└── assets/          # Images, fonts (imported, optimized)
+public/              # Static assets (favicon, etc.)
+```
+
+**Component Organization**: Create components in `src/components/` matching Figma sections. Keep them simple - one component per visual section (Hero, Features, CTA, Footer, etc.).
+
+## Environment Variables
+Required environment variables (see `env.example`):
+- `DATABASE_URL`: Neon PostgreSQL connection string (must include `?sslmode=require`)
+- `RESEND_API_KEY`: Resend email service API key (starts with `re_`)
+- `APP_URL`: Application URL (e.g., `http://localhost:4321` for dev)
+- `SESSION_SECRET`: Random string for session encryption
+- `FROM_EMAIL`: Sender email (must be verified Resend domain)
+
+Optional (for custom email templates):
+- `FROM_NAME`: Sender display name
+- `SITE_URL`: Full production URL (for email links)
+
+**Note**: Admin users are created via `npm run db:seed` or through admin interface. No env vars needed for admin credentials.
+
+## Deployment Considerations (Vercel)
+
+### Vercel Setup Checklist
+- [ ] Connect Git repository to Vercel
+- [ ] Set all environment variables in Vercel dashboard (Settings → Environment Variables)
+- [ ] Neon DB: Connection string works from Vercel (no IP whitelist needed for Neon)
+- [ ] Resend: API key set, domain verified in Resend dashboard
+- [ ] Build command: `npm run build` (default)
+- [ ] Output directory: `.vercel/output` (Astro auto-detects)
+- [ ] Framework preset: Astro (auto-detected)
+
+### Vercel-Specific Notes
+- **Neon DB**: Works seamlessly - no connection pooling config needed (serverless-ready)
+- **Serverless Functions**: Astro API routes auto-deploy as serverless functions
+- **Environment Variables**: Set for Production, Preview, and Development
+- **Preview Deployments**: Test on every PR automatically
+- **Build Time**: ~1-2 minutes for typical landing page
+
+### Post-Deployment Verification
+1. Visit production URL → Test landing page loads
+2. Submit form → Verify email received
+3. Test `/login` → Verify admin access works
+4. Check Vercel function logs for any errors
+5. Verify emails sent successfully (check Resend dashboard)
+
+## Common Issues & Solutions
+
+### Database Connection Issues
+- Check SSL configuration for production databases
+- Verify connection string format
+- Test connection with a simple query first
+
+### Email Service Issues
+- Verify Resend API key format (starts with 're_')
+- Check admin email addresses are valid
+- Implement proper error handling for email failures
+
+### Serverless Function Issues
+- Keep functions lightweight and fast
+- Use proper imports for serverless environments
+- Handle cold starts appropriately
+
+## Performance Optimizations
+- Use connection pooling for database connections
+- Implement proper caching strategies
+- Optimize images and assets
+- Use Tailwind's purge feature for smaller CSS bundles
+
+## Security Considerations
+- Validate all user inputs
+- Use parameterized database queries
+- Implement proper CORS policies
+- Sanitize email content
+- Use HTTPS in production
+
+## Development Workflow (Figma → Deploy)
+1. **Setup** (5 min)
+   - Copy `.env.example` → `.env`, fill in Neon DB + Resend credentials
+   - `npm install` → `npm run db:seed` → `npm run dev`
+   - Verify `/login` works with seeded admin
+
+2. **Figma → Code** (30-60 min)
+   - Extract colors/spacing/typography from Figma
+   - Create Astro components for each section
+   - Apply Tailwind classes matching Figma styles
+   - Add form with inline success/error (use boilerplate)
+   - Test responsive at 375px, 768px, 1280px
+
+3. **Connect Backend** (10 min)
+   - Update `src/lib/db/schema.ts` if form fields differ
+   - Create API route `/api/signup` (or reuse existing)
+   - Update email template in `src/lib/email.ts`
+   - Test form submission end-to-end
+
+4. **Deploy** (5 min)
+   - Push to Git → Connect Vercel
+   - Add environment variables in Vercel dashboard
+   - Deploy → Test production URL
+   - Verify emails work in production
+
+## Quick Commands
+- `npm install` - Install dependencies
+- `npm run dev` - Start development server (port 4321)
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run db:seed` - Seed database with default admin user
+
+## Template Customization
+- Update form fields in `src/lib/db/schema.ts` (Drizzle schema)
+- Modify email templates in `src/lib/email.ts`
+- Customize styling in `src/components/` or inline in `.astro` files
+- Add new pages in `src/pages/`
+- Update admin interface as needed
+
+---
+
+## Figma-to-Code Workflow (RULE-013)
+
+### Rapid Conversion Process
+1. **Extract Design Tokens** - Colors, spacing, fonts from Figma
+2. **Create Component Structure** - One Astro component per Figma section
+3. **Apply Tailwind Classes** - Direct translation of Figma styles
+4. **Add Interactivity** - Forms, buttons, navigation
+5. **Optimize Assets** - Images, fonts, icons
+6. **Test Responsive** - Mobile-first breakpoints
+
+### Figma Token Extraction
+- **Colors**: Extract hex codes → Use Tailwind arbitrary values `bg-[#D7000F]` or add to `tailwind.config.mjs`
+- **Spacing**: Figma spacing → Tailwind spacing scale (4px = 1 unit: `p-4` = 16px)
+- **Typography**: Font family → `.font-lexend-mega` or `.font-roboto` classes
+- **Border Radius**: Direct translation `rounded-lg`, `rounded-[12px]`
+- **Shadows**: Use Tailwind shadow utilities or arbitrary values
+
+### Component Scaffolding Pattern
+```astro
+---
+// src/components/SectionName.astro
+interface Props {
+  title?: string;
+  // Add props as needed from Figma
+}
+
+const { title } = Astro.props;
+---
+
+<section class="py-16 px-4">
+  {title && <h2 class="text-3xl font-bold">{title}</h2>}
+  <slot />
+</section>
+```
+
+### Tailwind Customization
+- Add custom colors to `tailwind.config.mjs` if used ≥3 times
+- Use arbitrary values `bg-[#hex]` for one-off colors
+- Prefer Tailwind utilities over custom CSS
+- **Keep it simple**: Don't create custom utilities unless pattern repeats ≥5 times
+
+### Image Handling
+```astro
+---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/hero.jpg';
+---
+
+<Image src={heroImage} alt="Hero" class="w-full" />
+```
+- Export images from Figma as WebP or optimized PNG
+- Use Astro's Image component for automatic optimization
+- Place assets in `public/` for static references, `src/assets/` for optimized imports
+
+### Responsive Design Conventions
+- Mobile-first: Base styles for mobile, then `md:`, `lg:`, `xl:` breakpoints
+- Common breakpoints: `sm:640px`, `md:768px`, `lg:1024px`, `xl:1280px`
+- Test at: 375px (mobile), 768px (tablet), 1280px (desktop)
+
+### Quick Component Checklist
+When creating from Figma:
+- [ ] Extract colors → Tailwind classes
+- [ ] Extract spacing → Tailwind padding/margin
+- [ ] Extract typography → Font classes + size utilities
+- [ ] Make responsive → Add breakpoint variants
+- [ ] Add semantic HTML → Proper heading hierarchy, landmarks
+- [ ] Test accessibility → Keyboard nav, screen reader labels
+
+### API Route Boilerplate
+```typescript
+// src/pages/api/endpoint-name.ts
+import type { APIRoute } from 'astro';
+
+export const POST: APIRoute = async ({ request }) => {
+  try {
+    const data = await request.json();
+    // Validation with Zod if needed
+    
+    // Database operation
+    // Email sending if needed
+    
+    return new Response(
+      JSON.stringify({ success: true }),
+      { 
+        status: 200, 
+        headers: { 'Content-Type': 'application/json' } 
+      }
+    );
+  } catch (error) {
+    console.error('API error:', error);
+    return new Response(
+      JSON.stringify({ success: false, error: 'Failed' }),
+      { 
+        status: 500, 
+        headers: { 'Content-Type': 'application/json' } 
+      }
+    );
+  }
+};
+```
+
+### Email Template Pattern
+```typescript
+// In src/lib/email.ts - keep templates simple and inline
+export async function sendCustomEmail(to: string, data: { title: string; content: string }) {
+  await resend.emails.send({
+    from: import.meta.env.FROM_EMAIL || 'noreply@yourdomain.com',
+    to,
+    subject: data.title,
+    html: `
+      <div style="max-width: 600px; margin: 0 auto; font-family: sans-serif;">
+        <h2>${data.title}</h2>
+        <p>${data.content}</p>
+      </div>
+    `,
+  });
+}
+```
+
+**Severity:** Warning  
+**Applies to:** All Figma-to-code conversions
+
+---
+
+Remember: This template is designed for rapid deployment of client landing pages. Keep it simple, focused, and maintainable. Speed > perfection - ship working code fast, iterate based on feedback.

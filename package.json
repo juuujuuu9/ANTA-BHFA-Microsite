@@ -1,0 +1,29 @@
+{
+  "name": "astro-microsite-boilerplate",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "db:seed": "tsx src/lib/db/seed.ts"
+  },
+  "dependencies": {
+    "@astrojs/node": "^8.2.1",
+    "@neondatabase/serverless": "^1.0.0",
+    "resend": "^4.0.0",
+    "astro": "^4.15.0",
+    "bcryptjs": "^2.4.3",
+    "drizzle-orm": "^0.45.0",
+    "nanoid": "^5.0.7"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20.14.0",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.0"
+  }
+}
+

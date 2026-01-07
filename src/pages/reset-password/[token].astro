@@ -1,0 +1,201 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getAdminByResetToken, updatePassword } from '../../lib/auth';
+
+const { token } = Astro.params;
+
+let error = '';
+let success = '';
+let validToken = false;
+
+if (token) {
+  const admin = await getAdminByResetToken(token);
+  if (admin) {
+    validToken = true;
+    
+    if (Astro.request.method === 'POST') {
+      const formData = await Astro.request.formData();
+      const password = formData.get('password')?.toString() || '';
+      const confirmPassword = formData.get('confirmPassword')?.toString() || '';
+      
+      if (password && confirmPassword) {
+        if (password === confirmPassword) {
+          if (password.length >= 8) {
+            await updatePassword(admin.id, password);
+            return Astro.redirect('/login?reset=success');
+          } else {
+            error = 'Password must be at least 8 characters long';
+          }
+        } else {
+          error = 'Passwords do not match';
+        }
+      } else {
+        error = 'Please fill in all fields';
+      }
+    }
+  } else {
+    error = 'Invalid or expired reset token';
+  }
+} else {
+  error = 'No reset token provided';
+}
+---
+
+<Layout title="Reset Password">
+  <div class="reset-container">
+    <div class="reset-card">
+      <h1>Reset Password</h1>
+      
+      {error && <div class="error-message">{error}</div>}
+      {success && <div class="success-message">{success}</div>}
+      
+      {validToken ? (
+        <form method="POST" class="reset-form">
+          <div class="form-group">
+            <label for="password">New Password</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              required 
+              autocomplete="new-password"
+              minlength="8"
+              placeholder="Minimum 8 characters"
+            />
+          </div>
+          
+          <div class="form-group">
+            <label for="confirmPassword">Confirm New Password</label>
+            <input 
+              type="password" 
+              id="confirmPassword" 
+              name="confirmPassword" 
+              required 
+              autocomplete="new-password"
+              minlength="8"
+              placeholder="Confirm your password"
+            />
+          </div>
+          
+          <button type="submit" class="btn-primary">Reset Password</button>
+        </form>
+      ) : (
+        <div class="back-link">
+          <a href="/reset-password">Request a new reset link</a>
+        </div>
+      )}
+      
+      <div class="back-link">
+        <a href="/login">Back to Login</a>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .reset-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem;
+  }
+  
+  .reset-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .reset-card h1 {
+    margin: 0 0 2rem 0;
+    color: #333;
+    text-align: center;
+  }
+  
+  .reset-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form-group label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9rem;
+  }
+  
+  .form-group input {
+    padding: 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+  
+  .btn-primary {
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  }
+  
+  .back-link {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  
+  .back-link a {
+    color: #667eea;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  
+  .back-link a:hover {
+    text-decoration: underline;
+  }
+  
+  .error-message {
+    background: #fee;
+    color: #c33;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #fcc;
+  }
+  
+  .success-message {
+    background: #efe;
+    color: #3c3;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #cfc;
+  }
+</style>
+

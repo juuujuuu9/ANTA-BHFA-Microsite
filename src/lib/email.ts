@@ -108,13 +108,6 @@ export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <h2 style="color: #333; border-bottom: 2px solid #D7000F; padding-bottom: 10px;">New ANTA First Access RSVP</h2>
         
-        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
-          <h3 style="margin-top: 0; color: #333;">Submission Details</h3>
-          <p style="margin: 5px 0;"><strong>Date:</strong> ${submittedDate}</p>
-          <p style="margin: 5px 0;"><strong>Time:</strong> ${submittedTime}</p>
-          <p style="margin: 5px 0;"><strong>Total Entries:</strong> ${formData.totalEntries ?? 'N/A'}</p>
-        </div>
-        
         <div style="background-color: #fff; padding: 15px; border: 1px solid #ddd; border-radius: 5px; margin: 20px 0;">
           <h3 style="margin-top: 0; color: #333;">Entry Information</h3>
           ${formData.firstName ? `<p style="margin: 8px 0;"><strong>First Name:</strong> ${formData.firstName}</p>` : ''}
@@ -123,6 +116,12 @@ export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
           ${formData.phone ? `<p style="margin: 8px 0;"><strong>Phone:</strong> ${formData.phone}</p>` : ''}
           ${formData.shirtSize ? `<p style="margin: 8px 0;"><strong>Shirt Size:</strong> ${formData.shirtSize}</p>` : ''}
           ${formData.sneakerSize ? `<p style="margin: 8px 0;"><strong>Sneaker Size:</strong> ${formData.sneakerSize}</p>` : ''}
+        </div>
+        
+        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
+          <p style="margin: 5px 0;"><strong>Date:</strong> ${submittedDate}</p>
+          <p style="margin: 5px 0;"><strong>Time:</strong> ${submittedTime}</p>
+          <p style="margin: 5px 0;"><strong>Total Entries:</strong> ${formData.totalEntries ?? 'N/A'}</p>
         </div>
       </div>
     `;

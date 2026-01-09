@@ -41,4 +41,3 @@ export async function getTotalSubmissionCount(): Promise<number> {
   const result = await db.select().from(formSubmissions);
   return result.length;
 }
-

@@ -5,32 +5,92 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
 ---
 
 <Layout title={title}>
-  <div class="microsite-container">
-    <div class="content-wrapper">
-      <header class="header">
-        <h1>ANTA BEVERLY HILLS FIRST ACCESS</h1>
-      </header>
-      
-      <main class="main-content">
-        <div class="intro-section">
-          <p class="intro-text">
-            Join us for first access to the new ANTA Beverly Hills store.
-            Experience the space before it opens and be among the first to see the Chinese New Year KAI's.
+  <div class="min-h-screen bg-[#0a1a2e] relative overflow-hidden">
+    <!-- Background image overlay (blurred store interior) -->
+    <div class="absolute inset-0 z-0">
+      <!-- Background image - replace with actual image from Figma -->
+      <!-- To add background image, uncomment and update path:
+      <img 
+        src="/images/anta-store-interior.jpg" 
+        alt="" 
+        class="w-full h-full object-cover opacity-30 blur-sm"
+      />
+      -->
+      <!-- Fallback gradient background -->
+      <div class="absolute inset-0 bg-gradient-to-br from-[#0a1a2e] via-[#1a2e3d] to-[#0a1a2e]"></div>
+      <!-- Dark overlay for text readability -->
+      <div class="absolute inset-0 bg-[#0a1a2e] opacity-80"></div>
+    </div>
+
+    <!-- Main content -->
+    <div class="relative z-10 min-h-screen flex flex-col">
+      <!-- Hero Section -->
+      <section class="flex-1 flex flex-col justify-center items-center px-6 py-20 lg:py-32">
+        <div class="max-w-4xl w-full text-center space-y-8">
+          <!-- Top label -->
+          <p class="font-sharp-grotesk text-white text-sm lg:text-base tracking-[0.2em] uppercase opacity-90">
+            THE NEW ANTA BEVERLY HILLS FLAGSHIP
           </p>
-          
-          <div class="event-details">
-            <p class="event-date"><strong>Friday, January 17</strong></p>
-            <p class="event-time">10:00 AM – 2:00 PM</p>
+
+          <!-- ANTA Logo Area -->
+          <div class="flex flex-col items-center space-y-4">
+            <!-- Swoosh above logo -->
+            <div class="w-24 h-1 bg-white"></div>
+            <!-- ANTA Logo Text -->
+            <h1 class="font-sharp-grotesk text-white text-5xl lg:text-7xl font-semibold tracking-tight">
+              ANTA
+            </h1>
+          </div>
+
+          <!-- Main Heading -->
+          <h2 class="font-sharp-grotesk text-white text-4xl lg:text-6xl font-semibold tracking-tight">
+            ANTA BEVERLY HILLS
+          </h2>
+
+          <!-- Subheading -->
+          <h3 class="font-sharp-grotesk text-white text-3xl lg:text-5xl font-semibold tracking-tight">
+            FIRST ACCESS
+          </h3>
+
+          <!-- Call to Action Text -->
+          <div class="space-y-4 pt-8">
+            <p class="font-sharp-grotesk text-white text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto">
+              JOIN US FOR FIRST ACCESS TO THE NEW <strong class="font-semibold">ANTA BEVERLY HILLS FLAGSHIP</strong>.
+            </p>
+            <p class="font-sharp-grotesk text-white text-base lg:text-lg leading-relaxed max-w-2xl mx-auto opacity-90">
+              Experience the space before it opens and be among the first to see the Chinese New Year KAI 3 CNY.
+            </p>
+          </div>
+
+          <!-- Date/Time Button -->
+          <div class="pt-8 flex justify-center">
+            <div class="inline-flex border border-white text-white overflow-hidden">
+              <div class="px-8 py-4 lg:px-12 lg:py-6 bg-transparent">
+                <p class="font-sharp-grotesk text-sm lg:text-base font-semibold">FRI 1.17.26</p>
+              </div>
+              <div class="px-8 py-4 lg:px-12 lg:py-6 bg-transparent border-l border-white">
+                <p class="font-sharp-grotesk text-sm lg:text-base font-semibold">10 AM - 2 PM</p>
+              </div>
+            </div>
           </div>
         </div>
-        
-        <div class="rsvp-section">
-          <h2 id="rsvp-heading">RSVP SECTION</h2>
-          <p id="rsvp-instructions" class="rsvp-instructions">Please complete the form below to request first access.</p>
+      </section>
+
+      <!-- RSVP Form Section -->
+      <section class="relative z-10 px-6 py-12 lg:py-20 bg-white">
+        <div class="max-w-2xl mx-auto">
+          <h2 id="rsvp-heading" class="font-sharp-grotesk text-black text-2xl lg:text-3xl font-semibold mb-2 uppercase tracking-wide">
+            RSVP SECTION
+          </h2>
+          <p id="rsvp-instructions" class="font-sharp-grotesk text-gray-600 text-base lg:text-lg mb-8">
+            Please complete the form below to request first access.
+          </p>
           
-          <form id="registration-form" class="contact-form" method="POST">
-            <div class="form-group">
-              <label for="firstName">First Name <span class="required">*</span></label>
+          <form id="registration-form" class="space-y-6" method="POST">
+            <div class="flex flex-col gap-2">
+              <label for="firstName" class="font-sharp-grotesk font-semibold text-gray-700 text-sm">
+                First Name <span class="text-red-600">*</span>
+              </label>
               <input 
                 type="text" 
                 id="firstName" 
@@ -38,11 +98,14 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
                 required
                 autocomplete="given-name"
                 placeholder="Your first name"
+                class="font-sharp-grotesk px-4 py-3 border-2 border-gray-300 rounded-lg text-base focus:outline-none focus:border-gray-900 transition-colors"
               />
             </div>
             
-            <div class="form-group">
-              <label for="lastName">Last Name <span class="required">*</span></label>
+            <div class="flex flex-col gap-2">
+              <label for="lastName" class="font-sharp-grotesk font-semibold text-gray-700 text-sm">
+                Last Name <span class="text-red-600">*</span>
+              </label>
               <input 
                 type="text" 
                 id="lastName" 
@@ -50,11 +113,14 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
                 required
                 autocomplete="family-name"
                 placeholder="Your last name"
+                class="font-sharp-grotesk px-4 py-3 border-2 border-gray-300 rounded-lg text-base focus:outline-none focus:border-gray-900 transition-colors"
               />
             </div>
             
-            <div class="form-group">
-              <label for="email">Email Address <span class="required">*</span></label>
+            <div class="flex flex-col gap-2">
+              <label for="email" class="font-sharp-grotesk font-semibold text-gray-700 text-sm">
+                Email Address <span class="text-red-600">*</span>
+              </label>
               <input 
                 type="email" 
                 id="email" 
@@ -62,23 +128,33 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
                 required
                 autocomplete="email"
                 placeholder="your.email@example.com"
+                class="font-sharp-grotesk px-4 py-3 border-2 border-gray-300 rounded-lg text-base focus:outline-none focus:border-gray-900 transition-colors"
               />
             </div>
             
-            <div class="form-group">
-              <label for="phone">Phone Number</label>
+            <div class="flex flex-col gap-2">
+              <label for="phone" class="font-sharp-grotesk font-semibold text-gray-700 text-sm">
+                Phone Number
+              </label>
               <input 
                 type="tel" 
                 id="phone" 
                 name="phone" 
                 autocomplete="tel"
                 placeholder="(555) 123-4567"
+                class="font-sharp-grotesk px-4 py-3 border-2 border-gray-300 rounded-lg text-base focus:outline-none focus:border-gray-900 transition-colors"
               />
             </div>
             
-            <div class="form-group">
-              <label for="shirtSize">Shirt Size</label>
-              <select id="shirtSize" name="shirtSize">
+            <div class="flex flex-col gap-2">
+              <label for="shirtSize" class="font-sharp-grotesk font-semibold text-gray-700 text-sm">
+                Shirt Size
+              </label>
+              <select 
+                id="shirtSize" 
+                name="shirtSize"
+                class="font-sharp-grotesk px-4 py-3 border-2 border-gray-300 rounded-lg text-base bg-white focus:outline-none focus:border-gray-900 transition-colors cursor-pointer"
+              >
                 <option value="">Select size</option>
                 <option value="XS">XS</option>
                 <option value="S">S</option>
@@ -89,9 +165,15 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
               </select>
             </div>
             
-            <div class="form-group">
-              <label for="sneakerSize">Sneaker Size</label>
-              <select id="sneakerSize" name="sneakerSize">
+            <div class="flex flex-col gap-2">
+              <label for="sneakerSize" class="font-sharp-grotesk font-semibold text-gray-700 text-sm">
+                Sneaker Size
+              </label>
+              <select 
+                id="sneakerSize" 
+                name="sneakerSize"
+                class="font-sharp-grotesk px-4 py-3 border-2 border-gray-300 rounded-lg text-base bg-white focus:outline-none focus:border-gray-900 transition-colors cursor-pointer"
+              >
                 <option value="">Select size</option>
                 <option value="5">5</option>
                 <option value="5.5">5.5</option>
@@ -114,11 +196,11 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
             </div>
 
             <!-- Submit Button / Inline Confirmation Area -->
-            <div id="registration-action" class="text-center pt-10" aria-live="polite">
+            <div id="registration-action" class="text-center pt-6" aria-live="polite">
               <button
                 id="register-button"
                 type="submit"
-                class="btn-submit"
+                class="font-sharp-grotesk bg-[#0a1a2e] text-white px-12 py-4 rounded-lg text-lg font-semibold uppercase tracking-wide hover:bg-[#1a2e3d] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 RSVP Now
               </button>
@@ -127,7 +209,7 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
             <!-- Inline error box (hidden by default) -->
             <div
               id="registration-error"
-              class="hidden mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-[18px] text-center"
+              class="hidden mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-lg text-center"
               aria-live="polite"
             ></div>
           </form>
@@ -139,7 +221,7 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
             aria-live="polite"
           ></div>
         </div>
-      </main>
+      </section>
     </div>
   </div>
 </Layout>
@@ -201,7 +283,7 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
         if (successContainer) {
           successContainer.classList.remove('hidden');
           successContainer.innerHTML = `
-            <div class="p-6 bg-green-100 border border-green-400 text-green-700 rounded-lg text-[20px] font-semibold text-center">
+            <div class="p-6 bg-green-100 border border-green-400 text-green-700 rounded-lg text-xl font-semibold text-center">
               Thank you for signing up for ANTA First Access.<br>Confirmed guests will receive additional event details prior to January 17.
             </div>
           `;
@@ -249,182 +331,3 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
     }
   });
 </script>
-
-<style>
-  .microsite-container {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    padding: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .content-wrapper {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    padding: 3rem;
-    width: 100%;
-    max-width: 700px;
-  }
-  
-  .header {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  
-  .header h1 {
-    color: #1a1a1a;
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    margin: 0;
-    text-transform: uppercase;
-  }
-  
-  .main-content {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-  }
-  
-  .intro-section {
-    text-align: center;
-  }
-  
-  .intro-text {
-    color: #333;
-    font-size: 1.1rem;
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-  }
-  
-  .event-details {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-top: 1.5rem;
-  }
-  
-  .event-date {
-    color: #1a1a1a;
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .event-time {
-    color: #666;
-    font-size: 1.1rem;
-    margin: 0;
-  }
-  
-  .rsvp-section {
-    border-top: 2px solid #e0e0e0;
-    padding-top: 2rem;
-  }
-  
-  .rsvp-section h2 {
-    color: #1a1a1a;
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  
-  .rsvp-instructions {
-    color: #666;
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .form-group label {
-    font-weight: 600;
-    color: #555;
-    font-size: 0.95rem;
-  }
-  
-  .required {
-    color: #e74c3c;
-  }
-  
-  .form-group input,
-  .form-group select {
-    padding: 0.75rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: inherit;
-    transition: border-color 0.2s;
-  }
-  
-  .form-group input:focus,
-  .form-group select:focus {
-    outline: none;
-    border-color: #1a1a1a;
-  }
-  
-  .form-group select {
-    background-color: white;
-    cursor: pointer;
-  }
-  
-  .btn-submit {
-    padding: 1rem 2rem;
-    background: #1a1a1a;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  
-  .btn-submit:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(26, 26, 26, 0.3);
-    background: #333;
-  }
-  
-  .btn-submit:disabled {
-    cursor: not-allowed;
-  }
-  
-  @media (max-width: 768px) {
-    .content-wrapper {
-      padding: 2rem 1.5rem;
-    }
-    
-    .header h1 {
-      font-size: 1.5rem;
-    }
-    
-    .intro-text {
-      font-size: 1rem;
-    }
-    
-    .event-date {
-      font-size: 1.1rem;
-    }
-    
-    .rsvp-section h2 {
-      font-size: 1.3rem;
-    }
-  }
-</style>

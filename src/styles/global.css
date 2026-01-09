@@ -2,3 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Sharp Grotesk Font Family */
+@font-face {
+  font-family: 'Sharp Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/SharpGroteskPETrialMedium-20-BF646589e602b75.otf') format('opentype'),
+       url('/fonts/SharpGroteskPETrialMedium-20-BF646589dac6232.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sharp Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/SharpGroteskPETrialMedium-25-BF646589e6051e7.otf') format('opentype'),
+       url('/fonts/SharpGroteskPETrialMedium-25-BF646589da0bf69.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sharp Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/SharpGroteskPETrialSmBold-25-BF646589e3860d3.otf') format('opentype'),
+       url('/fonts/SharpGroteskPETrialSmBold-25-BF646589d85a16e.ttf') format('truetype');
+}
+

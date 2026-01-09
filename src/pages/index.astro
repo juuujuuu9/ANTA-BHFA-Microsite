@@ -5,71 +5,66 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
 ---
 
 <Layout title={title}>
-  <div class="min-h-screen bg-[#0a1a2e] relative overflow-hidden">
-    <!-- Background image overlay (blurred store interior) -->
-    <div class="absolute inset-0 z-0">
-      <!-- Background image - replace with actual image from Figma -->
-      <!-- To add background image, uncomment and update path:
-      <img 
-        src="/images/anta-store-interior.jpg" 
-        alt="" 
-        class="w-full h-full object-cover opacity-30 blur-sm"
-      />
-      -->
-      <!-- Fallback gradient background -->
-      <div class="absolute inset-0 bg-gradient-to-br from-[#0a1a2e] via-[#1a2e3d] to-[#0a1a2e]"></div>
+  <div class="min-h-screen relative overflow-hidden">
+    <!-- Background image overlay -->
+    <div 
+      class="fixed inset-0 z-0 bg-cover bg-center"
+      style="background-image: url('/Anta-Store-Background.jpg'); background-attachment: fixed;"
+    >
       <!-- Dark overlay for text readability -->
-      <div class="absolute inset-0 bg-[#0a1a2e] opacity-80"></div>
+      <div class="absolute inset-0 bg-black opacity-80"></div>
     </div>
 
     <!-- Main content -->
     <div class="relative z-10 min-h-screen flex flex-col">
       <!-- Hero Section -->
-      <section class="flex-1 flex flex-col justify-center items-center px-6 py-20 lg:py-32">
-        <div class="max-w-4xl w-full text-center space-y-8">
+      <section class="flex-1 flex flex-col justify-center items-center px-6 lg:pt-[60px] lg:pb-[40px]">
+        <div class="px-[20px] w-full text-center space-y-8">
           <!-- Top label -->
-          <p class="font-sharp-grotesk text-white text-sm lg:text-base tracking-[0.2em] uppercase opacity-90">
+          <p class="w-full mb-[60px] text-center text-white text-[18px] font-sharp-grotesk font-normal uppercase tracking-[23.40px] break-words">
             THE NEW ANTA BEVERLY HILLS FLAGSHIP
           </p>
 
           <!-- ANTA Logo Area -->
           <div class="flex flex-col items-center space-y-4">
-            <!-- Swoosh above logo -->
-            <div class="w-24 h-1 bg-white"></div>
-            <!-- ANTA Logo Text -->
-            <h1 class="font-sharp-grotesk text-white text-5xl lg:text-7xl font-semibold tracking-tight">
-              ANTA
-            </h1>
+            <svg width="191" height="103" viewBox="0 0 191 103" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M29.9023 102.999H20.5L20.9316 97.1352H12.1104L9.25293 102.999H0L22.3936 59.2602H31.7637L29.9023 102.999ZM54.7881 82.683L61.3174 59.2436H70.8193L58.626 102.999H49.3564L46.1494 81.2377L40.0859 102.999H30.8164L43.043 59.2436H51.3164L54.7881 82.683ZM96.7686 68.6293H88.4121L78.8105 102.998H69.5732L79.1416 68.6293H70.3379L72.9619 59.2436H99.4092L96.7686 68.6293ZM111.105 102.998H101.736L102.151 97.1352H93.3633L90.4727 102.998H81.1855L103.63 59.2602H112.966L111.105 102.998ZM71.7998 0.000427246C100.123 -0.0535211 128.215 5.0919 154.68 15.1821L167.007 25.6479C149.091 20.9293 130.702 18.2321 112.186 17.6078C143.23 28.8505 170.164 49.1648 189.499 75.8969L190.414 77.1752L171.625 102.989C134.09 50.7346 73.6621 19.7817 9.32031 19.851C6.64574 19.851 2.65785 20.017 0 20.017L20.9814 5.58148C37.6621 1.84454 54.7057 -0.0272157 71.7998 0.000427246ZM16.0312 88.0483H21.4971L23.1582 72.6L16.0312 88.0483ZM97.25 88.0483H102.716L104.377 72.5991L97.25 88.0483Z" fill="white"/>
+            </svg>
           </div>
-
+          
           <!-- Main Heading -->
-          <h2 class="font-sharp-grotesk text-white text-4xl lg:text-6xl font-semibold tracking-tight">
+          <h2 class="font-sharp-grotesk text-white text-4xl lg:text-6xl font-medium tracking-tight">
             ANTA BEVERLY HILLS
           </h2>
 
           <!-- Subheading -->
-          <h3 class="font-sharp-grotesk text-white text-3xl lg:text-5xl font-semibold tracking-tight">
+          <h3 class="font-sharp-grotesk text-white text-3xl lg:text-5xl font-light tracking-tight">
             FIRST ACCESS
           </h3>
 
           <!-- Call to Action Text -->
           <div class="space-y-4 pt-8">
-            <p class="font-sharp-grotesk text-white text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto">
-              JOIN US FOR FIRST ACCESS TO THE NEW <strong class="font-semibold">ANTA BEVERLY HILLS FLAGSHIP</strong>.
+            <p class="font-sharp-grotesk text-white text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto font-light">
+              JOIN US FOR FIRST ACCESS TO THE NEW
+              <br><strong class="font-semibold">ANTA BEVERLY HILLS FLAGSHIP</strong>.
             </p>
             <p class="font-sharp-grotesk text-white text-base lg:text-lg leading-relaxed max-w-2xl mx-auto opacity-90">
               Experience the space before it opens and be among the first to see the Chinese New Year KAI 3 CNY.
             </p>
           </div>
 
-          <!-- Date/Time Button -->
-          <div class="pt-8 flex justify-center">
-            <div class="inline-flex border border-white text-white overflow-hidden">
-              <div class="px-8 py-4 lg:px-12 lg:py-6 bg-transparent">
-                <p class="font-sharp-grotesk text-sm lg:text-base font-semibold">FRI 1.17.26</p>
+          <!-- Date/Time Card -->
+          <div class="pt-8 flex justify-center px-4">
+            <div class="w-full max-w-[900px] py-5 bg-[rgba(255,255,255,0.10)] rounded-[4px] outline outline-2 outline-[rgba(255,255,255,0.50)] outline-offset-[-2px] inline-flex flex-col md:flex-row justify-center items-center md:items-start gap-4 md:gap-0">
+              <div class="w-full md:w-[364px] h-auto md:h-[77px] flex justify-center items-center gap-2.5">
+                <div class="w-full md:w-[460px] text-center flex flex-col justify-center text-white text-2xl md:text-[36px] font-sharp-grotesk font-semibold uppercase leading-[20px] tracking-[1.08px] break-words">
+                  FRI 1.17.26
+                </div>
               </div>
-              <div class="px-8 py-4 lg:px-12 lg:py-6 bg-transparent border-l border-white">
-                <p class="font-sharp-grotesk text-sm lg:text-base font-semibold">10 AM - 2 PM</p>
+              <div class="w-full md:w-[420px] h-auto md:h-[77px] flex justify-center items-center gap-2.5">
+                <div class="text-center flex flex-col justify-center text-white text-2xl md:text-[36px] font-sharp-grotesk font-semibold uppercase leading-[20px] tracking-[1.08px] break-words">
+                  10 AM – 2 PM
+                </div>
               </div>
             </div>
           </div>
@@ -77,12 +72,9 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
       </section>
 
       <!-- RSVP Form Section -->
-      <section class="relative z-10 px-6 py-12 lg:py-20 bg-white">
+      <section class="relative z-10 px-6 py-12 lg:py-[40px]">
         <div class="max-w-2xl mx-auto">
-          <h2 id="rsvp-heading" class="font-sharp-grotesk text-black text-2xl lg:text-3xl font-semibold mb-2 uppercase tracking-wide">
-            RSVP SECTION
-          </h2>
-          <p id="rsvp-instructions" class="font-sharp-grotesk text-gray-600 text-base lg:text-lg mb-8">
+          <p id="rsvp-instructions" class="w-full text-center flex flex-col justify-center text-white text-[24px] font-sharp-grotesk font-medium leading-[40px] break-words mb-8">
             Please complete the form below to request first access.
           </p>
           

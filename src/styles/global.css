@@ -6,10 +6,17 @@
 @font-face {
   font-family: 'Sharp Grotesk';
   font-style: normal;
-  font-weight: 500;
+  font-weight: 300;
   font-display: swap;
-  src: url('/fonts/SharpGroteskPETrialMedium-20-BF646589e602b75.otf') format('opentype'),
-       url('/fonts/SharpGroteskPETrialMedium-20-BF646589dac6232.ttf') format('truetype');
+  src: url('/fonts/SharpGrotesk-Light25.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Sharp Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/SharpGrotesk-Book25.otf') format('opentype');
 }
 
 @font-face {
@@ -17,8 +24,7 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url('/fonts/SharpGroteskPETrialMedium-25-BF646589e6051e7.otf') format('opentype'),
-       url('/fonts/SharpGroteskPETrialMedium-25-BF646589da0bf69.ttf') format('truetype');
+  src: url('/fonts/SharpGrotesk-Medium25.otf') format('opentype');
 }
 
 @font-face {
@@ -26,7 +32,22 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url('/fonts/SharpGroteskPETrialSmBold-25-BF646589e3860d3.otf') format('opentype'),
-       url('/fonts/SharpGroteskPETrialSmBold-25-BF646589d85a16e.ttf') format('truetype');
+  src: url('/fonts/SharpGrotesk-SemiBold25.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Sharp Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/SharpGrotesk-Bold25.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Sharp Grotesk';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fonts/SharpGrotesk-Black25.otf') format('opentype');
 }
 

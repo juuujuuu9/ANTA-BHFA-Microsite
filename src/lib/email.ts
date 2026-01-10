@@ -64,6 +64,9 @@ export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
   phone?: string;
   shirtSize?: string;
   sneakerSize?: string;
+  creatorEmail?: string;
+  media?: string;
+  instagramProfile?: string;
   submittedAt?: Date;
   totalEntries?: number;
 }) {
@@ -117,6 +120,15 @@ export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
           ${formData.shirtSize ? `<p style="margin: 8px 0;"><strong>Shirt Size:</strong> ${formData.shirtSize}</p>` : ''}
           ${formData.sneakerSize ? `<p style="margin: 8px 0;"><strong>Sneaker Size:</strong> ${formData.sneakerSize}</p>` : ''}
         </div>
+        
+        ${(formData.creatorEmail || formData.media || formData.instagramProfile) ? `
+        <div style="background-color: #fff; padding: 15px; border: 1px solid #ddd; border-radius: 5px; margin: 20px 0;">
+          <h3 style="margin-top: 0; color: #333;">Creator/Media Information</h3>
+          ${formData.creatorEmail ? `<p style="margin: 8px 0;"><strong>Creator Email:</strong> <a href="mailto:${formData.creatorEmail}">${formData.creatorEmail}</a></p>` : ''}
+          ${formData.media ? `<p style="margin: 8px 0;"><strong>Media:</strong> ${formData.media}</p>` : ''}
+          ${formData.instagramProfile ? `<p style="margin: 8px 0;"><strong>Instagram Profile:</strong> ${formData.instagramProfile}</p>` : ''}
+        </div>
+        ` : ''}
         
         <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
           <p style="margin: 5px 0;"><strong>Date:</strong> ${submittedDate}</p>

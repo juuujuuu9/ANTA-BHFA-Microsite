@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Design Tokens - CSS Variables (optional, uncomment if needed)
+   Import design tokens as CSS custom properties for dynamic styling
+   @import './tokens.css';
+*/
+
 /* Sharp Grotesk Font Family */
 @font-face {
   font-family: 'Sharp Grotesk';
@@ -49,5 +54,115 @@
   font-weight: 900;
   font-display: swap;
   src: url('/fonts/SharpGrotesk-Black25.otf') format('opentype');
+}
+
+/* ANTA Font - Internal font name is "NIKE" */
+@font-face {
+  font-family: 'NIKE';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/ANTA_font.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NIKE';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/ANTA_font.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NIKE';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/ANTA_font.ttf') format('truetype');
+}
+
+/* Ensure ANTA font applies correctly - using internal font name "NIKE" */
+.font-anta {
+  font-family: 'NIKE', system-ui, -apple-system, sans-serif !important;
+}
+
+/* Sharp Grotesk PE Trial - Medium 20 (tracking 20) */
+@font-face {
+  font-family: 'Sharp Grotesk Medium 20';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/SharpGroteskPETrialMedium-20-BF646589e602b75.otf') format('opentype');
+}
+
+/* Sharp Grotesk PE Trial - Medium 25 (tracking 25) */
+@font-face {
+  font-family: 'Sharp Grotesk Medium 25';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/SharpGroteskPETrialMedium-25-BF646589e6051e7.otf') format('opentype');
+}
+
+/* Sharp Grotesk PE Trial - SemiBold 25 (tracking 25) */
+@font-face {
+  font-family: 'Sharp Grotesk SemiBold 25';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/SharpGroteskPETrialSmBold-25-BF646589e3860d3.otf') format('opentype');
+}
+
+/* Sharp Grotesk Book 15 (tracking 15) */
+@font-face {
+  font-family: 'Sharp Grotesk Book 15';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/SharpGrotesk-Book15.otf') format('opentype');
+}
+
+/* Sharp Grotesk Book 20 (tracking 20) */
+@font-face {
+  font-family: 'Sharp Grotesk Book 20';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/SharpGrotesk-Book20.otf') format('opentype');
+}
+
+/* Sharp Grotesk Medium 15 (tracking 15) */
+@font-face {
+  font-family: 'Sharp Grotesk Medium 15';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/SharpGrotesk-Medium15.otf') format('opentype');
+}
+
+/* Sharp Grotesk SemiBold 15 (tracking 15) */
+@font-face {
+  font-family: 'Sharp Grotesk SemiBold 15';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/SharpGrotesk-SemiBold15.otf') format('opentype');
+}
+
+/* Font utility classes */
+.font-sharp-grotesk-book-15 {
+  font-family: 'Sharp Grotesk Book 15', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
+}
+
+.font-sharp-grotesk-book-20 {
+  font-family: 'Sharp Grotesk Book 20', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
+}
+
+.font-sharp-grotesk-medium-15 {
+  font-family: 'Sharp Grotesk Medium 15', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
+}
+
+.font-sharp-grotesk-semibold-15 {
+  font-family: 'Sharp Grotesk SemiBold 15', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
 }
 

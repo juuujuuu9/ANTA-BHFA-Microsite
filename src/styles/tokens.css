@@ -1,0 +1,200 @@
+/**
+ * ANTA BHFA MicroSite - CSS Design Tokens
+ * 
+ * CSS custom properties extracted from Figma design
+ * Use these variables for dynamic styling or when Tailwind arbitrary values aren't suitable
+ */
+
+:root {
+  /* ============================================================================
+     COLORS
+     ============================================================================ */
+  
+  /* Brand Colors */
+  --color-brand-blue: #59c2ff;
+  --color-brand-blue-gradient: #46afe8;
+  --color-brand-red: #d7000f;
+  --color-brand-red-hover: #b8323d;
+  
+  /* Neutral Colors */
+  --color-white: #ffffff;
+  --color-dark-gray: #212121;
+  --color-black: #000000;
+  
+  /* Semantic Colors */
+  --color-success-bg: #dcfce7;
+  --color-success-border: #86efac;
+  --color-success-text: #166534;
+  --color-error-bg: #fee2e2;
+  --color-error-border: #f87171;
+  --color-error-text: #991b1b;
+  
+  /* Opacity Variants */
+  --color-white-10: rgba(255, 255, 255, 0.1);
+  --color-white-50: rgba(255, 255, 255, 0.5);
+  --color-black-30: rgba(0, 0, 0, 0.3);
+  --color-dark-gray-02: rgba(33, 33, 33, 0.02);
+  --color-dark-gray-100: rgba(33, 33, 33, 1);
+  --color-shadow-25: rgba(0, 0, 0, 0.25);
+  
+  /* ============================================================================
+     TYPOGRAPHY
+     ============================================================================ */
+  
+  /* Font Families */
+  --font-anta: 'NIKE', system-ui, -apple-system, sans-serif;
+  --font-sharp-grotesk: 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
+  --font-sharp-grotesk-medium-20: 'Sharp Grotesk Medium 20', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
+  --font-sharp-grotesk-medium-25: 'Sharp Grotesk Medium 25', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
+  --font-sharp-grotesk-semibold-25: 'Sharp Grotesk SemiBold 25', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
+  
+  /* Font Sizes - Mobile */
+  --font-size-xs-mobile: 16px;
+  --font-size-sm-mobile: 18px;
+  --font-size-base-mobile: 20px;
+  --font-size-md-mobile: 24px;
+  --font-size-lg-mobile: 28px;
+  --font-size-xl-mobile: 32px;
+  --font-size-2xl-mobile: 36px;
+  --font-size-3xl-mobile: 40px;
+  --font-size-4xl-mobile: 50px;
+  --font-size-5xl-mobile: 80px;
+  
+  /* Font Sizes - Tablet */
+  --font-size-xs-tablet: 18px;
+  --font-size-sm-tablet: 20px;
+  --font-size-base-tablet: 24px;
+  --font-size-md-tablet: 32px;
+  --font-size-lg-tablet: 40px;
+  --font-size-xl-tablet: 40px;
+  --font-size-2xl-tablet: 36px;
+  --font-size-3xl-tablet: 40px;
+  --font-size-4xl-tablet: 50px;
+  --font-size-5xl-tablet: 100px;
+  
+  /* Font Sizes - Desktop */
+  --font-size-xs-desktop: 20px;
+  --font-size-sm-desktop: 24px;
+  --font-size-base-desktop: 28px;
+  --font-size-md-desktop: 32px;
+  --font-size-lg-desktop: 40px;
+  --font-size-xl-desktop: 50px;
+  --font-size-2xl-desktop: 32px;
+  --font-size-3xl-desktop: 40px;
+  --font-size-4xl-desktop: 50px;
+  --font-size-5xl-desktop: 140px;
+  
+  /* Line Heights */
+  --line-height-hero-mobile: 70px;
+  --line-height-hero-tablet: 90px;
+  --line-height-hero-desktop: 110px;
+  --line-height-heading-mobile: 40px;
+  --line-height-heading-tablet: 56px;
+  --line-height-heading-desktop: 56px;
+  --line-height-body-small: 32px;
+  --line-height-body-medium: 40px;
+  --line-height-body-large: 56px;
+  --line-height-address-mobile: 32px;
+  --line-height-address-tablet: 40px;
+  --line-height-address-desktop: 56px;
+  --line-height-normal: normal;
+  --line-height-zero: 0;
+  
+  /* Letter Spacing */
+  --letter-spacing-tight: 0.8px;
+  --letter-spacing-normal: 1.2px;
+  --letter-spacing-wide: 1.5px;
+  --letter-spacing-wider: 1.08px;
+  --letter-spacing-widest: 2.5px;
+  --letter-spacing-extra-wide: 3.2px;
+  --letter-spacing-ultra-wide: 23.4px;
+  
+  /* ============================================================================
+     SPACING
+     ============================================================================ */
+  
+  --spacing-xs: 10px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 20px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 28px;
+  --spacing-3xl: 36px;
+  --spacing-4xl: 40px;
+  --spacing-5xl: 48px;
+  --spacing-6xl: 50px;
+  
+  /* Component-Specific Spacing */
+  --input-padding-x: 16px;
+  --input-padding-y: 12px;
+  --input-height: 48px;
+  --button-padding-x: 24px;
+  --button-padding-y: 20px;
+  --card-padding-x: 0px;
+  --card-padding-y: 20px;
+  --card-height: 77px;
+  --form-container-padding-x: 24px;
+  --form-container-padding-y: 40px;
+  --form-section-gap: 24px;
+  --form-field-group-gap: 36px;
+  --form-field-gap: 12px;
+  --form-field-row-gap: 10px;
+  --page-padding-x: 20px;
+  --page-padding-y: 0px;
+  --page-padding-top: 50px;
+  --page-padding-bottom: 48px;
+  
+  /* ============================================================================
+     BORDERS
+     ============================================================================ */
+  
+  --border-radius-sm: 4px;
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-style-solid: solid;
+  
+  /* ============================================================================
+     EFFECTS
+     ============================================================================ */
+  
+  --shadow-text: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  --blur-backdrop: 6px;
+  --opacity-overlay: 0.15;
+  
+  /* ============================================================================
+     GRADIENTS
+     ============================================================================ */
+  
+  --gradient-black-overlay: linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 100%);
+  --gradient-blue: linear-gradient(0deg, rgba(89, 194, 255, 0) 49.961%, rgba(70, 175, 232, 1) 60.477%);
+  --gradient-dark-overlay: linear-gradient(-7.844187734917796e-7deg, rgba(33, 33, 33, 1) 0%, rgba(33, 33, 33, 0.02) 29.067%);
+  --gradient-background-combined: linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 100%), linear-gradient(0deg, rgba(89, 194, 255, 0) 49.961%, rgba(70, 175, 232, 1) 60.477%), linear-gradient(-7.844187734917796e-7deg, rgba(33, 33, 33, 1) 0%, rgba(33, 33, 33, 0.02) 29.067%);
+  
+  /* ============================================================================
+     BREAKPOINTS
+     ============================================================================ */
+  
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  
+  /* ============================================================================
+     LAYOUT
+     ============================================================================ */
+  
+  --max-width-form: 876px;
+  --max-width-form-instructions: 730px;
+  --max-width-card: 854px;
+  --logo-width: 190px;
+  --logo-height: 103px;
+  --card-date-width: 364px;
+  --card-date-content-width: 460px;
+  --card-time-width: 420px;
+  
+  /* Background Image Positioning */
+  --bg-image-height: 110.36%;
+  --bg-image-width: 164.34%;
+  --bg-image-left: -32.17%;
+  --bg-image-top: 18.37%;
+}

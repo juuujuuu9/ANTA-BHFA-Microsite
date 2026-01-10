@@ -19,6 +19,9 @@ export const formSubmissions = pgTable('form_submissions', {
   phone: varchar('phone', { length: 255 }),
   shirtSize: varchar('shirt_size', { length: 50 }),
   sneakerSize: varchar('sneaker_size', { length: 50 }),
+  creatorEmail: varchar('creator_email', { length: 255 }),
+  media: varchar('media', { length: 255 }),
+  instagramProfile: varchar('instagram_profile', { length: 255 }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 

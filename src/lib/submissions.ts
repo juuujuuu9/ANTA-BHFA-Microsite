@@ -8,6 +8,9 @@ export async function createFormSubmission(data: {
   phone?: string;
   shirtSize?: string;
   sneakerSize?: string;
+  creatorEmail?: string;
+  media?: string;
+  instagramProfile?: string;
 }) {
   const [submission] = await db.insert(formSubmissions).values({
     firstName: data.firstName || null,
@@ -16,6 +19,9 @@ export async function createFormSubmission(data: {
     phone: data.phone || null,
     shirtSize: data.shirtSize || null,
     sneakerSize: data.sneakerSize || null,
+    creatorEmail: data.creatorEmail || null,
+    media: data.media || null,
+    instagramProfile: data.instagramProfile || null,
   }).returning();
   
   return submission;

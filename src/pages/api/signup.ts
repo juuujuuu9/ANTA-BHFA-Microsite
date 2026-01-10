@@ -7,7 +7,7 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const data = await request.json();
     
-    const { firstName, lastName, email, phone, shirtSize, sneakerSize } = data;
+    const { firstName, lastName, email, phone, shirtSize, sneakerSize, creatorEmail, media, instagramProfile } = data;
     
     // Validate required fields
     if (!firstName || !lastName || !email) {
@@ -30,6 +30,9 @@ export const POST: APIRoute = async ({ request }) => {
         phone,
         shirtSize,
         sneakerSize,
+        creatorEmail,
+        media,
+        instagramProfile,
       });
     } catch (dbError) {
       console.error('Error saving submission to database:', dbError);
@@ -76,6 +79,9 @@ export const POST: APIRoute = async ({ request }) => {
           phone,
           shirtSize,
           sneakerSize,
+          creatorEmail,
+          media,
+          instagramProfile,
           submittedAt: submission.createdAt,
           totalEntries,
         });

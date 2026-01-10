@@ -1,0 +1,669 @@
+# ANTA BHFA MicroSite - Design System Rules (Mobile-First)
+
+**Source:** [Figma Design - Mobile View](https://www.figma.com/design/ifTYSKlWj1kfrZbyU0OrDG/ANTA?node-id=213-3)  
+**Last Updated:** 2025-01-27  
+**Breakpoint:** Mobile views (`<sm` / `<640px`)
+
+---
+
+## Overview
+
+This document defines the design system rules for implementing mobile views (`<sm` breakpoint) based on the Figma design specifications. These rules ensure consistency when converting Figma designs to Astro + Tailwind CSS code.
+
+**Technology Stack:**
+- **Framework:** Astro with TypeScript
+- **Styling:** Tailwind CSS (utility-first)
+- **Design Tokens:** `src/lib/design-tokens.ts`
+- **Font System:** Custom fonts (ANTA/NIKE, Sharp Grotesk variants)
+
+---
+
+## 1. Mobile Breakpoint Definition
+
+**Breakpoint:** `<sm` (screens < 640px)
+
+**Implementation Pattern:**
+```astro
+<!-- Mobile-first: Base styles apply to mobile -->
+<div class="text-[14px] md:text-[18px]">
+  Content
+</div>
+```
+
+**Key Principle:** All base styles (without breakpoint prefixes) apply to mobile. Use `md:`, `lg:`, `xl:` for larger screens.
+
+---
+
+## 2. Typography - Mobile Specifications
+
+### 2.1 Font Families
+
+**Font Mapping:**
+- **ANTA Logo/Display:** `font-anta` → `'NIKE'` (internal font name)
+- **Sharp Grotesk Variants:** Use specific tracking variants
+  - `font-sharp-grotesk-book-20` → `'Sharp Grotesk Book 20'`
+  - `font-sharp-grotesk-medium-15` → `'Sharp Grotesk Medium 15'`
+  - `font-sharp-grotesk-medium-20` → `'Sharp Grotesk Medium 20'`
+  - `font-sharp-grotesk-semibold-15` → `'Sharp Grotesk SemiBold 15'`
+  - `font-sharp-grotesk-semibold-25` → `'Sharp Grotesk SemiBold 25'`
+
+**Rule:** Always use the specific font variant classes, not generic `font-sharp-grotesk`.
+
+### 2.2 Font Sizes - Mobile (<sm)
+
+| Element | Mobile Size | Tailwind Class | Line Height | Letter Spacing |
+|---------|-------------|----------------|-------------|----------------|
+| **Hero Display** | `60px` | `text-[60px]` | `44px` | `0px` (uppercase) |
+| **Top Label** | `14px` | `text-[14px]` | `22px` | `14px` |
+| **Description Line 1** | `24px` | `text-[24px]` | `28px` | `0.72px` |
+| **Description Line 2** | `32px` | `text-[32px]` | `32px` | `0.96px` |
+| **KAI Text Line 1** | `20px` | `text-[20px]` | `28px` | `0.6px` |
+| **KAI Text Line 2** | `32px` | `text-[32px]` | `32px` | `0.96px` |
+| **Date/Time Card** | `28px` | `text-[28px]` | `20px` | `0.84px` |
+| **Address** | `28px` | `text-[28px]` | `28px` | `0px` |
+| **Form Instructions** | `16px` | `text-[16px]` | `24px` | `0px` |
+| **Creator Question** | `20px` | `text-[20px]` | `28px` | `0px` |
+| **Creator Subtext** | `16px` | `text-[16px]` | `32px` | `0px` |
+| **Form Inputs** | `14px` | `text-[14px]` | `normal` | `0px` |
+| **Button** | `24px` | `text-[24px]` | `normal` | `2.4px` |
+| **Disclaimer** | `14px` | `text-[14px]` | `24px` | `0.7px` |
+| **Footer Label** | `14px` | `text-[14px]` | `22px` | `14px` |
+
+**Implementation Example:**
+```astro
+<!-- Hero Display - Mobile -->
+<div class="text-[60px] md:text-[80px] lg:text-[100px] leading-[44px] md:leading-[70px] lg:leading-[90px]">
+  FIRST ACCESS
+</div>
+```
+
+### 2.3 Typography Patterns
+
+**Pattern 1: Responsive Text Scaling**
+```astro
+<!-- Mobile → Tablet → Desktop -->
+<p class="text-[14px] md:text-[18px] lg:text-[20px]">
+  Responsive text
+</p>
+```
+
+**Pattern 2: Uppercase Labels**
+```astro
+<!-- Top/Bottom labels with ultra-wide tracking -->
+<p class="text-[14px] uppercase tracking-[14px]">
+  anta beverly hills flagship
+</p>
+```
+
+**Pattern 3: Multi-line Text with Different Weights**
+```astro
+<!-- Description with weight variations -->
+<div class="text-[32px]">
+  <span class="font-sharp-grotesk-book-15">the new </span>
+  <span class="font-sharp-grotesk-semibold-15">anta</span>
+  <span class="font-sharp-grotesk-book-15"> beverly hills flagship</span>
+</div>
+```
+
+---
+
+## 3. Spacing - Mobile Specifications
+
+### 3.1 Container Spacing
+
+| Element | Mobile Padding | Tailwind Class |
+|---------|----------------|---------------|
+| **Page Container** | `20px` horizontal | `px-[20px]` |
+| **Page Top** | `80px` | `pt-[80px]` |
+| **Form Container** | `24px` horizontal, `56px` top, `20px` bottom | `px-[24px] pt-[56px] pb-[20px]` |
+| **Input Padding** | `16px` horizontal, `12px` vertical | `px-[16px] py-[12px]` |
+
+### 3.2 Gap Spacing
+
+| Element | Mobile Gap | Tailwind Class |
+|---------|------------|---------------|
+| **Main Content Sections** | `24px` | `gap-[24px]` |
+| **Form Field Groups** | `12px` | `gap-[12px]` |
+| **Form Fields (vertical)** | `10px` | `gap-[10px]` |
+| **Form Sections** | `24px` | `gap-[24px]` |
+| **Info Section** | `30px` | `gap-[30px]` |
+| **Hero Content** | `40px` | `gap-[40px]` |
+
+**Implementation Example:**
+```astro
+<!-- Form fields stacked vertically on mobile -->
+<div class="flex flex-col gap-[10px] md:flex-row md:gap-[10px]">
+  <input />
+  <input />
+</div>
+```
+
+### 3.3 Component Dimensions
+
+| Component | Mobile Size | Tailwind Class |
+|-----------|-------------|----------------|
+| **Logo Height** | `98px` | `h-[98px]` |
+| **Logo Width** | `179px` | `w-[179px]` |
+| **Input Height** | `48px` | `h-[48px]` |
+| **Date/Time Card Height** | `47px` per row | `h-[47px]` |
+| **Button Width** | `294px` | `w-[294px]` |
+| **Button Padding** | `24px` × `16px` | `px-[24px] py-[16px]` |
+
+---
+
+## 4. Layout Patterns - Mobile
+
+### 4.1 Container Widths
+
+**Mobile Container:** `335px` (content width after padding)
+
+**Implementation:**
+```astro
+<div class="w-[335px] px-[20px]">
+  <!-- Content -->
+</div>
+```
+
+### 4.2 Stacking Patterns
+
+**Rule:** On mobile, all form fields stack vertically. Use `flex-col` as base, then `md:flex-row` for larger screens.
+
+```astro
+<!-- Form fields - Mobile: stacked, Desktop: side-by-side -->
+<div class="flex flex-col gap-[10px] md:flex-row md:gap-[10px]">
+  <input class="w-full" />
+  <input class="w-full" />
+</div>
+```
+
+**Date/Time Card - Mobile:**
+```astro
+<!-- Mobile: Stacked vertically -->
+<div class="flex flex-col md:flex-row">
+  <div class="h-[47px] w-full md:w-[364px]">Date</div>
+  <div class="h-[47px] w-full md:w-[420px]">Time</div>
+</div>
+```
+
+### 4.3 Background Layers
+
+**Mobile Background Structure:**
+```astro
+<div aria-hidden="true" class="absolute inset-0 pointer-events-none">
+  <!-- Blue base -->
+  <div class="fixed bg-[#59c2ff] inset-0"></div>
+  
+  <!-- Background image -->
+  <div class="absolute inset-0 overflow-hidden">
+    <img 
+      alt="" 
+      class="absolute h-[124.81%] left-[-206.35%] max-w-none top-[0.02%] w-[512.7%]"
+      src="/images/home-bg.jpg"
+    />
+  </div>
+  
+  <!-- Gradient overlays -->
+  <div 
+    class="absolute inset-0"
+    style="background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 100%), linear-gradient(0deg, rgba(89, 194, 255, 0) 68.862%, rgba(70, 175, 232, 1) 83.475%)"
+  ></div>
+  
+  <!-- Additional overlay -->
+  <img 
+    alt="" 
+    class="absolute max-w-none object-cover opacity-[0.15] size-full"
+    src="/images/home-overlay.jpg"
+  />
+</div>
+```
+
+**Note:** Background image positioning differs on mobile. Use Figma specs for exact positioning.
+
+---
+
+## 5. Colors - Mobile
+
+**Color Tokens (same across breakpoints):**
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| **Brand Blue** | `#59c2ff` | Background base |
+| **Brand Red** | `#d7000f` | Buttons, CTAs |
+| **Red Hover** | `#b8323d` | Button hover state |
+| **White** | `#ffffff` | Text, borders |
+| **White 10%** | `rgba(255,255,255,0.1)` | Card backgrounds |
+| **White 50%** | `rgba(255,255,255,0.5)` | Form inputs |
+| **Dark Gray** | `#212121` | Form text, placeholders |
+| **Black 30%** | `rgba(0,0,0,0.3)` | Overlays |
+
+**Implementation:**
+```astro
+<!-- Use Tailwind arbitrary values or config tokens -->
+<div class="bg-[#59c2ff] text-white">
+  <!-- or -->
+  <div class="bg-anta-blue text-white">
+</div>
+```
+
+---
+
+## 6. Form Components - Mobile
+
+### 6.1 Input Fields
+
+**Mobile Input Pattern:**
+```astro
+<input
+  type="text"
+  placeholder="First Name"
+  class="bg-[rgba(255,255,255,0.5)] border border-solid border-white h-[48px] px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[14px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
+/>
+```
+
+**Key Mobile Styles:**
+- Height: `48px` (fixed)
+- Padding: `16px` horizontal, `12px` vertical
+- Font size: `14px`
+- Background: `rgba(255,255,255,0.5)`
+- Border: `1px solid white`
+- Border radius: `4px`
+
+### 6.2 Select Dropdowns
+
+**Mobile Select Pattern:**
+```astro
+<select
+  class="bg-[rgba(255,255,255,0.5)] border border-solid border-white h-[48px] px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[14px] focus:outline-none focus:border-white transition-colors cursor-pointer appearance-none w-full"
+>
+  <option value="">Shirt Size</option>
+</select>
+```
+
+**Custom Arrow Styling:**
+```css
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23212121' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+```
+
+### 6.3 Button
+
+**Mobile Button Pattern:**
+```astro
+<button
+  type="submit"
+  class="bg-[#d7000f] border border-solid border-white px-[24px] py-[16px] rounded-[4px] w-[294px] font-sharp-grotesk-semibold-15 text-[24px] text-center text-white tracking-[2.4px] uppercase hover:bg-[#b8323d] transition-colors"
+>
+  SUBMIT RSVP
+</button>
+```
+
+**Key Mobile Styles:**
+- Width: `294px` (fixed on mobile)
+- Padding: `24px` horizontal, `16px` vertical
+- Font size: `24px`
+- Letter spacing: `2.4px`
+- Border radius: `4px`
+
+---
+
+## 7. Card Components - Mobile
+
+### 7.1 Date/Time Card
+
+**Mobile Pattern (Stacked):**
+```astro
+<div class="bg-[rgba(255,255,255,0.1)] border-2 border-[rgba(255,255,255,0.5)] border-solid flex flex-col md:flex-row items-center px-0 py-[20px] rounded-[4px] w-full">
+  <div class="flex h-[47px] items-center justify-center w-full md:w-[364px]">
+    <div class="text-[28px] text-center text-white tracking-[0.84px] uppercase">
+      sat 1.17.26
+    </div>
+  </div>
+  <div class="flex h-[47px] items-center justify-center w-full md:w-[420px]">
+    <div class="text-[28px] text-center text-white tracking-[0.84px] uppercase">
+      10 AM – 2 PM
+    </div>
+  </div>
+</div>
+```
+
+**Key Mobile Styles:**
+- Stacked vertically (`flex-col`)
+- Each row: `47px` height
+- Full width on mobile (`w-full`)
+- Padding: `20px` vertical, `0px` horizontal
+
+---
+
+## 8. Responsive Patterns
+
+### 8.1 Mobile-First Approach
+
+**Rule:** Always start with mobile styles, then add breakpoint variants.
+
+```astro
+<!-- ✅ CORRECT: Mobile-first -->
+<div class="text-[14px] md:text-[18px] lg:text-[20px]">
+  Content
+</div>
+
+<!-- ❌ WRONG: Desktop-first -->
+<div class="text-[20px] md:text-[18px] sm:text-[14px]">
+  Content
+</div>
+```
+
+### 8.2 Common Responsive Patterns
+
+**Pattern 1: Text Size Scaling**
+```astro
+<p class="text-[14px] md:text-[18px] lg:text-[20px]">
+  Responsive text
+</p>
+```
+
+**Pattern 2: Layout Direction**
+```astro
+<div class="flex flex-col md:flex-row gap-[10px]">
+  <div class="w-full md:w-1/2">Left</div>
+  <div class="w-full md:w-1/2">Right</div>
+</div>
+```
+
+**Pattern 3: Spacing Scaling**
+```astro
+<div class="gap-[24px] md:gap-[36px] lg:gap-[40px]">
+  Content
+</div>
+```
+
+**Pattern 4: Width Constraints**
+```astro
+<div class="w-full max-w-[335px] md:max-w-[730px] lg:max-w-[876px]">
+  Content
+</div>
+```
+
+---
+
+## 9. Component Structure - Mobile
+
+### 9.1 Page Layout Structure
+
+```astro
+<div class="min-h-screen relative flex flex-col items-center justify-center pt-[80px] px-[20px]">
+  <!-- Background layers -->
+  <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
+    <!-- Background implementation -->
+  </div>
+  
+  <!-- Main content -->
+  <div class="relative z-10 flex flex-col gap-[24px] items-center w-[335px]">
+    <!-- Top label -->
+    <p class="text-[14px] uppercase tracking-[14px]">...</p>
+    
+    <!-- Logo -->
+    <div class="h-[98px] w-[179px]">...</div>
+    
+    <!-- Hero section -->
+    <div class="flex flex-col gap-[30px]">...</div>
+    
+    <!-- Form section -->
+    <div class="backdrop-blur-[6px] backdrop-filter flex flex-col gap-[32px] px-[24px] pt-[56px] pb-[20px] w-full">
+      <!-- Form content -->
+    </div>
+    
+    <!-- Footer label -->
+    <p class="text-[14px] uppercase tracking-[14px]">...</p>
+  </div>
+</div>
+```
+
+### 9.2 Form Structure
+
+```astro
+<form class="flex flex-col gap-[24px] items-center w-full">
+  <!-- Form instructions -->
+  <p class="text-[16px] text-center">...</p>
+  
+  <!-- Form fields (stacked on mobile) -->
+  <div class="flex flex-col gap-[12px] w-full">
+    <div class="flex flex-col gap-[10px]">
+      <input />
+      <input />
+    </div>
+    <!-- More field groups -->
+  </div>
+  
+  <!-- Creator/Media section -->
+  <div class="flex flex-col gap-[24px]">
+    <!-- Question -->
+    <!-- Fields -->
+  </div>
+  
+  <!-- Submit button -->
+  <button class="w-[294px]">...</button>
+  
+  <!-- Disclaimer -->
+  <p class="text-[14px]">...</p>
+</form>
+```
+
+---
+
+## 10. Accessibility - Mobile
+
+### 10.1 Required Attributes
+
+**Form Inputs:**
+- `autocomplete` attributes (e.g., `autocomplete="given-name"`)
+- `required` for mandatory fields
+- `aria-label` for icon-only buttons
+
+**Interactive Elements:**
+- `aria-live="polite"` for dynamic content (form success/error)
+- `aria-busy="true"` during form submission
+- Focus states: `focus:outline-none focus:border-white`
+
+**Semantic HTML:**
+- Use `<form>` for forms
+- Use `<button type="submit">` for submit buttons
+- Use proper heading hierarchy (`<h1>`, `<h2>`, etc.)
+
+### 10.2 Touch Targets
+
+**Rule:** Minimum touch target size: `48px × 48px` (matches input height)
+
+**Implementation:**
+```astro
+<!-- ✅ CORRECT: Adequate touch target -->
+<button class="h-[48px] px-[24px]">Submit</button>
+
+<!-- ❌ WRONG: Too small -->
+<button class="h-[32px] px-[12px]">Submit</button>
+```
+
+---
+
+## 11. Performance - Mobile
+
+### 11.1 Image Optimization
+
+**Rule:** Use Astro's `<Image>` component for optimized images.
+
+```astro
+---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/hero.jpg';
+---
+
+<Image src={heroImage} alt="Hero" class="w-full" />
+```
+
+**Background Images:**
+- Use `<img>` with `object-cover` for background images
+- Ensure images are optimized before commit
+- Use WebP format when possible
+
+### 11.2 Font Loading
+
+**Rule:** Use `font-display: swap` in `@font-face` declarations (already implemented in `global.css`).
+
+---
+
+## 12. Common Mobile Patterns
+
+### 12.1 Text Shadow
+
+**Disclaimer Text:**
+```astro
+<p 
+  class="text-[14px] text-white"
+  style="text-shadow: 0px 4px 4px rgba(0,0,0,0.25);"
+>
+  *LIMITED FIRST ACCESS...
+</p>
+```
+
+### 12.2 Backdrop Blur
+
+**Form Container:**
+```astro
+<div class="backdrop-blur-[6px] backdrop-filter">
+  <!-- Form content -->
+</div>
+```
+
+### 12.3 Whitespace Handling
+
+**Uppercase Labels:**
+```astro
+<p class="uppercase tracking-[14px] whitespace-pre-wrap">
+  anta beverly hills flagship
+</p>
+```
+
+**Multi-line Text:**
+```astro
+<p class="whitespace-pre-wrap">
+  Line 1
+  Line 2
+</p>
+```
+
+---
+
+## 13. Testing Checklist - Mobile
+
+Before deploying mobile views, verify:
+
+- [ ] All text sizes match Figma mobile specs
+- [ ] Form fields stack vertically on mobile
+- [ ] Date/time card stacks vertically on mobile
+- [ ] Button width is `294px` on mobile
+- [ ] Logo dimensions: `98px × 179px` on mobile
+- [ ] Spacing matches mobile specs (`24px` gaps, `20px` padding)
+- [ ] Background layers render correctly
+- [ ] Touch targets are at least `48px × 48px`
+- [ ] Form validation works on mobile
+- [ ] Form submission works on mobile
+- [ ] Text is readable (contrast, size)
+- [ ] No horizontal scrolling
+- [ ] Images load and display correctly
+
+---
+
+## 14. File References
+
+**Design Tokens:**
+- `src/lib/design-tokens.ts` - TypeScript tokens
+- `tailwind.config.mjs` - Tailwind configuration
+- `src/styles/global.css` - Font declarations
+
+**Implementation:**
+- `src/pages/index.astro` - Main landing page
+- `src/components/` - Reusable components (create as needed)
+
+**Documentation:**
+- `DESIGN_TOKENS.md` - Token extraction summary
+- `.cursor/rules/design_system_rules.mdc` - This file
+
+---
+
+## 15. Quick Reference - Mobile Tokens
+
+### Typography
+```typescript
+// Hero Display
+text-[60px] leading-[44px] font-anta uppercase
+
+// Top/Bottom Labels
+text-[14px] leading-[22px] tracking-[14px] uppercase
+
+// Form Inputs
+text-[14px] font-sharp-grotesk-book-20
+
+// Button
+text-[24px] tracking-[2.4px] uppercase
+```
+
+### Spacing
+```typescript
+// Container Padding
+px-[20px] pt-[80px]
+
+// Form Container
+px-[24px] pt-[56px] pb-[20px]
+
+// Gaps
+gap-[24px]  // Main sections
+gap-[12px]  // Field groups
+gap-[10px]  // Form fields
+```
+
+### Colors
+```typescript
+// Backgrounds
+bg-[#59c2ff]           // Brand blue
+bg-[rgba(255,255,255,0.1)]  // Card
+bg-[rgba(255,255,255,0.5)]  // Input
+
+// Text
+text-white
+text-[#212121]         // Form text
+
+// Buttons
+bg-[#d7000f] hover:bg-[#b8323d]
+```
+
+---
+
+## 16. Migration Notes
+
+When updating existing desktop code for mobile:
+
+1. **Add mobile base styles** (without breakpoint prefix)
+2. **Keep existing `md:` and `lg:` breakpoints** for larger screens
+3. **Verify mobile specs** match Figma node `213:3`
+4. **Test on actual mobile devices** (375px, 414px widths)
+5. **Update design tokens** if mobile values differ significantly
+
+---
+
+## 17. Rule Compliance
+
+This design system follows project rules:
+
+- **RULE-000:** Simplicity First - Direct Tailwind classes, no abstractions
+- **RULE-003:** Tailwind utilities are default - No inline styles
+- **RULE-004:** Font handling - Use font utility classes
+- **RULE-013:** Figma-to-Code - Mobile-first responsive design
+
+---
+
+**Last Updated:** 2025-01-27  
+**Maintained By:** Development Team  
+**Figma Source:** [Mobile Home - Node 213:3](https://www.figma.com/design/ifTYSKlWj1kfrZbyU0OrDG/ANTA?node-id=213-3)

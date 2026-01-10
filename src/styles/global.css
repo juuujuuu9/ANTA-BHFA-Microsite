@@ -140,6 +140,15 @@
   src: url('/fonts/SharpGrotesk-Medium15.otf') format('opentype');
 }
 
+/* Sharp Grotesk Medium 20 (tracking 20) */
+@font-face {
+  font-family: 'Sharp Grotesk Medium 20';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/SharpGrotesk-Medium20.otf') format('opentype');
+}
+
 /* Sharp Grotesk SemiBold 15 (tracking 15) */
 @font-face {
   font-family: 'Sharp Grotesk SemiBold 15';
@@ -160,6 +169,10 @@
 
 .font-sharp-grotesk-medium-15 {
   font-family: 'Sharp Grotesk Medium 15', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
+}
+
+.font-sharp-grotesk-medium-20 {
+  font-family: 'Sharp Grotesk Medium 20', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
 }
 
 .font-sharp-grotesk-semibold-15 {

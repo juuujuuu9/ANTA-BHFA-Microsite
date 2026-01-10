@@ -94,16 +94,16 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
 
               <!-- Address -->
               <div class="flex flex-col font-sharp-grotesk-semibold-25 justify-center leading-[0] not-italic text-[20px] md:text-[24px] lg:text-[32px] text-center text-white uppercase w-full max-w-[1226px]">
-                <p class="leading-[32px] md:leading-[40px] lg:leading-[56px] whitespace-pre-wrap">330 n bVERLY dR, bEVERLY hILLS, CA 90210</p>
+                <p class="leading-[32px] md:leading-[40px] font-semibold lg:leading-[56px] whitespace-pre-wrap">330 n bVERLY dR, bEVERLY hILLS, CA 90210</p>
               </div>
             </div>
           </div>
 
           <!-- Form section -->
-          <div class="backdrop-blur-[6px] backdrop-filter flex flex-col gap-[28px] items-center px-[24px] py-[40px] w-full">
+          <div class="backdrop-blur-[6px] backdrop-filter flex flex-col gap-[28px] items-center px-[24px] py-[40px] pb-[0px] w-full">
             <!-- Form instructions -->
-            <div class="flex flex-col font-sharp-grotesk-medium-20 justify-center leading-[0] not-italic text-[24px] text-center text-white w-full max-w-[730px]">
-              <p class="leading-[40px] whitespace-pre-wrap">Please complete the form below to request first access.</p>
+            <div class="flex flex-col justify-center w-full max-w-[730px]">
+              <p class="text-white text-2xl font-medium font-sharp-grotesk-medium-20 leading-10 whitespace-pre-wrap text-center">Please complete the form below to request first access.</p>
             </div>
 
             <form id="registration-form" class="flex flex-col gap-[24px] items-center w-full max-w-[876px]" method="POST">
@@ -144,7 +144,7 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
                           name="email"
                           required
                           autocomplete="email"
-                          placeholder="Email Adress"
+                          placeholder="Email Address"
                           class="bg-[rgba(255,255,255,0.5)] border border-solid border-white flex flex-[1_0_0] flex-col h-[48px] items-center justify-center px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
                         />
                         <input
@@ -206,7 +206,7 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
                 <!-- Creator/Media section header -->
                 <div class="flex flex-col font-sharp-grotesk-medium-20 justify-center leading-[32px] not-italic text-center text-white w-full max-w-[730px] whitespace-pre-wrap">
                   <p class="mb-0 text-[24px]">Are you creator? Are you with media?</p>
-                  <p class="font-sharp-grotesk-book-20 text-[20px] font-normal">If so, please enter your details below:</p>
+                  <p class="text-[20px] font-normal">If so, please enter your details below:</p>
                 </div>
 
                 <!-- Creator/Media fields -->
@@ -245,11 +245,11 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
               </div>
 
               <!-- Submit Button / Inline Confirmation Area -->
-              <div id="registration-action" class="text-center" aria-live="polite">
+              <div id="registration-action" class="flex items-center justify-center" aria-live="polite">
                 <button
                   id="register-button"
                   type="submit"
-                  class="bg-[#d7000f] border border-solid border-white cursor-pointer flex flex-col items-center px-[24px] py-[20px] rounded-[4px] w-full md:w-[294px] font-sharp-grotesk-semibold-15 text-[24px] md:text-[28px] lg:text-[32px] text-center text-white tracking-[3.2px] uppercase whitespace-pre-wrap hover:bg-[#b8323d] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="bg-[#d7000f] border border-solid border-white cursor-pointer px-[24px] py-[12px] pt-[18px] rounded-[4px] w-full md:w-[294px] h-auto font-sharp-grotesk-semibold-15 text-[24px] md:text-[28px] lg:text-[32px] text-center text-white tracking-[3.2px] uppercase hover:bg-[#b8323d] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   SUBMIT RSVP
                 </button>
@@ -260,13 +260,6 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
                 <div class="flex flex-col font-sharp-grotesk-book-20 justify-center leading-[0] not-italic text-[16px] text-center text-white tracking-[0.8px] w-full max-w-[730px]">
                   <p class="leading-[32px] whitespace-pre-wrap" style="text-shadow: 0px 4px 4px rgba(0,0,0,0.25);">*LIMITED FIRST ACCESS, GIFTED ITEMS AVAILABLE WHILE SUPPLIES LAST.</p>
                 </div>
-                
-                <!-- Footer -->
-                <div class="flex items-center justify-center px-0 py-[10px]">
-                  <p class="font-sharp-grotesk-book-20 text-[18px] leading-normal not-italic text-center text-white tracking-[23.4px] uppercase whitespace-pre-wrap w-full max-w-[1100px]">
-                    anta beverly hills flagship
-                  </p>
-                </div>
               </div>
 
               <!-- Inline error box (hidden by default) -->
@@ -276,6 +269,12 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
                 aria-live="polite"
               ></div>
             </form>
+            <!-- Footer -->
+            <div class="flex items-center justify-center px-0 py-[10px]">
+              <p class="font-sharp-grotesk-book-20 text-[18px] leading-normal not-italic text-center text-white tracking-[23.4px] uppercase whitespace-pre-wrap w-full max-w-[1100px]">
+                anta beverly hills flagship
+              </p>
+            </div>
           </div>
         </div>
       </div>

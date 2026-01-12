@@ -82,159 +82,99 @@ if (resetMessage === 'success') {
 ---
 
 <Layout title="Login">
-  <div class="login-container">
-    <div class="login-card">
-      <h1>Admin Login</h1>
+  <div class="min-h-screen relative flex flex-col items-center justify-center pt-[80px] md:pt-[50px] px-0 overflow-x-hidden">
+    <!-- Background layers matching index page -->
+    <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
+      <!-- Blue base -->
+      <div class="fixed bg-[#59c2ff] inset-0"></div>
       
-      {error && (
-        <div class="error-message">
-          {error}
-          {debugInfo && import.meta.env.MODE === 'development' && (
-            <div style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">
-              Debug: {debugInfo}
-            </div>
-          )}
-        </div>
-      )}
-      {success && <div class="success-message">{success}</div>}
+      <!-- Background image layer -->
+      <div class="absolute inset-0">
+        <img 
+          alt="" 
+          class="fixed inset-0 w-full h-full object-cover object-top"
+          src="/images/home-bg.jpg"
+        />
+      </div>
       
-      <form method="POST" class="login-form">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input 
-            type="text" 
-            id="username" 
-            name="username" 
-            required 
-            autocomplete="username"
-          />
-        </div>
+      <!-- Black overlay (65% opacity) -->
+      <div class="fixed inset-0 bg-black opacity-65"></div>
+    </div>
+
+    <!-- Main content container -->
+    <div class="relative z-10 flex flex-col items-center justify-center w-full px-[20px] py-[40px]">
+      <div class="bg-[rgba(255,255,255,0.2)] border-2 border-[rgba(255,255,255,0.5)] border-solid flex flex-col items-center justify-center px-[32px] md:px-[48px] py-[40px] md:py-[48px] rounded-[4px] w-full max-w-[500px] gap-[24px]">
+        <h1 class="font-sharp-grotesk-semibold-25 text-white text-[32px] md:text-[40px] text-center uppercase mb-0">Admin Login</h1>
         
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input 
-            type="password" 
-            id="password" 
-            name="password" 
-            required 
-            autocomplete="current-password"
-          />
-        </div>
+        {error && (
+          <div class="error-message w-full">
+            {error}
+            {debugInfo && import.meta.env.MODE === 'development' && (
+              <div class="mt-2 text-sm opacity-80">
+                Debug: {debugInfo}
+              </div>
+            )}
+          </div>
+        )}
+        {success && <div class="success-message w-full">{success}</div>}
         
-        <button type="submit" class="btn-primary">Login</button>
-      </form>
-      
-      <div class="reset-link">
-        <a href="/reset-password">Forgot your password?</a>
+        <form method="POST" class="login-form w-full flex flex-col gap-[24px]">
+          <div class="form-group flex flex-col gap-[12px]">
+            <label for="username" class="font-sharp-grotesk-medium-20 text-white text-[16px]">Username</label>
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              required 
+              autocomplete="username"
+              class="bg-[rgba(255,255,255,0.5)] border border-solid border-white h-[48px] px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors"
+            />
+          </div>
+          
+          <div class="form-group flex flex-col gap-[12px]">
+            <label for="password" class="font-sharp-grotesk-medium-20 text-white text-[16px]">Password</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              required 
+              autocomplete="current-password"
+              class="bg-[rgba(255,255,255,0.5)] border border-solid border-white h-[48px] px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors"
+            />
+          </div>
+          
+          <button type="submit" class="bg-[#d7000f] border border-solid border-white cursor-pointer px-[24px] py-[16px] md:py-[20px] rounded-[4px] w-full font-sharp-grotesk-semibold-15 text-[20px] md:text-[24px] text-center text-white tracking-[2px] md:tracking-[3px] uppercase hover:bg-[#b8323d] transition-colors mt-[8px]">Login</button>
+        </form>
+        
+        <div class="reset-link w-full text-center mt-[8px]">
+          <a href="/reset-password" class="font-sharp-grotesk-book-20 text-white text-[14px] md:text-[16px] underline hover:no-underline">Forgot your password?</a>
+        </div>
       </div>
     </div>
   </div>
 </Layout>
 
 <style>
-  .login-container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 2rem;
-  }
-  
-  .login-card {
-    background: white;
-    border-radius: 12px;
-    padding: 2.5rem;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  .login-card h1 {
-    margin: 0 0 2rem 0;
-    color: #333;
-    text-align: center;
-  }
-  
-  .login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .form-group label {
-    font-weight: 600;
-    color: #555;
-    font-size: 0.9rem;
-  }
-  
-  .form-group input {
-    padding: 0.75rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: border-color 0.2s;
-  }
-  
-  .form-group input:focus {
-    outline: none;
-    border-color: #667eea;
-  }
-  
-  .btn-primary {
-    padding: 0.75rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-  }
-  
-  .reset-link {
-    margin-top: 1.5rem;
-    text-align: center;
-  }
-  
-  .reset-link a {
-    color: #667eea;
-    text-decoration: none;
-    font-size: 0.9rem;
-  }
-  
-  .reset-link a:hover {
-    text-decoration: underline;
-  }
-  
   .error-message {
-    background: #fee;
-    color: #c33;
-    padding: 0.75rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    border: 1px solid #fcc;
+    background: rgba(255, 0, 0, 0.2);
+    color: #ffcccc;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 0;
+    border: 1px solid rgba(255, 200, 200, 0.5);
+    font-size: 14px;
+    font-family: var(--font-sharp-grotesk-book-20);
   }
   
   .success-message {
-    background: #efe;
-    color: #3c3;
-    padding: 0.75rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    border: 1px solid #cfc;
+    background: rgba(0, 255, 0, 0.2);
+    color: #ccffcc;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 0;
+    border: 1px solid rgba(200, 255, 200, 0.5);
+    font-size: 14px;
+    font-family: var(--font-sharp-grotesk-book-20);
   }
 </style>
 

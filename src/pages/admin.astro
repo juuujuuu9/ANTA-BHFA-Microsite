@@ -44,207 +44,198 @@ function splitName(name: string): { firstName: string; lastName: string } {
   const firstName = parts.join(' ');
   return { firstName, lastName };
 }
-const imgBackground = "/assets/images/bg-2.png";
 ---
 
 <Layout title="Admin Dashboard">
-  <div class="relative min-h-screen md:py-12 py-4 md:px-6 px-2 bg-black" style="font-family: Helvetica, Arial, sans-serif;">
-    <div 
-      aria-hidden="true" 
-      class="fixed-bg-mobile inset-0 pointer-events-none bg-no-repeat bg-center bg-cover"
-      style={`background-image: url('${imgBackground}');`}
-    ></div>
-    <div 
-      aria-hidden="true" 
-      class="fixed inset-0 pointer-events-none bg-gradient-to-b from-transparent to-black/60 z-0"
-    ></div>
-
-    <!-- Header -->
-    <div class="relative z-10 flex justify-between items-center md:mb-4 mb-4 md:pb-6 pb-4 border-b border-gray-200 max-w-7xl mx-auto">
-        <div class="flex flex-row gap-4">
-            <a href="/" class="h-[60px] overflow-clip relative shrink-0 w-[95px] md:w-[127px] md:h-[80px] md:ml-0 ml-3">
-              <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375.06 152.68" class="block max-w-none size-full">
-                <defs>
-                  <style>.cls-1{fill-rule:evenodd;}.cls-1,.cls-2{fill:#fff;}</style>
-                </defs>
-                <g id="Layer_2-2">
-                  <g id="Artwork_201">
-                    <path class="cls-2" d="M49.2,47.9c-5.1-3.6-11.3-5.7-18-5.7C13.9,42.2,0,56.2,0,73.5s14,31.2,31.2,31.2,12.9-2.1,17.9-5.7v.2l14.6,4.2v-59.8l-14.6,4.2.1.1ZM31.7,90.8c-9.6,0-17.3-7.8-17.3-17.3s7.8-17.3,17.3-17.3,17.3,7.8,17.3,17.3-7.8,17.3-17.3,17.3M306.4,47.9c-5.1-3.6-11.3-5.7-18-5.7-17.3,0-31.3,14-31.3,31.3s14,31.2,31.3,31.2,12.9-2.1,17.9-5.7v.2l14.6,4.2v-59.8l-14.6,4.2.1.1ZM288.9,90.8c-9.6,0-17.3-7.8-17.3-17.3s7.8-17.3,17.3-17.3,17.3,7.8,17.3,17.3-7.8,17.3-17.3,17.3M125.7,73.5v.6-1.2.6M125.7,73.5v.6-1.2.6M125.7,73.5v.6-1.2.6M125.7,0v47.8c-5-3.5-11.2-5.5-17.8-5.5-17.3,0-31.3,14-31.3,31.3s14,31.2,31.3,31.2,12.7-2,17.8-5.5h0l14.8,4.3V.1h-14.8v-.1ZM125.7,74.1c-.3,9.3-7.9,16.7-17.3,16.7s-17.3-7.8-17.3-17.3,7.8-17.3,17.3-17.3,17,7.4,17.3,16.7v1.2M229.9,73.5v.9-1.8.9M229.9,73.5v.9-1.8.9M229.8,0v47.8c-5-3.5-11.2-5.5-17.8-5.5-17.3,0-31.3,14-31.3,31.3s14,31.2,31.3,31.2,12.7-2,17.8-5.5h0l14.8,4.3V.1h-14.8v-.1ZM229.8,74.4c-.5,9.1-8,16.4-17.3,16.4s-17.3-7.8-17.3-17.3,7.8-17.3,17.3-17.3,16.8,7.3,17.3,16.4v1.8M229.9,73.5v.9-1.8.9M153.4,43.7h14.8v59.8h-14.8v-59.8h0ZM168.3,28.5c0,4.1-3.3,7.4-7.4,7.4s-7.4-3.3-7.4-7.4,3.3-7.4,7.4-7.4,7.4,3.3,7.4,7.4M369.5,58.8c-7.4-4.7-14.5-5.7-17.4-2.7-1.2,1.2-2.1,3.3-1.6,5.2.7,2.7,4,3.7,7.9,5.4,5.6,2.5,12,5.5,14.9,10.6,3.8,6.7.3,14.9,0,15.4-2.2,4.8-5.8,7.3-7,8.1-12.4,8.4-31.2-1.1-32.2-1.6l4.1-12c1,.6,12.2,7.3,18.6,4.9.9-.4,2.8-1.1,3.8-2.9,1.1-2.1.4-4.5.2-4.8-1.2-3.5-5-3.7-11.3-7-4.9-2.6-9.6-5.1-12-10-2-4.4-1.3-8.6-1-9.9,1.3-6.5,6-10.1,7.5-11.2,6.5-4.7,13.8-4,16.9-3.7,6,.6,10.4,2.9,12.8,4.4l-4.2,11.9v-.1Z"/>
-                    <path class="cls-1" d="M287,140.8c0-2.5,0-5.1-.2-7.6-.1-3.2-2.8-5.8-6-5.7-2.3-.1-7.2,0-7.4,0v25c.2,0,5.1.1,7.4,0,3.2,0,5.9-2.5,6-5.7.2-2,.2-4,.2-6M282.9,145.4c0,1.9-1.5,3.5-3.4,3.6h-2.2v-18c1,0,2.1.1,3.1.3,1.5.3,2.5,1.7,2.4,3.2v10.9h.1Z"/>
-                    <path class="cls-1" d="M266.2,131c-1.1-2.7-3.5-3.6-6.4-3.5-3.7,0-6.4,2.3-6.5,5.9-.2,4.4-.1,8.8,0,13.2.1,3.4,2.2,5.5,5.6,6,4.4.5,7.6-1.5,8-5.9.2-2.1.1-9.8,0-11.5,0-1.4-.2-2.8-.7-4.1M262.9,146.3c0,1.5-1.2,2.7-2.7,2.7h-.3c-1.5,0-2.8-1.1-2.8-2.6v-12.5c0-1.6,1.1-2.9,2.7-3h.9c1.3.2,2.3,1.3,2.2,2.6v12.7h0v.1Z"/>
-                    <path class="cls-1" d="M192.3,129.5c-1.5-1.5-3.6-2.3-5.8-2-3.2,0-5.9,2.6-6,5.9-.1,4.4,0,8.9,0,13.3,0,1.6.7,3.2,1.9,4.3,1.4,1.2,3.2,1.8,5,1.6,3.3.2,6.2-2.3,6.4-5.6v-.2c.1-2.2.2-10.2.2-12,0-1.9-.5-3.8-1.7-5.3M190.1,146.2c0,1.5-1.1,2.8-2.6,2.9-.3,0-.6,0-.9-.1-1.3-.2-2.3-1.4-2.2-2.7v-12.5c0-1.5,1.1-2.7,2.6-2.8h.3c1.5,0,2.7,1.1,2.8,2.5v12.6h0v.1Z"/>
-                    <path class="cls-1" d="M200.6,127.5v25c0,.2,0,0,0,0h3.9v-10.1h5.6v-3.9h-5.6v-7.7h7.6v-3.5h-11.6l.1.2Z"/>
-                    <path class="cls-1" d="M246.6,138.9h-7v3.2h3.3c.1,1,0,5.7,0,6.7-1.2.8-2.7,1.1-4,.7-2-.6-2-2.4-2.1-4.5-.1-2.5-.2-3.9-.2-6.4v-4.6c0-1.3.9-2.5,2.3-2.7,1.5-.3,2.9.6,3.2,2.1v.3c.2.8.2,1.7.3,2.5h4.1c0-.9-.2-1.8-.4-2.6-.3-2.4-1.3-4.4-3.6-5.4-2.5-1.2-5.5-.8-7.7.9-.6.5-1,1-1.3,1.7-.5,1.3-.9,2.6-.9,4-.1,3-.1,6,0,9.1,0,1.4.2,2.8.5,4.1.5,2.5,2.7,4.4,5.3,4.5,6,.7,8.1-2.5,8.1-2.5v-11.1h.1Z"/>
-                    <path class="cls-1" d="M129.1,127.5c-1.3,7.1-2.8,14.8-4.2,21.9-.2,1.1-.4,2.1-.6,3.2h3.8c.3-1.8.7-3.6,1-5.4h5.4c.4,1.8.7,3.6,1.1,5.4h4.1c-1.7-8.4-3.4-16.7-5.1-25.1h-5.5M129.8,143.5l2-10.8h.1l2,10.8h-4.1Z"/>
-                    <path class="cls-1" d="M106.3,152.6h11.4v-3.6h-7.5v-6.5h5.5v-3.9h-5.6v-7.7h7.5v-3.5h-11.4v25.1l.1.1Z"/>
-                    <polygon class="cls-1" points="88.2 152.6 92.1 152.6 92.1 142.5 97.8 142.5 97.7 138.7 92.2 138.7 92.2 131 99.8 131 99.8 127.5 88.2 127.5 88.2 152.6"/>
-                    <path class="cls-1" d="M156.2,141.2c2-.8,3.3-2.7,3.4-4.8.2-1.2.2-2.5,0-3.7-.3-3.2-2.6-5.2-6-5.2h-7.4v25.1h3.9v-10.2h2.3c1,3,2.4,7.2,3.4,10.2h4.2c-1.2-3.6-2.7-8.1-3.8-11.4h0ZM155.8,135.7c0,1.8-1.5,2.6-3.4,2.7h-2.2v-7.8c1,0,2.1,0,3.1.1,1.5.3,2.4.8,2.4,2.5v2.4h0l.1.1Z"/>
-                  </g>
-                </g>
-              </svg>
-            </a>
-        </div>
-        <div class="flex gap-2">
-          <!-- Export CSV Button -->
-            <button
-            id="export-csv-btn"
-            class="md:px-6 px-3 md:py-3 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors flex items-center gap-2.5 font-semibold uppercase text-sm shadow-sm"
-            style="font-family: Helvetica, Arial, sans-serif;"
-            >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            Export CSV
-            </button>
-            <button
-            id="logout-btn"
-            class="md:px-6 px-3 md:py-3 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors flex items-center gap-2.5 font-semibold uppercase text-sm shadow-sm"
-            style="font-family: Helvetica, Arial, sans-serif;"
-            >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-            </svg>
-            Logout
-            </button>
-        </div>
+  <div class="min-h-screen relative flex flex-col items-center justify-center px-0 overflow-x-hidden">
+    <!-- Background layers matching login page -->
+    <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
+      <!-- Blue base -->
+      <div class="fixed bg-[#59c2ff] inset-0"></div>
+      
+      <!-- Background image layer -->
+      <div class="absolute inset-0">
+        <img 
+          alt="" 
+          class="fixed inset-0 w-full h-full object-cover object-top"
+          src="/images/home-bg.jpg"
+        />
+      </div>
+      
+      <!-- Black overlay (65% opacity) -->
+      <div class="fixed inset-0 bg-black opacity-65"></div>
     </div>
 
-    <div class="relative z-10 max-w-7xl mx-auto bg-white/90 rounded-xl shadow-md md:p-10 p-2">
-      <!-- Search and Filter Section -->
-      <div class="flex flex-col sm:flex-row gap-2 sm:gap-5 md:mb-8 mb-3 sm:items-center">
-        <div class="flex-1 relative w-full">
-          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+    <!-- Main content container -->
+    <div class="relative z-10 flex flex-col items-center justify-center w-full px-2 md:px-8">
+      <div class="bg-[rgba(255,255,255,0.2)] border-2 border-[rgba(255,255,255,0.5)] border-solid flex flex-col items-center justify-center px-2 md:px-4 py-[40px] pb-2 md:py-[48px] rounded-[4px] w-full max-w-[1400px] gap-[24px]">
+        <!-- Header -->
+        <div class="flex justify-between items-center w-full mb-4 pb-6 border-b border-white/30">
+          <div class="flex flex-row gap-4">
+            <a href="/" class="h-[60px] overflow-clip relative shrink-0 w-[95px] md:w-[127px] md:h-[80px] md:ml-0 ml-3">
+              <svg width="191" height="103" viewBox="0 0 191 103" fill="none" xmlns="http://www.w3.org/2000/svg" class="block max-w-none size-full">
+                <path d="M29.9023 103H20.5L20.9316 97.136H12.1104L9.25293 103H0L22.3936 59.261H31.7637L29.9023 103ZM54.7881 82.6839L61.3174 59.2444H70.8193L58.626 103H49.3564L46.1494 81.2386L40.0859 103H30.8164L43.043 59.2444H51.3164L54.7881 82.6839ZM96.7686 68.6302H88.4121L78.8105 102.999H69.5732L79.1416 68.6302H70.3379L72.9619 59.2444H99.4092L96.7686 68.6302ZM111.105 102.999H101.736L102.151 97.136H93.3633L90.4727 102.999H81.1855L103.63 59.261H112.966L111.105 102.999ZM71.7998 0.00125122C100.123 -0.0526971 128.215 5.09272 154.68 15.1829L167.007 25.6487C149.091 20.9301 130.702 18.2329 112.186 17.6087C143.23 28.8513 170.164 49.1657 189.499 75.8977L190.414 77.1761L171.625 102.99C134.09 50.7354 73.6621 19.7825 9.32031 19.8518C6.64574 19.8518 2.65785 20.0179 0 20.0179L20.9814 5.58231C37.6621 1.84537 54.7057 -0.0263918 71.7998 0.00125122ZM16.0312 88.0491H21.4971L23.1582 72.6009L16.0312 88.0491ZM97.25 88.0491H102.716L104.377 72.5999L97.25 88.0491Z" fill="white"/>
+              </svg>
+            </a>
           </div>
-          <input
-            type="text"
-            id="search-input"
-            placeholder="SEARCH ENTRIES"
-            class="w-full pl-12 pr-5 py-3.5 border border-gray-200 rounded-lg bg-gray-50/50 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent font-semibold uppercase text-sm"
-            style="font-family: Helvetica, Arial, sans-serif;"
-          />
-        </div>
-        <div class="relative w-full sm:w-auto">
-          <button
-            id="sort-btn"
-            class="w-full sm:w-auto md:px-6 px-3 md:py-3.5 py-3.5 border border-gray-200 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors flex items-center gap-2 font-semibold uppercase text-sm shadow-sm sm:min-w-[140px] justify-between"
-            style="font-family: Helvetica, Arial, sans-serif;"
-            aria-expanded="false"
-            aria-haspopup="true"
-          >
-            <span class="flex items-center gap-2">
+          <div class="flex gap-2">
+            <!-- Export CSV Button -->
+            <button
+              id="export-csv-btn"
+              class="md:px-6 px-3 md:py-3 py-2 border border-white rounded-lg text-white bg-[rgba(255,255,255,0.2)] hover:bg-[rgba(255,255,255,0.3)] transition-colors flex items-center gap-2.5 font-sharp-grotesk-semibold-15 uppercase text-sm"
+            >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
-              <span id="sort-label">Name (A-Z)</span>
-            </span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          <div
-            id="sort-dropdown"
-            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
-            style="font-family: Helvetica, Arial, sans-serif;"
-          >
-            <button
-              class="sort-option w-full text-left px-4 py-3 text-sm font-semibold uppercase text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-between"
-              data-sort="name-asc"
-            >
-              <span>Name (A-Z)</span>
-              <svg class="w-4 h-4 hidden check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-              </svg>
+              Export CSV
             </button>
             <button
-              class="sort-option w-full text-left px-4 py-3 text-sm font-semibold uppercase text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-between border-t border-gray-100"
-              data-sort="name-desc"
+              id="logout-btn"
+              class="md:px-6 px-3 md:py-3 py-2 border border-white rounded-lg text-white bg-[rgba(255,255,255,0.2)] hover:bg-[rgba(255,255,255,0.3)] transition-colors flex items-center gap-2.5 font-sharp-grotesk-semibold-15 uppercase text-sm"
             >
-              <span>Name (Z-A)</span>
-              <svg class="w-4 h-4 hidden check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
-            </button>
-            <button
-              class="sort-option w-full text-left px-4 py-3 text-sm font-semibold uppercase text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-between border-t border-gray-100"
-              data-sort="date"
-            >
-              <span>Date</span>
-              <svg class="w-4 h-4 hidden check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-              </svg>
+              Logout
             </button>
           </div>
         </div>
-        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide text-center sm:text-left md:pr-0 pr-3" style="font-family: Helvetica, Arial, sans-serif;">
-            Showing <span id="entry-count" class="font-bold text-gray-700">{entries.length}</span> Entries
-        </p>
-      </div>
 
-      <!-- Table Section -->
-      <div class="md:mb-8 mb-2">
-        <h2 class="text-2xl font-bold text-gray-800 uppercase tracking-tight md:mb-4 mb-2 md:pl-0 pl-3 text-center md:text-left" style="font-family: Helvetica, Arial, sans-serif;">Entries</h2>
-      </div>
-
-      <div class="overflow-x-auto rounded-xl shadow-md border bg-white border-gray-200">
-        {entries.length === 0 ? (
-          <div class="text-center py-16 text-gray-500" style="font-family: Helvetica, Arial, sans-serif;">
-            <p class="text-lg font-semibold mb-2">No entries found.</p>
-            <p class="text-sm">Entries will appear here once users submit the RSVP form.</p>
-          </div>
-        ) : (
-          <table class="w-full border-collapse">
-            <thead>
-              <tr class="bg-[#F1F3F5]">
-                <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300" style="font-family: Helvetica, Arial, sans-serif;">Name</th>
-                <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Email</th>
-                <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Phone</th>
-                <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Shirt Size</th>
-                <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Sneaker Size</th>
-                <th class="px-2 py-2 md:px-6 md:py-4 text-center text-sm font-bold text-gray-600 uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-gray-300 border-l border-gray-200" style="font-family: Helvetica, Arial, sans-serif;">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="entries-tbody" class="divide-y divide-gray-200">
-              {entries.map((entry) => {
-              const fullName = `${entry.firstName || ''} ${entry.lastName || ''}`.trim() || '—';
-              const firstName = (entry.firstName || '').toLowerCase();
-              const dateValue = entry.createdAt instanceof Date 
-                ? entry.createdAt.toISOString() 
-                : new Date(entry.createdAt).toISOString();
-              
-              return (
-                <tr 
-                  class="hover:bg-gray-50/50 transition-colors" 
-                  style="font-family: Helvetica, Arial, sans-serif;" 
-                  data-entry-id={entry.id}
-                  data-first-name={firstName.toLowerCase()}
-                  data-created-at={dateValue}
+        <div class="w-full">
+          <!-- Search and Filter Section -->
+          <div class="flex flex-col sm:flex-row gap-2 sm:gap-5 md:mb-8 mb-3 sm:items-center">
+            <div class="flex-1 relative w-full">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <input
+                type="text"
+                id="search-input"
+                placeholder="SEARCH ENTRIES"
+                class="w-full pl-12 pr-5 py-3.5 border border-white rounded-lg bg-[rgba(255,255,255,0.5)] text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white font-sharp-grotesk-semibold-15 uppercase text-sm"
+              />
+            </div>
+            <div class="relative w-full sm:w-auto">
+              <button
+                id="sort-btn"
+                class="w-full sm:w-auto md:px-6 px-3 md:py-3.5 py-3.5 border border-white rounded-lg text-white bg-[rgba(255,255,255,0.2)] hover:bg-[rgba(255,255,255,0.3)] transition-colors flex items-center gap-2 font-sharp-grotesk-semibold-15 uppercase text-sm sm:min-w-[140px] justify-between"
+                aria-expanded="false"
+                aria-haspopup="true"
+              >
+                <span class="flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                  </svg>
+                  <span id="sort-label">Name (A-Z)</span>
+                </span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div
+                id="sort-dropdown"
+                class="hidden absolute right-0 mt-2 w-48 bg-[rgba(255,255,255,0.95)] rounded-lg shadow-lg border border-white/50 z-50"
+              >
+                <button
+                  class="sort-option w-full text-left px-4 py-3 text-sm font-sharp-grotesk-semibold-15 uppercase text-gray-800 hover:bg-gray-100 transition-colors flex items-center justify-between"
+                  data-sort="name-asc"
                 >
-                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 capitalize border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">{fullName}</td>
-                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">{entry.email || '—'}</td>
-                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">{entry.phone || '—'}</td>
-                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">{entry.shirtSize || '—'}</td>
-                  <td class="px-2 py-2 md:px-6 md:py-4 text-md font-semibold text-gray-800 border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">{entry.sneakerSize || '—'}</td>
-                  <td class="px-2 py-2 md:px-6 md:py-4 text-center border-l border-gray-100" style="font-family: Helvetica, Arial, sans-serif;">
-                    <button
-                      class="delete-entry-btn px-3 py-1.5 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm font-semibold uppercase flex items-center gap-2 mx-auto"
+                  <span>Name (A-Z)</span>
+                  <svg class="w-4 h-4 hidden check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </button>
+                <button
+                  class="sort-option w-full text-left px-4 py-3 text-sm font-sharp-grotesk-semibold-15 uppercase text-gray-800 hover:bg-gray-100 transition-colors flex items-center justify-between border-t border-gray-200"
+                  data-sort="name-desc"
+                >
+                  <span>Name (Z-A)</span>
+                  <svg class="w-4 h-4 hidden check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </button>
+                <button
+                  class="sort-option w-full text-left px-4 py-3 text-sm font-sharp-grotesk-semibold-15 uppercase text-gray-800 hover:bg-gray-100 transition-colors flex items-center justify-between border-t border-gray-200"
+                  data-sort="date"
+                >
+                  <span>Date</span>
+                  <svg class="w-4 h-4 hidden check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <p class="text-sm font-sharp-grotesk-semibold-15 text-white/90 uppercase tracking-wide text-center sm:text-left md:pr-0 pr-3">
+              Showing <span id="entry-count" class="font-sharp-grotesk-bold-15 text-white">{entries.length}</span> Entries
+            </p>
+          </div>
+
+          <!-- Table Section -->
+          <div class="md:mb-8 mb-2">
+            <h2 class="text-2xl font-sharp-grotesk-bold-25 text-white uppercase tracking-tight md:mb-4 mb-2 md:pl-0 pl-3 text-center md:text-left">Entries</h2>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl shadow-md border border-white/50 bg-[rgba(255,255,255,0.1)] backdrop-blur-sm">
+            {entries.length === 0 ? (
+              <div class="text-center py-16 text-white/80">
+                <p class="text-lg font-sharp-grotesk-semibold-20 mb-2">No entries found.</p>
+                <p class="text-sm font-sharp-grotesk-book-20">Entries will appear here once users submit the RSVP form.</p>
+              </div>
+            ) : (
+              <table class="w-full border-collapse" style="font-family: Helvetica, Arial, sans-serif;">
+                <thead>
+                  <tr class="bg-[rgba(255,255,255,0.2)]">
+                    <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30" style="font-family: Helvetica, Arial, sans-serif;">Name</th>
+                    <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30 border-l border-white/20" style="font-family: Helvetica, Arial, sans-serif;">Email</th>
+                    <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30 border-l border-white/20" style="font-family: Helvetica, Arial, sans-serif;">Phone</th>
+                    <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30 border-l border-white/20" style="font-family: Helvetica, Arial, sans-serif;">Shirt Size</th>
+                    <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30 border-l border-white/20" style="font-family: Helvetica, Arial, sans-serif;">Sneaker Size</th>
+                    <th class="px-2 py-2 md:px-6 md:py-4 text-center text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30 border-l border-white/20" style="font-family: Helvetica, Arial, sans-serif;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="entries-tbody" class="divide-y divide-white/20">
+                  {entries.map((entry) => {
+                  const fullName = `${entry.firstName || ''} ${entry.lastName || ''}`.trim() || '—';
+                  const firstName = (entry.firstName || '').toLowerCase();
+                  const dateValue = entry.createdAt instanceof Date 
+                    ? entry.createdAt.toISOString() 
+                    : new Date(entry.createdAt).toISOString();
+                  
+                  return (
+                    <tr 
+                      class="hover:bg-[rgba(255,255,255,0.1)] transition-colors" 
                       data-entry-id={entry.id}
-                      data-entry-name={fullName}
+                      data-first-name={firstName.toLowerCase()}
+                      data-created-at={dateValue}
                       style="font-family: Helvetica, Arial, sans-serif;"
                     >
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </td>
-                </tr>
-              );
-              })}
-            </tbody>
-          </table>
-        )}
+                      <td class="px-2 py-2 md:px-6 md:py-4 text-md font-sharp-grotesk-semibold-20 text-white capitalize border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">{fullName}</td>
+                      <td class="px-2 py-2 md:px-6 md:py-4 text-md font-sharp-grotesk-semibold-20 text-white border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">{entry.email || '—'}</td>
+                      <td class="px-2 py-2 md:px-6 md:py-4 text-md font-sharp-grotesk-semibold-20 text-white border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">{entry.phone || '—'}</td>
+                      <td class="px-2 py-2 md:px-6 md:py-4 text-md font-sharp-grotesk-semibold-20 text-white border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">{entry.shirtSize || '—'}</td>
+                      <td class="px-2 py-2 md:px-6 md:py-4 text-md font-sharp-grotesk-semibold-20 text-white border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">{entry.sneakerSize || '—'}</td>
+                      <td class="px-2 py-2 md:px-6 md:py-4 text-center border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">
+                        <button
+                          class="delete-entry-btn px-3 py-1.5 bg-[#d7000f] text-white rounded-lg hover:bg-[#b8323d] transition-colors text-sm font-sharp-grotesk-semibold-15 uppercase flex items-center gap-2 mx-auto"
+                          data-entry-id={entry.id}
+                          data-entry-name={fullName}
+                          style="font-family: Helvetica, Arial, sans-serif;"
+                        >
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                  })}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -544,21 +535,4 @@ const imgBackground = "/assets/images/bg-2.png";
     });
   </script>
 </Layout>
-
-<style>
-  .fixed-bg-mobile {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-  }
-  
-  @media (min-width: 768px) {
-    .fixed-bg-mobile {
-      position: fixed;
-    }
-  }
-</style>
 

@@ -5,7 +5,7 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
 ---
 
 <Layout title={title}>
-  <div class="min-h-screen relative flex flex-col items-center justify-center pt-[80px] md:pt-[50px] px-0">
+  <div class="min-h-screen relative flex flex-col items-center justify-center pt-[80px] md:pt-[50px] px-0 overflow-x-hidden">
     <!-- Background layers matching Figma design -->
     <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
       <!-- Blue base -->
@@ -15,7 +15,7 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
       <div class="absolute inset-0">
         <img 
           alt="" 
-          class="fixed inset-0 object-cover object-center"
+          class="fixed inset-0 w-full h-full object-cover object-top"
           src="/images/home-bg.jpg"
         />
       </div>
@@ -26,14 +26,14 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
     </div>
 
     <!-- Main content container -->
-    <div class="relative z-10 flex flex-col gap-[24px] md:gap-[40px] items-center overflow-clip px-[20px] py-0 w-full max-w-[335px] md:max-w-none">
+    <div class="relative z-10 flex flex-col gap-[24px] md:gap-[40px] items-center overflow-clip px-[20px] py-0 w-full max-w-none">
       <!-- Top label -->
-      <p class="font-sharp-grotesk-book-20 text-white text-[14px] md:text-[18px] leading-[22px] md:leading-normal not-italic text-center tracking-[14px] md:tracking-[23.4px] uppercase w-full whitespace-pre-wrap">
+      <p class="font-sharp-grotesk-book-20 text-white text-[14px] md:text-[18px] leading-[22px] md:leading-normal not-italic text-center tracking-[14px] md:tracking-[23.4px] uppercase">
         anta beverly hills flagship
       </p>
 
       <!-- Info section -->
-      <div class="flex flex-col gap-[30px] md:gap-[40px] items-center w-full">
+      <div class="flex flex-col gap-[20px] md:gap-[40px] items-center w-full">
         <!-- Logo -->
         <div class="h-[98px] md:h-[103px] w-[179px] md:w-[190px] relative pt-[16px] md:pt-[30px] mb-[20px]">
           <svg width="191" height="103" viewBox="0 0 191 103" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -42,28 +42,25 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
         </div>
 
         <!-- Main content -->
-        <div class="flex flex-col gap-[40px] items-start w-full">
-          <div class="flex flex-col items-center w-full">
-            <div class="flex flex-col gap-[40px] items-center">
-              <div class="flex flex-col gap-[40px] items-center">
-                <!-- FIRST ACCESS heading and description -->
-                <div class="flex flex-col gap-[40px] items-center">
+        <div class="flex flex-col gap-[40px] items-center w-full">
+          <!-- FIRST ACCESS heading and description -->
+          <div class="flex flex-col gap-[20px] md:gap-[40px] items-center w-full">
                   <div class="flex flex-col gap-[32px] md:gap-[36px] items-center w-full">
                     <!-- FIRST ACCESS heading -->
                     <div class="flex flex-col font-anta justify-center leading-[0] text-[60px] md:text-[80px] lg:text-[100px] xl:text-[140px] text-center text-white uppercase w-[325px] md:w-full">
-                      <p class="leading-[44px] md:leading-[70px] lg:leading-[90px] xl:leading-[110px] whitespace-pre-wrap italic font-bold">FIRST ACCESS</p>
+                      <p class="leading-[44px] md:leading-[70px] lg:leading-[90px] xl:leading-[110px] italic font-bold">FIRST ACCESS</p>
                     </div>
                     
                     <!-- Description text -->
                     <div class="flex flex-col min-h-[121px] items-center justify-center w-full max-w-[1278px]">
-                      <div class="flex flex-col font-sharp-grotesk-medium-15 items-center justify-center leading-[0] md:leading-[40px] lg:leading-[56px] not-italic text-white uppercase w-full whitespace-pre-wrap gap-[10px]">
+                      <div class="flex flex-col font-sharp-grotesk-medium-15 items-center justify-center leading-[0] md:leading-[40px] lg:leading-[56px] not-italic text-white uppercase w-full gap-[10px]">
                         <div class="flex flex-col justify-center text-[24px] md:text-[32px] lg:text-[40px]">
                           <p class="leading-[28px] md:leading-[40px] lg:leading-[56px] tracking-[0.72px] md:tracking-[1.2px]">be among the first to experience</p>
                         </div>
-                        <div class="flex flex-col justify-center text-[32px] md:text-[40px] lg:text-[50px]">
-                          <p class="leading-[32px] md:leading-[56px] tracking-[0.96px] md:tracking-[2.5px]">
+                        <div class="flex flex-col justify-center items-center text-[32px] md:text-[40px] lg:text-[50px]">
+                          <p class="leading-[32px] md:leading-[56px] tracking-[0.96px] md:tracking-[2.5px] text-center">
                             <span class="font-sharp-grotesk-book-15">the new </span>
-                            <span class="font-sharp-grotesk-semibold-15">anta</span>
+                            <span class="font-sharp-grotesk-bold-15">anta</span>
                             <span class="font-sharp-grotesk-book-15"> beverly hills flagship</span>
                           </p>
                         </div>
@@ -72,35 +69,40 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
                   </div>
                   
                   <!-- KAI 3 CNY text -->
-                  <div class="w-[1226px] text-center justify-center">
-                    <span class="text-white text-3xl font-medium font-['Sharp_Grotesk'] leading-[56px] tracking-wide">A FIRST LOOK INSIDE THE SPACE, <br/></span>
-                    <span class="text-white text-5xl font-normal font-['Sharp_Grotesk'] leading-[56px] tracking-wider">PLUS THE LAUNCH OF THE </span>
-                    <span class="text-white text-5xl font-semibold font-['Sharp_Grotesk'] leading-[56px] tracking-wider">KAI 3 CNY</span>
+                  <div class="flex flex-col gap-[12px] items-center w-full max-w-[1226px] px-[20px]">
+                    <div class="flex flex-col font-sharp-grotesk-medium-15 justify-center leading-[0] text-[20px] md:text-[24px] tracking-[0.6px] md:tracking-[0.8px] text-white uppercase text-center">
+                      <p class="leading-[28px] md:leading-[32px]">A FIRST LOOK INSIDE THE SPACE,</p>
+                    </div>
+                    <div class="flex flex-col font-sharp-grotesk-book-15 h-[51px] md:h-auto justify-center leading-[32px] md:leading-[40px] text-[32px] md:text-[40px] tracking-[0.96px] md:tracking-[1.2px] text-white w-full text-center">
+                      <p class="mb-0">PLUS THE LAUNCH OF</p>
+                      <p>
+                        <span>THE </span>
+                        <span class="font-sharp-grotesk-semibold-15">KAI 3 CNY</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
 
                 <!-- Date/Time card -->
                 <div class="bg-[rgba(255,255,255,0.1)] border-2 border-[rgba(255,255,255,0.5)] border-solid flex flex-col md:flex-row items-center justify-center px-0 py-[20px] rounded-[4px] w-full max-w-[854px] gap-0">
-                  <div class="flex h-[47px] md:h-[77px] items-center justify-center w-[255px] md:w-[364px]">
-                    <div class="flex flex-col font-sharp-grotesk-semibold-25 justify-center leading-[0] not-italic text-[28px] md:text-[36px] text-center text-white tracking-[0.84px] md:tracking-[1.08px] uppercase w-[255px] md:w-[460px]">
+                  <div class="flex h-[47px] md:h-[77px] items-center justify-center w-full md:w-[364px]">
+                    <div class="flex flex-col font-sharp-grotesk-semibold-25 justify-center leading-[0] not-italic text-[28px] md:text-[36px] text-center text-white tracking-[0.84px] md:tracking-[1.08px] uppercase w-full md:w-[460px]">
                       <p class="leading-[20px] whitespace-pre-wrap">sat 1.17.26 </p>
                     </div>
                   </div>
-                  <div class="flex h-[47px] md:h-[77px] items-center justify-center w-[255px] md:w-[420px]">
+                  <div class="flex h-[47px] md:h-[77px] items-center justify-center w-full md:w-[420px]">
                     <div class="flex flex-col font-sharp-grotesk-semibold-25 justify-center leading-[0] not-italic text-[28px] md:text-[36px] text-center text-white tracking-[0.84px] md:tracking-[1.08px] uppercase whitespace-nowrap">
                       <p class="leading-[20px]">10 AM – 2 PM</p>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
           </div>
 
           <!-- Form section -->
-          <div class="backdrop-blur-[6px] backdrop-filter flex flex-col gap-[32px] md:gap-[28px] items-center px-[24px] pt-[56px] md:pt-[40px] pb-[20px] w-full">
+          <div class="flex flex-col gap-[32px] md:gap-[28px] items-center px-[24px] pt-[35px] md:pt-[40px] pb-[20px] w-full">
             <!-- Address -->
             <div class="flex flex-col font-sharp-grotesk-semibold-25 justify-center leading-[0] not-italic text-[28px] md:text-[24px] lg:text-[32px] text-center text-white uppercase w-[325px] md:w-full max-w-[1226px]">
-              <p class="leading-[28px] md:leading-[40px] lg:leading-[56px] whitespace-pre-wrap">330 n bVERLY dR, bEVERLY hILLS, CA 90210</p>
+              <p class="leading-[28px] md:leading-[40px] lg:leading-[56px] whitespace-pre-wrap">330 n beVERLY dR, bEVERLY hILLS, CA 90210</p>
             </div>
 
             <!-- Form instructions -->

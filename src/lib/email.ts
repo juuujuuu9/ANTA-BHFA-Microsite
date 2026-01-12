@@ -21,8 +21,16 @@ function getResendApiKey(): string {
   return key;
 }
 
-const resendApiKey = getResendApiKey();
-export const resend = new Resend(resendApiKey);
+// Lazy-initialize Resend client to avoid errors at module load time
+let resendInstance: Resend | null = null;
+
+function getResend(): Resend {
+  if (!resendInstance) {
+    const apiKey = getResendApiKey();
+    resendInstance = new Resend(apiKey);
+  }
+  return resendInstance;
+}
 
 function getFromEmail(): string {
   try {
@@ -38,7 +46,8 @@ function getFromEmail(): string {
 export async function sendPasswordResetEmail(email: string, resetLink: string) {
   try {
     const fromEmail = getFromEmail();
-    await resend.emails.send({
+    const resendClient = getResend();
+    await resendClient.emails.send({
       from: `ANTA <${fromEmail}>`,
       to: email,
       subject: 'Password Reset Request',
@@ -145,7 +154,8 @@ export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
     console.log('Resend API key starts with "re_":', apiKey?.startsWith('re_'));
     
     console.log('Attempting to send email via Resend...');
-    const result = await resend.emails.send({
+    const resendClient = getResend();
+    const result = await resendClient.emails.send({
       from: `ANTA <${fromEmail}>`,
       to: adminEmails,
       subject: 'New ANTA First Access RSVP',
@@ -160,8 +170,19 @@ export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
     if (error instanceof Error) {
       console.error('Error message:', error.message);
       console.error('Error stack:', error.stack);
+      
+      // Check for common Resend errors
+      if (error.message.includes('domain') || error.message.includes('Domain')) {
+        console.error('⚠️  This usually means the FROM_EMAIL domain is not verified in Resend.');
+        console.error('   Please verify your domain in the Resend dashboard: https://resend.com/domains');
+      }
+      if (error.message.includes('API key') || error.message.includes('Unauthorized')) {
+        console.error('⚠️  This usually means the RESEND_API_KEY is invalid or missing.');
+        console.error('   Please check your .env file and Resend dashboard.');
+      }
+      
       if ('response' in error) {
-        console.error('Resend API response:', (error as any).response);
+        console.error('Resend API response:', JSON.stringify((error as any).response, null, 2));
       }
     }
     return { success: false, error: error instanceof Error ? error.message : String(error) };

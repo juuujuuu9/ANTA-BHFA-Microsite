@@ -333,6 +333,17 @@ const title = 'ANTA BEVERLY HILLS FIRST ACCESS';
       });
 
       if (response.ok) {
+        const responseData = await response.json().catch(() => ({}));
+        
+        // Log email status for debugging
+        if (responseData.inviteeEmailSent === false) {
+          console.warn('⚠️ Invitee confirmation email was not sent:', responseData.inviteeEmailError);
+          console.warn('   Your RSVP was saved successfully, but the confirmation email failed.');
+          console.warn('   Please check server logs for details.');
+        } else if (responseData.inviteeEmailSent === true) {
+          console.log('✅ Invitee confirmation email sent successfully');
+        }
+        
         // Redirect to success page
         window.location.href = '/success';
       } else {

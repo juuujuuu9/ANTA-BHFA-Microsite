@@ -43,6 +43,33 @@ function getFromEmail(): string {
   return process.env.FROM_EMAIL || 'noreply@yourdomain.com';
 }
 
+export function validateEmailConfig(): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  
+  try {
+    const apiKey = getResendApiKey();
+    if (!apiKey) {
+      errors.push('RESEND_API_KEY is not set');
+    } else if (!apiKey.startsWith('re_')) {
+      errors.push('RESEND_API_KEY appears to be invalid (should start with "re_")');
+    }
+  } catch (error) {
+    errors.push(`RESEND_API_KEY error: ${error instanceof Error ? error.message : String(error)}`);
+  }
+  
+  const fromEmail = getFromEmail();
+  if (!fromEmail || fromEmail === 'noreply@yourdomain.com') {
+    errors.push('FROM_EMAIL is not set or using default value');
+  } else if (!fromEmail.includes('@')) {
+    errors.push('FROM_EMAIL appears to be invalid');
+  }
+  
+  return {
+    valid: errors.length === 0,
+    errors
+  };
+}
+
 export async function sendPasswordResetEmail(email: string, resetLink: string) {
   try {
     const fromEmail = getFromEmail();
@@ -77,6 +104,16 @@ export async function sendInviteeConfirmationEmail(inviteeEmail: string, firstNa
       return { success: false, error: 'Invalid email address' };
     }
     
+    // Pre-flight validation
+    const configCheck = validateEmailConfig();
+    if (!configCheck.valid) {
+      console.error('❌ Email configuration invalid:', configCheck.errors);
+      return { 
+        success: false, 
+        error: `Email configuration error: ${configCheck.errors.join(', ')}` 
+      };
+    }
+    
     const fromEmail = getFromEmail();
     const apiKey = getResendApiKey();
     console.log('From email:', fromEmail);
@@ -87,6 +124,22 @@ export async function sendInviteeConfirmationEmail(inviteeEmail: string, firstNa
     
     const greeting = firstName ? `Hi ${firstName},` : 'Hi there,';
     
+    // Plain text version for better deliverability
+    const textContent = `${greeting}
+
+You're officially confirmed for ANTA Media & VIP Day, we're looking forward to seeing you this Saturday!
+
+You'll have first access to view the store before it opens to the public, along with a few special experiences on-site. Enjoy matcha from Frauth, Layla's Bagels, and custom chain stitching during the event.
+
+More details to come soon, but please don't hesitate to reach out if you have any questions in the meantime.
+
+See you soon!
+
+ANTA Beverly Hills`;
+
+    // Remove text version temporarily to match admin email format exactly
+    // (admin emails work without text version)
+
     const emailContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333;">
         <p style="margin: 0 0 16px 0;">${greeting}</p>
@@ -104,11 +157,13 @@ export async function sendInviteeConfirmationEmail(inviteeEmail: string, firstNa
       subject: 'ANTA Media & VIP Day - You\'re Confirmed!',
     });
     
+    // Match admin email format exactly (admin emails work, so use same structure)
     const result = await resendClient.emails.send({
       from: `ANTA <${fromEmail}>`,
       to: inviteeEmail,
       subject: 'ANTA Media & VIP Day - You\'re Confirmed!',
       html: emailContent,
+      // Note: Admin emails work without text version, so matching that format
     });
     
     console.log('Resend API response:', JSON.stringify(result, null, 2));

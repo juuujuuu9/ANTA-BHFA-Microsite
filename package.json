@@ -14,7 +14,10 @@
     "astro": "astro",
     "db:seed": "tsx src/lib/db/seed.ts",
     "db:migrate": "tsx src/lib/db/migrate.ts",
-    "test:email": "tsx src/lib/db/test-email.ts"
+    "test:email": "tsx src/lib/db/test-email.ts",
+    "test:invitee-email": "tsx src/lib/db/test-invitee-email.ts",
+    "diagnose:email": "tsx src/lib/db/diagnose-email.ts",
+    "check:email-status": "tsx src/lib/db/check-email-status.ts"
   },
   "dependencies": {
     "@astrojs/vercel": "^7.8.2",

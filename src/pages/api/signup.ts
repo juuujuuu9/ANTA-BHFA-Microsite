@@ -105,23 +105,39 @@ export const POST: APIRoute = async ({ request }) => {
     }
     
     // Send confirmation email to invitee
+    let inviteeEmailSent = false;
+    let inviteeEmailError: string | undefined;
     try {
+      console.log('=== INVITEE EMAIL PROCESS ===');
       console.log('Sending confirmation email to invitee:', email);
+      console.log('First name:', firstName);
+      
       const inviteeResult = await sendInviteeConfirmationEmail(email, firstName);
       
       if (inviteeResult.success) {
         console.log('✅ Invitee confirmation email sent successfully');
+        inviteeEmailSent = true;
       } else {
         console.error('❌ Failed to send invitee confirmation email:', inviteeResult.error);
+        inviteeEmailError = inviteeResult.error;
         // Don't fail the request if email fails, submission is saved
       }
-    } catch (inviteeEmailError) {
-      console.error('❌ Error sending invitee confirmation email:', inviteeEmailError);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      console.error('❌ Exception sending invitee confirmation email:', errorMessage);
+      if (error instanceof Error) {
+        console.error('Error stack:', error.stack);
+      }
+      inviteeEmailError = errorMessage;
       // Don't fail the request if email fails, submission is saved
     }
     
     return new Response(
-      JSON.stringify({ success: true }),
+      JSON.stringify({ 
+        success: true,
+        inviteeEmailSent,
+        inviteeEmailError: inviteeEmailError || undefined
+      }),
       { 
         status: 200, 
         headers: { 'Content-Type': 'application/json' } 

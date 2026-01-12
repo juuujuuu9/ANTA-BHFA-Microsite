@@ -66,6 +66,37 @@ export async function sendPasswordResetEmail(email: string, resetLink: string) {
   }
 }
 
+export async function sendInviteeConfirmationEmail(inviteeEmail: string, firstName?: string) {
+  try {
+    const fromEmail = getFromEmail();
+    const resendClient = getResend();
+    
+    const greeting = firstName ? `Hi ${firstName},` : 'Hi there,';
+    
+    const emailContent = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333;">
+        <p style="margin: 0 0 16px 0;">${greeting}</p>
+        <p style="margin: 0 0 16px 0;">You're officially confirmed for ANTA Media & VIP Day, we're looking forward to seeing you this Saturday!</p>
+        <p style="margin: 0 0 16px 0;">You'll have first access to view the store before it opens to the public, along with a few special experiences on-site. Enjoy matcha from Frauth, Layla's Bagels, and custom chain stitching during the event.</p>
+        <p style="margin: 0 0 16px 0;">More details to come soon, but please don't hesitate to reach out if you have any questions in the meantime.</p>
+        <p style="margin: 0;">See you soon!</p>
+      </div>
+    `;
+    
+    await resendClient.emails.send({
+      from: `ANTA <${fromEmail}>`,
+      to: inviteeEmail,
+      subject: 'ANTA Media & VIP Day - You\'re Confirmed!',
+      html: emailContent,
+    });
+    
+    return { success: true };
+  } catch (error) {
+    console.error('Error sending invitee confirmation email:', error);
+    return { success: false, error: error instanceof Error ? error.message : String(error) };
+  }
+}
+
 export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
   firstName?: string;
   lastName?: string;

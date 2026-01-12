@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { createFormSubmission } from '@/lib/submissions';
 import { getAllAdmins } from '@/lib/auth';
-import { sendFormSubmissionEmail } from '@/lib/email';
+import { sendFormSubmissionEmail, sendInviteeConfirmationEmail } from '@/lib/email';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -101,6 +101,22 @@ export const POST: APIRoute = async ({ request }) => {
         console.error('Error message:', emailError.message);
         console.error('Error stack:', emailError.stack);
       }
+      // Don't fail the request if email fails, submission is saved
+    }
+    
+    // Send confirmation email to invitee
+    try {
+      console.log('Sending confirmation email to invitee:', email);
+      const inviteeResult = await sendInviteeConfirmationEmail(email, firstName);
+      
+      if (inviteeResult.success) {
+        console.log('✅ Invitee confirmation email sent successfully');
+      } else {
+        console.error('❌ Failed to send invitee confirmation email:', inviteeResult.error);
+        // Don't fail the request if email fails, submission is saved
+      }
+    } catch (inviteeEmailError) {
+      console.error('❌ Error sending invitee confirmation email:', inviteeEmailError);
       // Don't fail the request if email fails, submission is saved
     }
     

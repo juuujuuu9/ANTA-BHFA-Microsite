@@ -13,7 +13,20 @@ const {
   ogImage = '/images/Postlink.png'
 } = Astro.props;
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || import.meta.env.SITE_URL || 'https://yourdomain.com';
+// Get site URL - use env var if set, otherwise construct from current request
+const getSiteUrl = () => {
+  if (import.meta.env.PUBLIC_SITE_URL) {
+    return import.meta.env.PUBLIC_SITE_URL;
+  }
+  if (import.meta.env.SITE_URL) {
+    return import.meta.env.SITE_URL;
+  }
+  // Fallback: construct from current request URL
+  const url = Astro.url;
+  return `${url.protocol}//${url.host}`;
+};
+
+const siteUrl = getSiteUrl();
 const fullOgImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
 ---
 
@@ -21,19 +34,27 @@ const fullOgImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogIma
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
     
-    <!-- Favicons - Standard -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/Favicon.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/Favicon.png" />
-    <link rel="shortcut icon" href="/images/Favicon.png" />
+    <!-- Favicons - MUST be early in head, browsers check immediately -->
+    <!-- ICO format (best browser compatibility) -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <!-- PNG favicons (properly sized) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <!-- Larger sizes for PWA -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/Favicon.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/images/Favicon.png" />
+    <!-- SVG fallback -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate icon" href="/favicon.ico" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href={Astro.url.href} />
     
     <!-- Apple Touch Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/Favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="apple-touch-icon" sizes="152x152" href="/images/Favicon.png" />
     <link rel="apple-touch-icon" sizes="144x144" href="/images/Favicon.png" />
     <link rel="apple-touch-icon" sizes="120x120" href="/images/Favicon.png" />
@@ -43,10 +64,6 @@ const fullOgImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogIma
     <link rel="apple-touch-icon" sizes="60x60" href="/images/Favicon.png" />
     <link rel="apple-touch-icon" sizes="57x57" href="/images/Favicon.png" />
     <link rel="apple-touch-icon" href="/images/Favicon.png" />
-    
-    <!-- Android Chrome Icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="/images/Favicon.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/images/Favicon.png" />
     
     <!-- Windows Tiles -->
     <meta name="msapplication-TileColor" content="#d7000f" />
@@ -58,9 +75,12 @@ const fullOgImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogIma
     
     <!-- Theme Color -->
     <meta name="theme-color" content="#d7000f" />
+    <!-- iOS Web App -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="ANTA First Access" />
+    <!-- Standard Web App (for modern browsers) -->
+    <meta name="mobile-web-app-capable" content="yes" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -69,7 +89,7 @@ const fullOgImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogIma
     <meta property="og:description" content={description} />
     <meta property="og:image" content={fullOgImageUrl} />
     <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:height" content="628" />
     <meta property="og:image:alt" content={title} />
     <meta property="og:site_name" content="ANTA Beverly Hills First Access" />
     <meta property="og:locale" content="en_US" />

@@ -131,6 +131,15 @@
   src: url('/fonts/SharpGrotesk-Book20.otf') format('opentype');
 }
 
+/* Sharp Grotesk Book 25 (tracking 25) */
+@font-face {
+  font-family: 'Sharp Grotesk Book 25';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/SharpGrotesk-Book25.otf') format('opentype');
+}
+
 /* Sharp Grotesk Medium 15 (tracking 15) */
 @font-face {
   font-family: 'Sharp Grotesk Medium 15';
@@ -149,6 +158,15 @@
   src: url('/fonts/SharpGrotesk-Medium20.otf') format('opentype');
 }
 
+/* Sharp Grotesk Medium 25 (tracking 25) */
+@font-face {
+  font-family: 'Sharp Grotesk Medium 25';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/SharpGrotesk-Medium25.otf') format('opentype');
+}
+
 /* Sharp Grotesk SemiBold 15 (tracking 15) */
 @font-face {
   font-family: 'Sharp Grotesk SemiBold 15';
@@ -156,6 +174,15 @@
   font-weight: 600;
   font-display: swap;
   src: url('/fonts/SharpGrotesk-SemiBold15.otf') format('opentype');
+}
+
+/* Sharp Grotesk SemiBold 20 (tracking 20) */
+@font-face {
+  font-family: 'Sharp Grotesk SemiBold 20';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/SharpGrotesk-SemiBold20.otf') format('opentype');
 }
 
 /* Sharp Grotesk Bold 15 (tracking 15) */
@@ -176,6 +203,10 @@
   font-family: 'Sharp Grotesk Book 20', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
 }
 
+.font-sharp-grotesk-book-25 {
+  font-family: 'Sharp Grotesk Book 25', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
+}
+
 .font-sharp-grotesk-medium-15 {
   font-family: 'Sharp Grotesk Medium 15', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
 }
@@ -184,8 +215,16 @@
   font-family: 'Sharp Grotesk Medium 20', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
 }
 
+.font-sharp-grotesk-medium-25 {
+  font-family: 'Sharp Grotesk Medium 25', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
+}
+
 .font-sharp-grotesk-semibold-15 {
   font-family: 'Sharp Grotesk SemiBold 15', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
+}
+
+.font-sharp-grotesk-semibold-20 {
+  font-family: 'Sharp Grotesk SemiBold 20', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
 }
 
 .font-sharp-grotesk-bold-15 {

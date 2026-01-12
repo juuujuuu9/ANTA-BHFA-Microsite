@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = 'Thank You - ANTA First Access';
+---
+
+<Layout title={title}>
+  <div class="h-screen md:min-h-screen relative flex flex-col items-center pt-[80px] md:pt-[50px] pb-[80px] px-0 overflow-x-hidden">
+    <!-- Background layers matching index page -->
+    <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
+      <!-- Blue base -->
+      <div class="fixed bg-[#59c2ff] inset-0"></div>
+      
+      <!-- Background image layer -->
+      <div class="absolute inset-0">
+        <img 
+          alt="" 
+          class="fixed inset-0 w-full h-full object-cover object-top"
+          src="/images/home-bg.jpg"
+        />
+      </div>
+      
+      <!-- Black overlay (65% opacity) -->
+      <div class="fixed inset-0 bg-black opacity-65"></div>
+      
+    </div>
+
+    <!-- Main content container -->
+    <div class="relative z-10 flex flex-col h-full w-full max-w-none px-[20px]">
+      <!-- Top label -->
+      <p class="font-sharp-grotesk-book-20 text-white text-[14px] md:text-[18px] leading-[22px] md:leading-normal not-italic text-center tracking-[14px] md:tracking-[23.4px] uppercase w-full pt-[20px] md:pt-0">
+        anta beverly hills flagship
+      </p>
+
+      <!-- Info section - flex-1 to fill remaining space -->
+      <div class="flex flex-col gap-[20px] md:gap-[40px] flex-1 items-center justify-center w-full">
+        <div class="flex flex-col gap-[24px] md:gap-[32px] items-center justify-center px-[20px] md:px-[40px] lg:px-[320px] py-0 w-full">
+          <!-- ANTA Logo -->
+          <div class="h-[120px] md:h-[180px] lg:h-[211px] w-[220px] md:w-[340px] lg:w-[390px] max-w-full relative shrink-0 flex items-center justify-center">
+            <img 
+              alt="ANTA Logo" 
+              class="block max-w-none w-full h-full object-contain"
+              src="https://www.figma.com/api/mcp/asset/8457c8dd-dd26-4ada-8fb6-4e3e9ab13455"
+            />
+          </div>
+
+          <!-- Thank You heading -->
+          <div class="flex flex-col font-sharp-grotesk-medium-25 justify-center leading-[0] md:leading-[52px] not-italic text-center text-white uppercase w-full max-w-[1038px]">
+            <p class="mb-0 text-[36px] md:text-[56px] lg:text-[66px] leading-[40px] md:leading-[52px] lg:leading-[52px]">
+              Thank you
+            </p>
+            <p class="font-sharp-grotesk-book-25 text-[18px] md:text-[24px] lg:text-[28px] tracking-[1.8px] md:tracking-[4.2px] lg:tracking-[5.6px] leading-[24px] md:leading-[32px] lg:leading-[40px] mt-[8px] md:mt-0">
+              for signing up for ANTA First Access.
+            </p>
+          </div>
+
+          <!-- Confirmation message -->
+          <div class="flex flex-col font-sharp-grotesk-book-20 justify-center leading-[0] md:leading-[40px] not-italic text-[14px] md:text-[18px] lg:text-[20px] text-center text-white w-full max-w-[1226px] px-[20px]">
+            <p class="leading-[22px] md:leading-[32px] lg:leading-[40px]">
+              <span>Confirmed guests will receive additional event details prior to </span>
+              <span class="font-sharp-grotesk-semibold-20 not-italic">January 17</span>.
+            </p>
+          </div>
+
+          <!-- Back to Homepage button -->
+          <a 
+            href="/"
+            class="bg-[#d7000f] border border-solid border-white cursor-pointer flex items-center justify-center px-[24px] py-[16px] md:py-[20px] rounded-[4px] shrink-0 hover:bg-[#b8323d] transition-colors mt-[20px] w-full max-w-[314px]"
+          >
+            <p class="font-sharp-grotesk-medium-20 leading-normal not-italic text-[14px] md:text-[18px] lg:text-[20px] text-center text-white tracking-[2px] md:tracking-[3px] lg:tracking-[4px] uppercase">
+              back to homepage
+            </p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,24 @@
+{
+  "name": "ANTA Beverly Hills First Access",
+  "short_name": "ANTA First Access",
+  "description": "Be among the first to experience the new ANTA Beverly Hills flagship",
+  "icons": [
+    {
+      "src": "/images/Favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/Favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#d7000f",
+  "background_color": "#59c2ff",
+  "display": "standalone",
+  "start_url": "/",
+  "orientation": "portrait-primary"
+}

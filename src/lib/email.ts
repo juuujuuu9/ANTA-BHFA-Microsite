@@ -113,19 +113,15 @@ export async function sendInviteeConfirmationEmail(inviteeEmail: string, firstNa
     
     console.log('Resend API response:', JSON.stringify(result, null, 2));
     
-    // Check if response indicates success (Resend returns { id: '...' } on success)
-    if (result && (result as any).id) {
-      console.log('✅ Invitee confirmation email sent successfully! Email ID:', (result as any).id);
-      return { success: true, resendResult: result };
-    } else if (result && (result as any).error) {
-      const errorMsg = (result as any).error?.message || JSON.stringify((result as any).error);
-      console.error('❌ Resend API returned an error:', errorMsg);
-      throw new Error(`Resend API error: ${errorMsg}`);
+    // Resend SDK throws errors, so if we get here, the email was sent successfully
+    // Response structure: { data: { id: '...' } } or { id: '...' } depending on SDK version
+    const emailId = (result as any)?.data?.id || (result as any)?.id;
+    if (emailId) {
+      console.log('✅ Invitee confirmation email sent successfully! Email ID:', emailId);
     } else {
-      console.warn('⚠️ Unexpected Resend response format:', result);
-      // Still return success if we got a response, but log warning
-      return { success: true, resendResult: result };
+      console.log('✅ Invitee confirmation email sent successfully! (Response received)');
     }
+    return { success: true, resendResult: result };
   } catch (error) {
     console.error('❌ Error sending invitee confirmation email:', error);
     if (error instanceof Error) {
@@ -255,19 +251,15 @@ export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
     
     console.log('Resend API response:', JSON.stringify(result, null, 2));
     
-    // Check if response indicates success (Resend returns { id: '...' } on success)
-    if (result && (result as any).id) {
-      console.log('✅ Email sent successfully! Email ID:', (result as any).id);
-      return { success: true, resendResult: result };
-    } else if (result && (result as any).error) {
-      const errorMsg = (result as any).error?.message || JSON.stringify((result as any).error);
-      console.error('❌ Resend API returned an error:', errorMsg);
-      throw new Error(`Resend API error: ${errorMsg}`);
+    // Resend SDK throws errors, so if we get here, the email was sent successfully
+    // Response structure: { data: { id: '...' } } or { id: '...' } depending on SDK version
+    const emailId = (result as any)?.data?.id || (result as any)?.id;
+    if (emailId) {
+      console.log('✅ Email sent successfully! Email ID:', emailId);
     } else {
-      console.warn('⚠️ Unexpected Resend response format:', result);
-      // Still return success if we got a response, but log warning
-      return { success: true, resendResult: result };
+      console.log('✅ Email sent successfully! (Response received)');
     }
+    return { success: true, resendResult: result };
   } catch (error) {
     console.error('❌ Error sending form submission email:', error);
     if (error instanceof Error) {

@@ -68,7 +68,21 @@ export async function sendPasswordResetEmail(email: string, resetLink: string) {
 
 export async function sendInviteeConfirmationEmail(inviteeEmail: string, firstName?: string) {
   try {
+    console.log('=== INVITEE CONFIRMATION EMAIL PROCESS ===');
+    console.log('Invitee email:', inviteeEmail);
+    console.log('First name:', firstName || 'not provided');
+    
+    if (!inviteeEmail || !inviteeEmail.includes('@')) {
+      console.error('❌ Invalid invitee email address:', inviteeEmail);
+      return { success: false, error: 'Invalid email address' };
+    }
+    
     const fromEmail = getFromEmail();
+    const apiKey = getResendApiKey();
+    console.log('From email:', fromEmail);
+    console.log('Resend API key present:', !!apiKey);
+    console.log('Resend API key starts with "re_":', apiKey?.startsWith('re_'));
+    
     const resendClient = getResend();
     
     const greeting = firstName ? `Hi ${firstName},` : 'Hi there,';
@@ -83,16 +97,37 @@ export async function sendInviteeConfirmationEmail(inviteeEmail: string, firstNa
       </div>
     `;
     
-    await resendClient.emails.send({
+    console.log('Attempting to send invitee confirmation email via Resend...');
+    const result = await resendClient.emails.send({
       from: `ANTA <${fromEmail}>`,
       to: inviteeEmail,
       subject: 'ANTA Media & VIP Day - You\'re Confirmed!',
       html: emailContent,
     });
     
-    return { success: true };
+    console.log('✅ Invitee confirmation email sent successfully!');
+    console.log('Resend response:', JSON.stringify(result, null, 2));
+    return { success: true, resendResult: result };
   } catch (error) {
-    console.error('Error sending invitee confirmation email:', error);
+    console.error('❌ Error sending invitee confirmation email:', error);
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+      
+      // Check for common Resend errors
+      if (error.message.includes('domain') || error.message.includes('Domain')) {
+        console.error('⚠️  This usually means the FROM_EMAIL domain is not verified in Resend.');
+        console.error('   Please verify your domain in the Resend dashboard: https://resend.com/domains');
+      }
+      if (error.message.includes('API key') || error.message.includes('Unauthorized')) {
+        console.error('⚠️  This usually means the RESEND_API_KEY is invalid or missing.');
+        console.error('   Please check your .env file and Resend dashboard.');
+      }
+      
+      if ('response' in error) {
+        console.error('Resend API response:', JSON.stringify((error as any).response, null, 2));
+      }
+    }
     return { success: false, error: error instanceof Error ? error.message : String(error) };
   }
 }

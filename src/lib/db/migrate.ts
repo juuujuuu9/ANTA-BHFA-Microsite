@@ -31,7 +31,10 @@ async function migrate() {
         ADD COLUMN IF NOT EXISTS last_name VARCHAR(255),
         ADD COLUMN IF NOT EXISTS phone VARCHAR(255),
         ADD COLUMN IF NOT EXISTS shirt_size VARCHAR(50),
-        ADD COLUMN IF NOT EXISTS sneaker_size VARCHAR(50)
+        ADD COLUMN IF NOT EXISTS sneaker_size VARCHAR(50),
+        ADD COLUMN IF NOT EXISTS creator_email VARCHAR(255),
+        ADD COLUMN IF NOT EXISTS media VARCHAR(255),
+        ADD COLUMN IF NOT EXISTS instagram_profile VARCHAR(255)
       `;
       
       // Migrate existing data: split name into first_name and last_name
@@ -67,7 +70,46 @@ async function migrate() {
       console.log('Note: Old columns (name, message) are still present but unused.');
       console.log('You can manually drop them later if needed.');
     } else {
-      console.log('Schema is already up to date. No migration needed.');
+      console.log('Old schema not detected. Checking for missing columns...');
+      
+      // Define all required columns from schema
+      const requiredColumns = [
+        { name: 'first_name', type: 'VARCHAR(255)' },
+        { name: 'last_name', type: 'VARCHAR(255)' },
+        { name: 'email', type: 'VARCHAR(255)' },
+        { name: 'phone', type: 'VARCHAR(255)' },
+        { name: 'shirt_size', type: 'VARCHAR(50)' },
+        { name: 'sneaker_size', type: 'VARCHAR(50)' },
+        { name: 'creator_email', type: 'VARCHAR(255)' },
+        { name: 'media', type: 'VARCHAR(255)' },
+        { name: 'instagram_profile', type: 'VARCHAR(255)' },
+      ];
+      
+      // Check which columns exist
+      const existingColumns = await sql`
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_name = 'form_submissions'
+      `;
+      
+      const existingColumnNames = existingColumns.map((c: { column_name: string }) => c.column_name);
+      const missingColumns = requiredColumns.filter(
+        col => !existingColumnNames.includes(col.name)
+      );
+      
+      if (missingColumns.length > 0) {
+        console.log(`Adding missing columns: ${missingColumns.map(c => c.name).join(', ')}`);
+        
+        // Add missing columns one by one
+        for (const col of missingColumns) {
+          await sql.unsafe(`ALTER TABLE form_submissions ADD COLUMN IF NOT EXISTS ${col.name} ${col.type}`);
+          console.log(`  ✓ Added column: ${col.name}`);
+        }
+        
+        console.log('Missing columns added successfully.');
+      } else {
+        console.log('Schema is already up to date. No migration needed.');
+      }
     }
     
     process.exit(0);

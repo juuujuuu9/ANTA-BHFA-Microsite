@@ -98,6 +98,12 @@ export async function sendInviteeConfirmationEmail(inviteeEmail: string, firstNa
     `;
     
     console.log('Attempting to send invitee confirmation email via Resend...');
+    console.log('Email details:', {
+      from: `ANTA <${fromEmail}>`,
+      to: inviteeEmail,
+      subject: 'ANTA Media & VIP Day - You\'re Confirmed!',
+    });
+    
     const result = await resendClient.emails.send({
       from: `ANTA <${fromEmail}>`,
       to: inviteeEmail,
@@ -105,9 +111,21 @@ export async function sendInviteeConfirmationEmail(inviteeEmail: string, firstNa
       html: emailContent,
     });
     
-    console.log('✅ Invitee confirmation email sent successfully!');
-    console.log('Resend response:', JSON.stringify(result, null, 2));
-    return { success: true, resendResult: result };
+    console.log('Resend API response:', JSON.stringify(result, null, 2));
+    
+    // Check if response indicates success (Resend returns { id: '...' } on success)
+    if (result && (result as any).id) {
+      console.log('✅ Invitee confirmation email sent successfully! Email ID:', (result as any).id);
+      return { success: true, resendResult: result };
+    } else if (result && (result as any).error) {
+      const errorMsg = (result as any).error?.message || JSON.stringify((result as any).error);
+      console.error('❌ Resend API returned an error:', errorMsg);
+      throw new Error(`Resend API error: ${errorMsg}`);
+    } else {
+      console.warn('⚠️ Unexpected Resend response format:', result);
+      // Still return success if we got a response, but log warning
+      return { success: true, resendResult: result };
+    }
   } catch (error) {
     console.error('❌ Error sending invitee confirmation email:', error);
     if (error instanceof Error) {
@@ -220,6 +238,13 @@ export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
     console.log('Resend API key starts with "re_":', apiKey?.startsWith('re_'));
     
     console.log('Attempting to send email via Resend...');
+    console.log('Email details:', {
+      from: `ANTA <${fromEmail}>`,
+      to: adminEmails,
+      subject: 'New ANTA First Access RSVP',
+      recipientCount: adminEmails.length,
+    });
+    
     const resendClient = getResend();
     const result = await resendClient.emails.send({
       from: `ANTA <${fromEmail}>`,
@@ -228,9 +253,21 @@ export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
       html: emailContent,
     });
     
-    console.log('✅ Email sent successfully!');
-    console.log('Resend response:', JSON.stringify(result, null, 2));
-    return { success: true, resendResult: result };
+    console.log('Resend API response:', JSON.stringify(result, null, 2));
+    
+    // Check if response indicates success (Resend returns { id: '...' } on success)
+    if (result && (result as any).id) {
+      console.log('✅ Email sent successfully! Email ID:', (result as any).id);
+      return { success: true, resendResult: result };
+    } else if (result && (result as any).error) {
+      const errorMsg = (result as any).error?.message || JSON.stringify((result as any).error);
+      console.error('❌ Resend API returned an error:', errorMsg);
+      throw new Error(`Resend API error: ${errorMsg}`);
+    } else {
+      console.warn('⚠️ Unexpected Resend response format:', result);
+      // Still return success if we got a response, but log warning
+      return { success: true, resendResult: result };
+    }
   } catch (error) {
     console.error('❌ Error sending form submission email:', error);
     if (error instanceof Error) {

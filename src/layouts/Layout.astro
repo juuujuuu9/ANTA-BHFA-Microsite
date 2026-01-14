@@ -8,12 +8,13 @@ interface Props {
 }
 
 const { 
-  title = 'ANTA BEVERLY HILLS FIRST ACCESS',
+  title = 'ANTA Beverly Hills First Access - January 17, 2026',
   description = 'Be among the first to experience the new ANTA Beverly Hills flagship. First access event on Saturday, January 17, 2026.',
   ogImage = '/images/Postlink.png'
 } = Astro.props;
 
 // Get site URL - use env var if set, otherwise construct from current request
+// IMPORTANT: Set PUBLIC_SITE_URL in production for OG image URLs to work with social media validators
 const getSiteUrl = () => {
   if (import.meta.env.PUBLIC_SITE_URL) {
     return import.meta.env.PUBLIC_SITE_URL;
@@ -22,12 +23,16 @@ const getSiteUrl = () => {
     return import.meta.env.SITE_URL;
   }
   // Fallback: construct from current request URL
+  // Note: This may not work for external validators (Facebook, Twitter) in development
   const url = Astro.url;
   return `${url.protocol}//${url.host}`;
 };
 
 const siteUrl = getSiteUrl();
-const fullOgImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+// Ensure OG image URL is always absolute
+const fullOgImageUrl = ogImage.startsWith('http') 
+  ? ogImage 
+  : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
 ---
 
 <!doctype html>
@@ -84,26 +89,27 @@ const fullOgImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogIma
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={siteUrl} />
+    <meta property="og:url" content={Astro.url.href} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={fullOgImageUrl} />
+    <meta property="og:image:secure_url" content={fullOgImageUrl.startsWith('http://') ? fullOgImageUrl.replace('http://', 'https://') : fullOgImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="628" />
     <meta property="og:image:alt" content={title} />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:site_name" content="ANTA Beverly Hills First Access" />
     <meta property="og:locale" content="en_US" />
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={siteUrl} />
+    <meta name="twitter:url" content={Astro.url.href} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={fullOgImageUrl} />
     <meta name="twitter:image:alt" content={title} />
     
-    <!-- LinkedIn -->
-    <meta property="og:image:type" content="image/png" />
+    <!-- LinkedIn uses same OG tags above -->
     
     <!-- Additional Meta -->
     <meta name="generator" content={Astro.generator} />

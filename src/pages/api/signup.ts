@@ -1,7 +1,9 @@
 import type { APIRoute } from 'astro';
-import { createFormSubmission } from '@/lib/submissions';
+import { createFormSubmission, getTotalSubmissionCount } from '@/lib/submissions';
 import { getAllAdmins } from '@/lib/auth';
 import { sendFormSubmissionEmail, sendInviteeConfirmationEmail } from '@/lib/email';
+
+const MAX_ENTRIES = 50;
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -15,6 +17,22 @@ export const POST: APIRoute = async ({ request }) => {
         JSON.stringify({ success: false, error: 'First name, last name, email, phone, shirt size, and sneaker size are required' }),
         { 
           status: 400, 
+          headers: { 'Content-Type': 'application/json' } 
+        }
+      );
+    }
+    
+    // Check if we've reached the entry limit
+    const currentCount = await getTotalSubmissionCount();
+    if (currentCount >= MAX_ENTRIES) {
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: 'Registration is now closed. We have reached the maximum number of entries.',
+          limitReached: true
+        }),
+        { 
+          status: 403, 
           headers: { 'Content-Type': 'application/json' } 
         }
       );
@@ -51,14 +69,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
     
     // Get total count of entries after saving
-    let totalEntries = 0;
-    try {
-      const { getTotalSubmissionCount } = await import('@/lib/submissions');
-      totalEntries = await getTotalSubmissionCount();
-    } catch (countError) {
-      console.error('Error getting total submission count:', countError);
-      // Continue even if count fails
-    }
+    const totalEntries = await getTotalSubmissionCount();
     
     // Send email to admins
     try {

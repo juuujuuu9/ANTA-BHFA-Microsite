@@ -135,7 +135,7 @@ Please don't hesitate to reach out if you have any questions in the meantime.
 
 See you soon!
 
-10 AM - 2 PM
+10 AM - 12 PM
 ANTA Beverly Hills
 330 N Beverly Dr, Beverly Hills, CA 90210`;
 
@@ -149,7 +149,7 @@ ANTA Beverly Hills
         <p style="margin: 0 0 16px 0;">You'll have first access to view the store before it opens to the public, along with a few special experiences on-site. Enjoy matcha from Frauth, Layla's Bagels, and custom chain stitching during the event.</p>
         <p style="margin: 0 0 16px 0;">Please don't hesitate to reach out if you have any questions in the meantime.</p>
         <p style="margin: 0 0 16px 0;">See you soon!</p>
-        <p style="margin: 16px 0 0 0; font-size: 14px; color: #666;">10 AM - 2 PM<br>ANTA Beverly Hills<br>330 N Beverly Dr, Beverly Hills, CA 90210</p>
+        <p style="margin: 16px 0 0 0; font-size: 14px; color: #666;">10 AM - 12 PM<br>ANTA Beverly Hills<br>330 N Beverly Dr, Beverly Hills, CA 90210</p>
       </div>
     `;
     

@@ -119,7 +119,7 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
                 Registration is now closed
               </p>
               <p class="text-white text-[16px] md:text-[18px] font-medium font-sharp-grotesk-medium-20 text-center">
-                We have reached the maximum number of entries.<br>Thank you for your interest!
+                Thank you for your interest!
               </p>
             </div>
 
@@ -424,7 +424,7 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
           disableForm();
           showLimitMessage();
           if (errorContainer) {
-            errorContainer.textContent = errorData.error || 'Registration is now closed. We have reached the maximum number of entries.';
+            errorContainer.textContent = errorData.error || 'Registration is now closed. Thank you for your interest!';
             errorContainer.classList.remove('hidden');
           }
         } else {

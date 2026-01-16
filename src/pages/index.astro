@@ -105,15 +105,10 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
               <p class="leading-[28px] md:leading-[40px] lg:leading-[56px] whitespace-pre-wrap">330 n beVERLY dR, bEVERLY hILLS, CA 90210</p>
             </div>
 
-            <!-- Form instructions -->
-            <div id="form-instructions" class="flex flex-col justify-center w-full max-w-[730px]">
-              <p class="text-white text-[16px] md:text-[20px] font-medium font-sharp-grotesk-medium-20 leading-[24px] md:leading-[32px] whitespace-pre-wrap text-center">Please complete the form below to request first access.</p>
-            </div>
-
-            <!-- Limit reached message (hidden by default) -->
+            <!-- Limit reached message -->
             <div
               id="limit-reached-message"
-              class="hidden flex-col gap-[20px] items-center w-full max-w-[730px] p-6 bg-[rgba(255,255,255,0.1)] border-2 border-[rgba(255,255,255,0.5)] rounded-[4px]"
+              class="flex flex-col gap-[20px] items-center w-full max-w-[730px] p-6 bg-[rgba(255,255,255,0.1)] border-2 border-[rgba(255,255,255,0.5)] rounded-[4px]"
             >
               <p class="text-white text-[18px] md:text-[22px] font-semibold font-sharp-grotesk-semibold-15 text-center">
                 Registration is now closed
@@ -123,7 +118,7 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
               </p>
             </div>
 
-            <form id="registration-form" class="flex flex-col gap-[24px] items-center w-full max-w-[876px]" method="POST">
+            <form id="registration-form" class="hidden flex flex-col gap-[24px] items-center w-full max-w-[876px]" method="POST">
               <!-- Personal Information Fields -->
               <div class="flex flex-col gap-[36px] items-center w-full">
                 <!-- Row 1: First Name & Last Name -->
@@ -304,61 +299,6 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
 </Layout>
 
 <script>
-  // Check limit on page load
-  async function checkLimit() {
-    try {
-      const response = await fetch('/api/check-limit');
-      const data = await response.json();
-      
-      if (data.limitReached) {
-        disableForm();
-        showLimitMessage();
-      }
-    } catch (error) {
-      console.error('Error checking limit:', error);
-      // Don't disable form if check fails - allow submission attempt
-    }
-  }
-
-  function disableForm() {
-    const form = document.getElementById('registration-form') as HTMLFormElement;
-    const formInputs = form?.querySelectorAll('input, select, button[type="submit"]') as NodeListOf<HTMLInputElement | HTMLSelectElement | HTMLButtonElement>;
-    
-    if (formInputs) {
-      formInputs.forEach(input => {
-        input.disabled = true;
-        input.classList.add('opacity-60', 'cursor-not-allowed');
-      });
-    }
-    
-    form?.classList.add('pointer-events-none');
-  }
-
-  function showLimitMessage() {
-    const limitMessage = document.getElementById('limit-reached-message');
-    const form = document.getElementById('registration-form');
-    const formInstructions = document.getElementById('form-instructions');
-    
-    if (limitMessage) {
-      limitMessage.classList.remove('hidden');
-      limitMessage.classList.add('flex');
-    }
-    if (form) {
-      form.classList.add('hidden');
-    }
-    if (formInstructions) {
-      formInstructions.classList.add('hidden');
-    }
-  }
-
-  // Check limit when page loads - wait for DOM to be ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', checkLimit);
-  } else {
-    // DOM is already ready
-    checkLimit();
-  }
-
   document.getElementById('registration-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -421,8 +361,6 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
         
         // Handle limit reached error
         if (errorData.limitReached || response.status === 403) {
-          disableForm();
-          showLimitMessage();
           if (errorContainer) {
             errorContainer.textContent = errorData.error || 'Registration is now closed. Thank you for your interest!';
             errorContainer.classList.remove('hidden');

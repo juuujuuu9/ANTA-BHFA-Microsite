@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { createGrandOpeningEntry, getGrandOpeningEntryCount } from '@/lib/submissions';
 import { isFormClosedByTime } from '@/lib/form-closure';
+import { getAllAdmins } from '@/lib/auth';
+import { sendGrandOpeningSubmissionEmail } from '@/lib/email';
 
 const MAX_ENTRIES = 500;
 
@@ -40,12 +42,32 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    await createGrandOpeningEntry({
+    const entry = await createGrandOpeningEntry({
       firstName: String(firstName).trim(),
       lastName: String(lastName).trim(),
       email: String(email).trim(),
       additionalGuests: String(additionalGuests),
     });
+
+    // Notify all admins (submitters do not receive confirmation)
+    try {
+      const admins = await getAllAdmins();
+      const adminEmails = admins.map((a) => a.email).filter(Boolean);
+      if (adminEmails.length > 0) {
+        const totalEntries = await getGrandOpeningEntryCount();
+        await sendGrandOpeningSubmissionEmail(adminEmails, {
+          firstName: entry!.firstName,
+          lastName: entry!.lastName,
+          email: entry!.email,
+          additionalGuests: entry!.additionalGuests,
+          submittedAt: entry!.createdAt,
+          totalEntries,
+        });
+      }
+    } catch (emailError) {
+      console.error('Failed to send admin notification:', emailError);
+      // Do not fail the request; submission is saved
+    }
 
     return new Response(
       JSON.stringify({ success: true }),

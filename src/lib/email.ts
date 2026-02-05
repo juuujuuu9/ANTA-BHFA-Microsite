@@ -342,3 +342,78 @@ export async function sendFormSubmissionEmail(adminEmails: string[], formData: {
   }
 }
 
+export async function sendGrandOpeningSubmissionEmail(adminEmails: string[], formData: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  additionalGuests: string;
+  submittedAt?: Date;
+  totalEntries?: number;
+}) {
+  try {
+    if (!adminEmails || adminEmails.length === 0) {
+      console.error('❌ No admin emails provided');
+      return { success: false, error: 'No admin emails provided' };
+    }
+
+    const submittedDate = formData.submittedAt
+      ? new Date(formData.submittedAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+      : new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+
+    const submittedTime = formData.submittedAt
+      ? new Date(formData.submittedAt).toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        })
+      : new Date().toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        });
+
+    const emailContent = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h2 style="color: #333; border-bottom: 2px solid #D7000F; padding-bottom: 10px;">New ANTA Grand Opening RSVP</h2>
+
+        <div style="background-color: #fff; padding: 15px; border: 1px solid #ddd; border-radius: 5px; margin: 20px 0;">
+          <h3 style="margin-top: 0; color: #333;">Entry Information</h3>
+          <p style="margin: 8px 0;"><strong>First Name:</strong> ${formData.firstName}</p>
+          <p style="margin: 8px 0;"><strong>Last Name:</strong> ${formData.lastName}</p>
+          <p style="margin: 8px 0;"><strong>Email:</strong> <a href="mailto:${formData.email}">${formData.email}</a></p>
+          <p style="margin: 8px 0;"><strong>Additional Guests:</strong> ${formData.additionalGuests}</p>
+        </div>
+
+        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
+          <p style="margin: 5px 0;"><strong>Date:</strong> ${submittedDate}</p>
+          <p style="margin: 5px 0;"><strong>Time:</strong> ${submittedTime}</p>
+          <p style="margin: 5px 0;"><strong>Total Entries:</strong> ${formData.totalEntries ?? 'N/A'}</p>
+        </div>
+      </div>
+    `;
+
+    const fromEmail = getFromEmail();
+    const resendClient = getResend();
+    await resendClient.emails.send({
+      from: `ANTA <${fromEmail}>`,
+      to: adminEmails,
+      subject: 'New ANTA Grand Opening RSVP',
+      html: emailContent,
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error('❌ Error sending grand opening submission email:', error);
+    return { success: false, error: error instanceof Error ? error.message : String(error) };
+  }
+}

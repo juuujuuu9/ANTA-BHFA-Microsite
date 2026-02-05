@@ -121,8 +121,13 @@ async function migrate() {
         last_name VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         additional_guests VARCHAR(50) NOT NULL,
+        checked_in BOOLEAN NOT NULL DEFAULT false,
         created_at TIMESTAMP DEFAULT NOW() NOT NULL
       )
+    `);
+    // Add checked_in column if table existed without it
+    await sql.unsafe(`
+      ALTER TABLE grand_opening_entries ADD COLUMN IF NOT EXISTS checked_in BOOLEAN NOT NULL DEFAULT false
     `);
     console.log('  ✓ grand_opening_entries ready.');
     

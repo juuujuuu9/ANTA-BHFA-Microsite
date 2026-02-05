@@ -10,7 +10,7 @@ async function addAnta() {
     }
     
     const email = 'anta@anta.com';
-    const password = 'hewl3tt';
+    const password = 'shadow01';
     const username = 'anta';
     
     console.log(`Checking if admin with email ${email} already exists...`);

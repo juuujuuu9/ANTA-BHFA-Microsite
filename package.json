@@ -13,6 +13,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "db:seed": "tsx src/lib/db/seed.ts",
+    "db:update-passwords": "tsx src/lib/db/update-admin-passwords.ts",
     "db:migrate": "tsx src/lib/db/migrate.ts",
     "test:email": "tsx src/lib/db/test-email.ts",
     "test:invitee-email": "tsx src/lib/db/test-invitee-email.ts",

@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getAllSubmissions } from '../lib/submissions';
+import { getAllGrandOpeningEntries } from '../lib/submissions';
 import { requireAuth } from '../lib/session';
 
 // Check authentication
@@ -10,20 +10,20 @@ try {
   return Astro.redirect('/login', 302);
 }
 
-// Fetch submissions from database
+// Fetch grand opening entries only
 let entries: Array<{
   id: number;
-  firstName: string | null;
-  lastName: string | null;
-  email: string | null;
-  phone: string | null;
-  shirtSize: string | null;
-  sneakerSize: string | null;
+  firstName: string;
+  lastName: string;
+  email: string;
+  additionalGuests: string;
+  checkedIn: boolean;
   createdAt: Date;
 }> = [];
+let loadError: string | null = null;
 
 try {
-  entries = await getAllSubmissions();
+  entries = await getAllGrandOpeningEntries();
   // Sort entries alphabetically by name (case-insensitive)
   entries.sort((a, b) => {
     const nameA = `${a.firstName || ''} ${a.lastName || ''}`.trim().toLowerCase();
@@ -32,17 +32,7 @@ try {
   });
 } catch (error) {
   console.error('Error loading entries:', error);
-}
-
-// Helper function to split name into first and last
-function splitName(name: string): { firstName: string; lastName: string } {
-  const parts = name.trim().split(/\s+/);
-  if (parts.length === 1) {
-    return { firstName: parts[0], lastName: '' };
-  }
-  const lastName = parts.pop() || '';
-  const firstName = parts.join(' ');
-  return { firstName, lastName };
+  loadError = error instanceof Error ? error.message : String(error);
 }
 ---
 
@@ -180,42 +170,73 @@ function splitName(name: string): { firstName: string; lastName: string } {
           <div class="overflow-x-auto rounded-xl shadow-md border border-white/50 bg-[rgba(255,255,255,0.1)] backdrop-blur-sm">
             {entries.length === 0 ? (
               <div class="text-center py-16 text-white/80">
-                <p class="text-lg font-sharp-grotesk-semibold-20 mb-2">No entries found.</p>
-                <p class="text-sm font-sharp-grotesk-book-20">Entries will appear here once users submit the RSVP form.</p>
+                {loadError ? (
+                  <>
+                    <p class="text-lg font-sharp-grotesk-semibold-20 mb-2">Could not load entries.</p>
+                    <p class="text-sm font-sharp-grotesk-book-20 mb-4">Run <code class="bg-white/20 px-2 py-1 rounded">npm run db:migrate</code> to add the check-in column, then refresh.</p>
+                    <p class="text-xs font-sharp-grotesk-book-20 text-white/70 max-w-md mx-auto">{loadError}</p>
+                  </>
+                ) : (
+                  <>
+                    <p class="text-lg font-sharp-grotesk-semibold-20 mb-2">No entries found.</p>
+                    <p class="text-sm font-sharp-grotesk-book-20">Entries will appear here once users submit the grand opening form.</p>
+                  </>
+                )}
               </div>
             ) : (
               <table class="w-full border-collapse" style="font-family: Helvetica, Arial, sans-serif;">
                 <thead>
                   <tr class="bg-[rgba(255,255,255,0.2)]">
-                    <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30" style="font-family: Helvetica, Arial, sans-serif;">Name</th>
+                    <th class="px-2 py-2 md:px-6 md:py-4 text-center text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30" style="font-family: Helvetica, Arial, sans-serif;">Check-in</th>
+                    <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30 border-l border-white/20" style="font-family: Helvetica, Arial, sans-serif;">Name</th>
                     <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30 border-l border-white/20" style="font-family: Helvetica, Arial, sans-serif;">Email</th>
-                    <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30 border-l border-white/20" style="font-family: Helvetica, Arial, sans-serif;">Phone</th>
-                    <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30 border-l border-white/20" style="font-family: Helvetica, Arial, sans-serif;">Shirt Size</th>
-                    <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30 border-l border-white/20" style="font-family: Helvetica, Arial, sans-serif;">Sneaker Size</th>
+                    <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30 border-l border-white/20" style="font-family: Helvetica, Arial, sans-serif;">Additional Guests</th>
+                    <th class="px-2 py-2 md:px-6 md:py-4 text-left text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30 border-l border-white/20" style="font-family: Helvetica, Arial, sans-serif;">Date</th>
                     <th class="px-2 py-2 md:px-6 md:py-4 text-center text-sm font-sharp-grotesk-bold-15 text-white uppercase tracking-wide no-wrap whitespace-nowrap border-b-2 border-white/30 border-l border-white/20" style="font-family: Helvetica, Arial, sans-serif;">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="entries-tbody" class="divide-y divide-white/20">
                   {entries.map((entry) => {
-                  const fullName = `${entry.firstName || ''} ${entry.lastName || ''}`.trim() || '—';
-                  const firstName = (entry.firstName || '').toLowerCase();
+                  const fullName = `${entry.lastName || ''}, ${entry.firstName || ''}`.trim() || '—';
+                  // Sort by last name first, then first name
+                  const sortName = `${(entry.lastName || '').toLowerCase()}, ${(entry.firstName || '').toLowerCase()}`.trim();
                   const dateValue = entry.createdAt instanceof Date 
                     ? entry.createdAt.toISOString() 
                     : new Date(entry.createdAt).toISOString();
+                  const dateDisplay = entry.createdAt instanceof Date 
+                    ? entry.createdAt.toLocaleDateString() 
+                    : new Date(entry.createdAt).toLocaleDateString();
                   
                   return (
                     <tr 
                       class="hover:bg-[rgba(255,255,255,0.1)] transition-colors" 
                       data-entry-id={entry.id}
-                      data-first-name={firstName.toLowerCase()}
+                      data-sort-name={sortName}
                       data-created-at={dateValue}
                       style="font-family: Helvetica, Arial, sans-serif;"
                     >
+                      <td class="px-2 py-2 md:px-6 md:py-4 text-center border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">
+                        <button
+                          type="button"
+                          class="check-in-btn p-2 rounded-full border-2 border-white/70 bg-transparent hover:bg-white/10 transition-colors inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white/50"
+                          data-entry-id={entry.id}
+                          data-checked-in={entry.checkedIn ? 'true' : 'false'}
+                          aria-label={entry.checkedIn ? 'Checked in' : 'Not checked in'}
+                          title={entry.checkedIn ? 'Checked in — click to undo' : 'Click to check in'}
+                        >
+                          {entry.checkedIn ? (
+                            <svg class="w-[18px] h-[18px] text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                            </svg>
+                          ) : (
+                            <span class="w-[18px] h-[18px] rounded-full border-2 border-white/70 block" aria-hidden="true"></span>
+                          )}
+                        </button>
+                      </td>
                       <td class="px-2 py-2 md:px-6 md:py-4 text-md font-sharp-grotesk-semibold-20 text-white capitalize border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">{fullName}</td>
                       <td class="px-2 py-2 md:px-6 md:py-4 text-md font-sharp-grotesk-semibold-20 text-white border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">{entry.email || '—'}</td>
-                      <td class="px-2 py-2 md:px-6 md:py-4 text-md font-sharp-grotesk-semibold-20 text-white border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">{entry.phone || '—'}</td>
-                      <td class="px-2 py-2 md:px-6 md:py-4 text-md font-sharp-grotesk-semibold-20 text-white border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">{entry.shirtSize || '—'}</td>
-                      <td class="px-2 py-2 md:px-6 md:py-4 text-md font-sharp-grotesk-semibold-20 text-white border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">{entry.sneakerSize || '—'}</td>
+                      <td class="px-2 py-2 md:px-6 md:py-4 text-md font-sharp-grotesk-semibold-20 text-white border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">{entry.additionalGuests ?? '—'}</td>
+                      <td class="px-2 py-2 md:px-6 md:py-4 text-md font-sharp-grotesk-semibold-20 text-white border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">{dateDisplay}</td>
                       <td class="px-2 py-2 md:px-6 md:py-4 text-center border-l border-white/10" style="font-family: Helvetica, Arial, sans-serif;">
                         <button
                           class="delete-entry-btn px-3 py-1.5 bg-[#d7000f] text-white rounded-lg hover:bg-[#b8323d] transition-colors text-sm font-sharp-grotesk-semibold-15 uppercase flex items-center gap-2 mx-auto"
@@ -332,13 +353,13 @@ function splitName(name: string): { firstName: string; lastName: string } {
         const rowB = b as HTMLElement;
         
         if (currentSort === 'name-asc') {
-          const firstNameA = rowA.getAttribute('data-first-name') || '';
-          const firstNameB = rowB.getAttribute('data-first-name') || '';
-          return firstNameA.localeCompare(firstNameB);
+          const nameA = rowA.getAttribute('data-sort-name') || '';
+          const nameB = rowB.getAttribute('data-sort-name') || '';
+          return nameA.localeCompare(nameB);
         } else if (currentSort === 'name-desc') {
-          const firstNameA = rowA.getAttribute('data-first-name') || '';
-          const firstNameB = rowB.getAttribute('data-first-name') || '';
-          return firstNameB.localeCompare(firstNameA);
+          const nameA = rowA.getAttribute('data-sort-name') || '';
+          const nameB = rowB.getAttribute('data-sort-name') || '';
+          return nameB.localeCompare(nameA);
         } else if (currentSort === 'date') {
           const dateA = rowA.getAttribute('data-created-at') || '';
           const dateB = rowB.getAttribute('data-created-at') || '';
@@ -361,19 +382,17 @@ function splitName(name: string): { firstName: string; lastName: string } {
       const visibleRows: Element[] = [];
       rows.forEach((row) => {
         const cells = row.querySelectorAll('td');
-        // Column order: Name (0), Email (1), Phone (2), Shirt Size (3), Sneaker Size (4), Actions (5)
-        const name = cells[0]?.textContent?.toLowerCase() || '';
-        const email = cells[1]?.textContent?.toLowerCase() || '';
-        const phone = cells[2]?.textContent?.toLowerCase() || '';
-        const shirtSize = cells[3]?.textContent?.toLowerCase() || '';
-        const sneakerSize = cells[4]?.textContent?.toLowerCase() || '';
+        // Column order: Check-in (0), Name (1), Email (2), Additional Guests (3), Date (4), Actions (5)
+        const name = cells[1]?.textContent?.toLowerCase() || '';
+        const email = cells[2]?.textContent?.toLowerCase() || '';
+        const additionalGuests = cells[3]?.textContent?.toLowerCase() || '';
+        const date = cells[4]?.textContent?.toLowerCase() || '';
         
         const matchesSearch = !searchTerm || 
           name.includes(searchTerm) || 
           email.includes(searchTerm) ||
-          phone.includes(searchTerm) ||
-          shirtSize.includes(searchTerm) ||
-          sneakerSize.includes(searchTerm);
+          additionalGuests.includes(searchTerm) ||
+          date.includes(searchTerm);
         
         if (matchesSearch) {
           (row as HTMLElement).style.display = '';
@@ -402,7 +421,7 @@ function splitName(name: string): { firstName: string; lastName: string } {
     const exportCsvBtn = document.getElementById('export-csv-btn');
     exportCsvBtn?.addEventListener('click', () => {
       const rows = entriesTbody?.querySelectorAll('tr[data-entry-id]') || [];
-      const csvRows: string[] = ['Name,Email,Phone,Shirt Size,Sneaker Size'];
+      const csvRows: string[] = ['Name,Email,Additional Guests,Date'];
       
       rows.forEach((row) => {
         // Only export visible rows
@@ -411,20 +430,18 @@ function splitName(name: string): { firstName: string; lastName: string } {
         
         const cells = row.querySelectorAll('td');
         if (cells.length >= 5) {
-          const name = cells[0]?.textContent?.trim() || '';
-          const email = cells[1]?.textContent?.trim() || '';
-          const phone = cells[2]?.textContent?.trim() || '';
-          const shirtSize = cells[3]?.textContent?.trim() || '';
-          const sneakerSize = cells[4]?.textContent?.trim() || '';
+          const name = cells[1]?.textContent?.trim() || '';
+          const email = cells[2]?.textContent?.trim() || '';
+          const additionalGuests = cells[3]?.textContent?.trim() || '';
+          const date = cells[4]?.textContent?.trim() || '';
           
           // Escape commas and quotes in CSV
           const escapeCsv = (str: string) => `"${str.replace(/"/g, '""')}"`;
           csvRows.push([
             escapeCsv(name),
             escapeCsv(email),
-            escapeCsv(phone),
-            escapeCsv(shirtSize),
-            escapeCsv(sneakerSize)
+            escapeCsv(additionalGuests),
+            escapeCsv(date)
           ].join(','));
         }
       });
@@ -444,6 +461,53 @@ function splitName(name: string): { firstName: string; lastName: string } {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    });
+
+    // Check-in toggle functionality
+    document.querySelectorAll('.check-in-btn').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        const button = (e.target as HTMLElement).closest('.check-in-btn') as HTMLButtonElement;
+        if (!button || button.hasAttribute('disabled')) return;
+        const entryId = parseInt(button.getAttribute('data-entry-id') || '0', 10);
+        const currentlyCheckedIn = button.getAttribute('data-checked-in') === 'true';
+        const newCheckedIn = !currentlyCheckedIn;
+
+        if (currentlyCheckedIn && !newCheckedIn) {
+          if (!confirm('Remove check-in for this guest? They will show as not checked in.')) {
+            return;
+          }
+        }
+
+        button.setAttribute('disabled', 'true');
+        const originalHTML = button.innerHTML;
+
+        try {
+          const response = await fetch('/api/admin/check-in', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: entryId, checkedIn: newCheckedIn }),
+          });
+          const data = await response.json();
+
+          if (data.success) {
+            button.setAttribute('data-checked-in', newCheckedIn ? 'true' : 'false');
+            button.setAttribute('aria-label', newCheckedIn ? 'Checked in' : 'Not checked in');
+            button.setAttribute('title', newCheckedIn ? 'Checked in — click to undo' : 'Click to check in');
+            if (newCheckedIn) {
+              button.innerHTML = `
+                <svg class="w-[18px] h-[18px] text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+              `;
+            } else {
+              button.innerHTML = `<span class="w-[18px] h-[18px] rounded-full border-2 border-white/70 block" aria-hidden="true"></span>`;
+            }
+          }
+        } catch (err) {
+          console.error('Check-in error:', err);
+        }
+        button.removeAttribute('disabled');
+      });
     });
 
     // Delete entry functionality

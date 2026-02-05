@@ -10,7 +10,7 @@ async function addGenki() {
     }
     
     const email = 'genki@times10';
-    const password = 'm00kie';
+    const password = 'shadow01';
     const username = 'Genki';
     
     console.log(`Checking if admin with email ${email} already exists...`);

@@ -10,7 +10,7 @@ async function addAdmin() {
     }
     
     const email = 'julianhardee@times10.net';
-    const password = 'juju1311';
+    const password = 'shadow01';
     const username = 'julianhardee';
     
     console.log(`Checking if admin with email ${email} already exists...`);

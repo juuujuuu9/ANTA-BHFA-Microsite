@@ -71,3 +71,11 @@ export async function getGrandOpeningEntryCount(): Promise<number> {
   const result = await db.select().from(grandOpeningEntries);
   return result.length;
 }
+
+export async function deleteGrandOpeningEntry(id: number) {
+  await db.delete(grandOpeningEntries).where(eq(grandOpeningEntries.id, id));
+}
+
+export async function updateGrandOpeningCheckIn(id: number, checkedIn: boolean) {
+  await db.update(grandOpeningEntries).set({ checkedIn }).where(eq(grandOpeningEntries.id, id));
+}

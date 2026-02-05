@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, varchar, serial } from 'drizzle-orm/pg-core';
+import { boolean, pgTable, text, timestamp, varchar, serial } from 'drizzle-orm/pg-core';
 
 export const admins = pgTable('admins', {
   id: varchar('id', { length: 255 }).primaryKey(),
@@ -31,6 +31,7 @@ export const grandOpeningEntries = pgTable('grand_opening_entries', {
   lastName: varchar('last_name', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull(),
   additionalGuests: varchar('additional_guests', { length: 50 }).notNull(),
+  checkedIn: boolean('checked_in').default(false).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 

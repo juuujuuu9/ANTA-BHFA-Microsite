@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { createGrandOpeningEntry, getGrandOpeningEntryCount } from '@/lib/submissions';
 import { getAllAdmins } from '@/lib/auth';
-import { sendGrandOpeningSubmissionEmail, sendUserRSVPConfirmationEmail } from '@/lib/email';
+import { sendGrandOpeningSubmissionEmail, sendInviteeConfirmationEmail } from '@/lib/email';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -45,7 +45,7 @@ export const POST: APIRoute = async ({ request }) => {
     // Send confirmation email to invitee
     try {
       const baseUrl = new URL(request.url).origin;
-      const userResult = await sendUserRSVPConfirmationEmail(entry!.email, { baseUrl });
+      const userResult = await sendInviteeConfirmationEmail(entry!.email, entry!.firstName, { baseUrl });
       if (!userResult.success) {
         console.error('Invitee confirmation email failed:', userResult.error);
       }

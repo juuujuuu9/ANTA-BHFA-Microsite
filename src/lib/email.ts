@@ -205,41 +205,28 @@ export async function sendInviteeConfirmationEmail(
     console.log('Resend API key starts with "re_":', apiKey?.startsWith('re_'));
     
     const resendClient = getResend();
-    
-    const greeting = firstName ? `Hi ${firstName},` : 'Hi there,';
     const baseUrl = (options?.baseUrl ?? getBaseUrl()).replace(/\/$/, '');
-
-    // Plain text version for better deliverability
-    const textContent = `${greeting}
-
-You're officially confirmed for ANTA Media & VIP Day, we're looking forward to seeing you this Saturday!
-
-You'll have first access to view the store before it opens to the public, along with a few special experiences on-site. Enjoy matcha from Frauth, Layla's Bagels, and custom chain stitching during the event.
-
-Please don't hesitate to reach out if you have any questions in the meantime.
-
-See you soon!
-
-10 AM - 12 PM
-ANTA Beverly Hills
-330 N Beverly Dr, Beverly Hills, CA 90210`;
-
-    // Remove text version temporarily to match admin email format exactly
-    // (admin emails work without text version)
+    const greeting = firstName ? `Hi ${firstName},` : 'Hi there,';
 
     const emailContent = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333;">
-        <div style="text-align: center; margin-bottom: 24px;">
-          <img src="cid:logo-favicon" alt="ANTA" width="48" height="48" style="display: inline-block; width: 48px; height: 48px;" />
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; text-align: left;">
+        <div style="margin-bottom: 24px;">
+          <img src="cid:logo-favicon" alt="ANTA" width="48" height="48" style="display: block; width: 48px; height: 48px;" />
         </div>
-        <p style="margin: 0 0 16px 0;">${greeting}</p>
-        <p style="margin: 0 0 16px 0;">You're officially confirmed for ANTA Media & VIP Day, we're looking forward to seeing you this Saturday!</p>
-        <p style="margin: 0 0 16px 0;">You'll have first access to view the store before it opens to the public, along with a few special experiences on-site. Enjoy matcha from Frauth, Layla's Bagels, and custom chain stitching during the event.</p>
-        <p style="margin: 0 0 16px 0;">Please don't hesitate to reach out if you have any questions in the meantime.</p>
-        <p style="margin: 0 0 16px 0;">See you soon!</p>
-        <p style="margin: 16px 0 0 0; font-size: 14px; color: #666;">10 AM - 12 PM<br>ANTA Beverly Hills<br>330 N Beverly Dr, Beverly Hills, CA 90210</p>
-        <div style="text-align: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee;">
-          <img src="cid:anta-red-logo" alt="ANTA" width="185" height="100" style="display: inline-block; max-width: 185px; height: auto;" />
+        <p style="margin: 0 0 20px 0;">${greeting}</p>
+        <p style="margin: 0 0 20px 0;">Thank you for RSVPing to ANTA Beverly Hills Grand Opening & Ribbon Cutting Ceremony!</p>
+        <p style="margin: 0 0 8px 0; font-weight: 600;">Date & Time</p>
+        <p style="margin: 0 0 4px 0;">Friday, February 13, 2026</p>
+        <p style="margin: 0 0 4px 0;">10:30 AM – 12:00 PM</p>
+        <p style="margin: 0 0 20px 0; font-size: 14px; color: #555;">Ribbon cutting begins promptly at 10:30 AM</p>
+        <p style="margin: 0 0 8px 0; font-weight: 600;">Location</p>
+        <p style="margin: 0 0 4px 0;">330 N Beverly Drive</p>
+        <p style="margin: 0 0 20px 0;">Beverly Hills, CA 90210</p>
+        <p style="margin: 0 0 16px 0;">Please arrive a few minutes early to ensure you don't miss the ribbon cutting.</p>
+        <p style="margin: 0 0 16px 0;">Stick around after to enjoy drinks, DJs, and good vibes.</p>
+        <p style="margin: 0 0 0 0;">We can't wait to welcome you!</p>
+        <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #ddd;">
+          <img src="cid:anta-red-logo" alt="ANTA" width="185" height="100" style="display: block; max-width: 185px; height: auto;" />
         </div>
       </div>
     `;
@@ -248,13 +235,13 @@ ANTA Beverly Hills
     console.log('Email details:', {
       from: `ANTA <${fromEmail}>`,
       to: inviteeEmail,
-      subject: 'ANTA Media & VIP Day - You\'re Confirmed!',
+      subject: 'ANTA Beverly Hills Grand Opening – You\'re Confirmed!',
     });
     
     const result = await resendClient.emails.send({
       from: `ANTA <${fromEmail}>`,
       to: inviteeEmail,
-      subject: 'ANTA Media & VIP Day - You\'re Confirmed!',
+      subject: 'ANTA Beverly Hills Grand Opening – You\'re Confirmed!',
       html: emailContent,
       attachments: [
         { path: `${baseUrl}/favicon.png`, filename: 'favicon.png', inlineContentId: 'logo-favicon', contentType: 'image/png' },

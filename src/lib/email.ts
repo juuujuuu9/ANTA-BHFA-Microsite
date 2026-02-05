@@ -214,7 +214,7 @@ export async function sendInviteeConfirmationEmail(
           <img src="cid:logo-favicon" alt="ANTA" width="48" height="48" style="display: block; width: 48px; height: 48px;" />
         </div>
         <p style="margin: 0 0 20px 0;">${greeting}</p>
-        <p style="margin: 0 0 20px 0;">Thank you for RSVPing to ANTA Beverly Hills Grand Opening & Ribbon Cutting Ceremony!</p>
+        <p style="margin: 0 0 20px 0;">We're excited to confirm your attendance to the ANTA Beverly Hills Grand Opening & Ribbon Cutting Ceremony!</p>
         <p style="margin: 0 0 8px 0; font-weight: 600;">Date & Time</p>
         <p style="margin: 0 0 4px 0;">Friday, February 13, 2026</p>
         <p style="margin: 0 0 4px 0;">10:30 AM – 12:00 PM</p>
@@ -222,8 +222,8 @@ export async function sendInviteeConfirmationEmail(
         <p style="margin: 0 0 8px 0; font-weight: 600;">Location</p>
         <p style="margin: 0 0 4px 0;">330 N Beverly Drive</p>
         <p style="margin: 0 0 20px 0;">Beverly Hills, CA 90210</p>
-        <p style="margin: 0 0 16px 0;">Please arrive a few minutes early to ensure you don't miss the ribbon cutting.</p>
-        <p style="margin: 0 0 16px 0;">Stick around after to enjoy drinks, DJs, and good vibes.</p>
+        <p style="margin: 0 0 16px 0;">We kindly ask that you arrive a few minutes early to ensure you don't miss the ribbon cutting.</p>
+        <p style="margin: 0 0 16px 0;">Stick around afterward to enjoy refreshments, live music, and conversation.</p>
         <p style="margin: 0 0 0 0;">We can't wait to welcome you!</p>
         <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #ddd;">
           <img src="cid:anta-red-logo" alt="ANTA" width="185" height="100" style="display: block; max-width: 185px; height: auto;" />

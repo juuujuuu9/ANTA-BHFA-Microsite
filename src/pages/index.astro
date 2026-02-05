@@ -230,7 +230,8 @@ const description = 'Grand Opening & Ribbon Cutting ceremony at the new ANTA Bev
         window.location.href = '/success';
       } else {
         const errorData = await response.json().catch(() => ({}));
-        console.error('Server error:', errorData);
+        const msg = errorData?.error ?? response.statusText ?? 'Request failed';
+        console.error('Server error:', response.status, msg);
         if (errorContainer) {
           errorContainer.textContent = errorData.error || 'Something went wrong. Please try again.';
           errorContainer.classList.remove('hidden');

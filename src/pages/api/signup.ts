@@ -2,7 +2,6 @@ import type { APIRoute } from 'astro';
 import { createFormSubmission, getTotalSubmissionCount } from '@/lib/submissions';
 import { getAllAdmins } from '@/lib/auth';
 import { sendFormSubmissionEmail, sendUserRSVPConfirmationEmail } from '@/lib/email';
-import { isFormClosedByTime } from '@/lib/form-closure';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -16,22 +15,6 @@ export const POST: APIRoute = async ({ request }) => {
         JSON.stringify({ success: false, error: 'First name, last name, email, phone, shirt size, and sneaker size are required' }),
         { 
           status: 400, 
-          headers: { 'Content-Type': 'application/json' } 
-        }
-      );
-    }
-    
-    // Check if form is closed by time (5pm today)
-    const closedByTime = isFormClosedByTime();
-    if (closedByTime) {
-      return new Response(
-        JSON.stringify({ 
-          success: false, 
-          error: 'Registration is now closed. Thank you for your interest!',
-          limitReached: true
-        }),
-        { 
-          status: 403, 
           headers: { 'Content-Type': 'application/json' } 
         }
       );

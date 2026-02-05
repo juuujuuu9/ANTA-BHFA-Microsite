@@ -1,17 +1,14 @@
 import type { APIRoute } from 'astro';
 import { getTotalSubmissionCount } from '@/lib/submissions';
-import { isFormClosedByTime } from '@/lib/form-closure';
 
 export const GET: APIRoute = async () => {
   try {
-    const closedByTime = isFormClosedByTime();
     const currentCount = await getTotalSubmissionCount();
 
     return new Response(
       JSON.stringify({
         currentCount,
-        limitReached: closedByTime,
-        closedByTime,
+        limitReached: false,
       }),
       {
         status: 200,

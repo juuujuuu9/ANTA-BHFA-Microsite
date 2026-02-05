@@ -4,8 +4,6 @@ import { isFormClosedByTime } from '@/lib/form-closure';
 import { getAllAdmins } from '@/lib/auth';
 import { sendGrandOpeningSubmissionEmail, sendUserRSVPConfirmationEmail } from '@/lib/email';
 
-const MAX_ENTRIES = 500;
-
 export const POST: APIRoute = async ({ request }) => {
   try {
     const data = await request.json();
@@ -24,18 +22,6 @@ export const POST: APIRoute = async ({ request }) => {
         JSON.stringify({
           success: false,
           error: 'Registration is now closed. Thank you for your interest!',
-          limitReached: true,
-        }),
-        { status: 403, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const count = await getGrandOpeningEntryCount();
-    if (count >= MAX_ENTRIES) {
-      return new Response(
-        JSON.stringify({
-          success: false,
-          error: 'Registration is now closed. We have reached the maximum number of entries.',
           limitReached: true,
         }),
         { status: 403, headers: { 'Content-Type': 'application/json' } }

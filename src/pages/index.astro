@@ -100,19 +100,6 @@ const description = 'Grand Opening & Ribbon Cutting ceremony at the new ANTA Bev
               </ul>
             </div>
 
-            <!-- Limit reached message (hidden by default; show via JS when API returns limit) -->
-            <div
-              id="limit-reached-message"
-              class="hidden flex flex-col gap-[20px] items-center w-full max-w-[730px] p-6 bg-[rgba(255,255,255,0.1)] border-2 border-[rgba(255,255,255,0.5)] rounded-[4px]"
-            >
-              <p class="text-white text-[18px] md:text-[22px] font-semibold font-sharp-grotesk-semibold-15 text-center">
-                Registration is now closed
-              </p>
-              <p class="text-white text-[16px] md:text-[18px] font-medium font-sharp-grotesk-medium-20 text-center">
-                Thank you for your interest!
-              </p>
-            </div>
-
             <form id="registration-form" class="flex flex-col gap-[24px] items-center w-full max-w-[876px]" method="POST">
               <!-- Form title -->
               <p class="text-white text-2xl font-medium font-sharp-grotesk leading-10 text-center w-full">
@@ -244,18 +231,9 @@ const description = 'Grand Opening & Ribbon Cutting ceremony at the new ANTA Bev
       } else {
         const errorData = await response.json().catch(() => ({}));
         console.error('Server error:', errorData);
-        
-        // Handle limit reached error
-        if (errorData.limitReached || response.status === 403) {
-          if (errorContainer) {
-            errorContainer.textContent = errorData.error || 'Registration is now closed. Thank you for your interest!';
-            errorContainer.classList.remove('hidden');
-          }
-        } else {
-          if (errorContainer) {
-            errorContainer.textContent = errorData.error || 'Something went wrong. Please try again.';
-            errorContainer.classList.remove('hidden');
-          }
+        if (errorContainer) {
+          errorContainer.textContent = errorData.error || 'Something went wrong. Please try again.';
+          errorContainer.classList.remove('hidden');
         }
         
         if (registerButton && originalButtonHTML !== null) {

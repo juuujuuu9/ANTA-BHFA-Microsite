@@ -115,7 +115,7 @@ export async function sendUserRSVPConfirmationEmail(userEmail: string): Promise<
     `;
     const result = await resendClient.emails.send({
       from: `ANTA <${fromEmail}>`,
-      to: userEmail,
+      to: [userEmail],
       subject: 'Thanks for RSVPing!',
       html,
     });

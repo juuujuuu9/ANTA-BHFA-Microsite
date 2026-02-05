@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { createGrandOpeningEntry, getGrandOpeningEntryCount } from '@/lib/submissions';
 import { isFormClosedByTime } from '@/lib/form-closure';
 import { getAllAdmins } from '@/lib/auth';
-import { sendGrandOpeningSubmissionEmail } from '@/lib/email';
+import { sendGrandOpeningSubmissionEmail, sendUserRSVPConfirmationEmail } from '@/lib/email';
 
 const MAX_ENTRIES = 500;
 
@@ -49,7 +49,7 @@ export const POST: APIRoute = async ({ request }) => {
       additionalGuests: String(additionalGuests),
     });
 
-    // Notify all admins (submitters do not receive confirmation)
+    // Notify all admins
     try {
       const admins = await getAllAdmins();
       const adminEmails = admins.map((a) => a.email).filter(Boolean);
@@ -66,6 +66,17 @@ export const POST: APIRoute = async ({ request }) => {
       }
     } catch (emailError) {
       console.error('Failed to send admin notification:', emailError);
+      // Do not fail the request; submission is saved
+    }
+
+    // Send confirmation email to invitee
+    try {
+      const userResult = await sendUserRSVPConfirmationEmail(entry!.email);
+      if (!userResult.success) {
+        console.error('Invitee confirmation email failed:', userResult.error);
+      }
+    } catch (emailError) {
+      console.error('Failed to send invitee confirmation:', emailError);
       // Do not fail the request; submission is saved
     }
 

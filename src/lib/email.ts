@@ -43,6 +43,31 @@ function getFromEmail(): string {
   return process.env.FROM_EMAIL || 'noreply@yourdomain.com';
 }
 
+/** Base URL for the site (used for logo/favicon in emails). Must be publicly reachable. */
+function getBaseUrl(): string {
+  try {
+    if (typeof import.meta !== 'undefined' && import.meta.env) {
+      return (
+        import.meta.env.PUBLIC_SITE_URL ||
+        import.meta.env.SITE_URL ||
+        import.meta.env.APP_URL ||
+        process.env.PUBLIC_SITE_URL ||
+        process.env.SITE_URL ||
+        process.env.APP_URL ||
+        'http://localhost:4321'
+      );
+    }
+  } catch {
+    // import.meta not available
+  }
+  return (
+    process.env.PUBLIC_SITE_URL ||
+    process.env.SITE_URL ||
+    process.env.APP_URL ||
+    'http://localhost:4321'
+  );
+}
+
 export function validateEmailConfig(): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
   
@@ -94,7 +119,10 @@ export async function sendPasswordResetEmail(email: string, resetLink: string) {
 }
 
 /** Sends a short confirmation to users who submit the RSVP form. */
-export async function sendUserRSVPConfirmationEmail(userEmail: string): Promise<{ success: boolean; error?: string }> {
+export async function sendUserRSVPConfirmationEmail(
+  userEmail: string,
+  options?: { baseUrl?: string }
+): Promise<{ success: boolean; error?: string }> {
   try {
     if (!userEmail || !userEmail.includes('@')) {
       console.error('User RSVP email: invalid address', userEmail);
@@ -106,11 +134,18 @@ export async function sendUserRSVPConfirmationEmail(userEmail: string): Promise<
       return { success: false, error: configCheck.errors.join(', ') };
     }
     const fromEmail = getFromEmail();
+    const baseUrl = (options?.baseUrl ?? getBaseUrl()).replace(/\/$/, '');
     const resendClient = getResend();
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333;">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <img src="cid:logo-favicon" alt="ANTA" width="48" height="48" style="display: inline-block; width: 48px; height: 48px;" />
+        </div>
         <p style="margin: 0 0 16px 0;">Thanks for RSVPing!</p>
         <p style="margin: 0 0 16px 0;">Stay tuned for more info. Can't wait to see you!</p>
+        <div style="text-align: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee;">
+          <img src="cid:anta-red-logo" alt="ANTA" width="185" height="100" style="display: inline-block; max-width: 185px; height: auto;" />
+        </div>
       </div>
     `;
     const result = await resendClient.emails.send({
@@ -118,6 +153,10 @@ export async function sendUserRSVPConfirmationEmail(userEmail: string): Promise<
       to: [userEmail],
       subject: 'Thanks for RSVPing!',
       html,
+      attachments: [
+        { path: `${baseUrl}/favicon.png`, filename: 'favicon.png', inlineContentId: 'logo-favicon', contentType: 'image/png' },
+        { path: `${baseUrl}/images/anta-red.png`, filename: 'anta-red.png', inlineContentId: 'anta-red-logo', contentType: 'image/png' },
+      ],
     });
     // Resend SDK returns { data, error } and does not throw
     const err = (result as { error?: { message?: string; name?: string } })?.error;
@@ -134,7 +173,11 @@ export async function sendUserRSVPConfirmationEmail(userEmail: string): Promise<
   }
 }
 
-export async function sendInviteeConfirmationEmail(inviteeEmail: string, firstName?: string) {
+export async function sendInviteeConfirmationEmail(
+  inviteeEmail: string,
+  firstName?: string,
+  options?: { baseUrl?: string }
+) {
   try {
     console.log('=== INVITEE CONFIRMATION EMAIL PROCESS ===');
     console.log('Invitee email:', inviteeEmail);
@@ -164,7 +207,8 @@ export async function sendInviteeConfirmationEmail(inviteeEmail: string, firstNa
     const resendClient = getResend();
     
     const greeting = firstName ? `Hi ${firstName},` : 'Hi there,';
-    
+    const baseUrl = (options?.baseUrl ?? getBaseUrl()).replace(/\/$/, '');
+
     // Plain text version for better deliverability
     const textContent = `${greeting}
 
@@ -185,12 +229,18 @@ ANTA Beverly Hills
 
     const emailContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333;">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <img src="cid:logo-favicon" alt="ANTA" width="48" height="48" style="display: inline-block; width: 48px; height: 48px;" />
+        </div>
         <p style="margin: 0 0 16px 0;">${greeting}</p>
         <p style="margin: 0 0 16px 0;">You're officially confirmed for ANTA Media & VIP Day, we're looking forward to seeing you this Saturday!</p>
         <p style="margin: 0 0 16px 0;">You'll have first access to view the store before it opens to the public, along with a few special experiences on-site. Enjoy matcha from Frauth, Layla's Bagels, and custom chain stitching during the event.</p>
         <p style="margin: 0 0 16px 0;">Please don't hesitate to reach out if you have any questions in the meantime.</p>
         <p style="margin: 0 0 16px 0;">See you soon!</p>
         <p style="margin: 16px 0 0 0; font-size: 14px; color: #666;">10 AM - 12 PM<br>ANTA Beverly Hills<br>330 N Beverly Dr, Beverly Hills, CA 90210</p>
+        <div style="text-align: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee;">
+          <img src="cid:anta-red-logo" alt="ANTA" width="185" height="100" style="display: inline-block; max-width: 185px; height: auto;" />
+        </div>
       </div>
     `;
     
@@ -201,13 +251,15 @@ ANTA Beverly Hills
       subject: 'ANTA Media & VIP Day - You\'re Confirmed!',
     });
     
-    // Match admin email format exactly (admin emails work, so use same structure)
     const result = await resendClient.emails.send({
       from: `ANTA <${fromEmail}>`,
       to: inviteeEmail,
       subject: 'ANTA Media & VIP Day - You\'re Confirmed!',
       html: emailContent,
-      // Note: Admin emails work without text version, so matching that format
+      attachments: [
+        { path: `${baseUrl}/favicon.png`, filename: 'favicon.png', inlineContentId: 'logo-favicon', contentType: 'image/png' },
+        { path: `${baseUrl}/images/anta-red.png`, filename: 'anta-red.png', inlineContentId: 'anta-red-logo', contentType: 'image/png' },
+      ],
     });
     
     console.log('Resend API response:', JSON.stringify(result, null, 2));

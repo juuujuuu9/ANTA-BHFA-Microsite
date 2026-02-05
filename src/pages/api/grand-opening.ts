@@ -44,7 +44,8 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Send confirmation email to invitee
     try {
-      const userResult = await sendUserRSVPConfirmationEmail(entry!.email);
+      const baseUrl = new URL(request.url).origin;
+      const userResult = await sendUserRSVPConfirmationEmail(entry!.email, { baseUrl });
       if (!userResult.success) {
         console.error('Invitee confirmation email failed:', userResult.error);
       }

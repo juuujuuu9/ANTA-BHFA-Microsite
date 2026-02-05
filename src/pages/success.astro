@@ -28,44 +28,35 @@ const title = 'Thank You - ANTA First Access';
     <!-- Main content container -->
     <div class="relative z-10 flex flex-col h-full w-full max-w-none px-[20px]">
       <!-- Top label -->
-      <p class="font-sharp-grotesk-book-20 text-white text-[14px] md:text-[18px] leading-[22px] md:leading-normal not-italic text-center tracking-[14px] md:tracking-[23.4px] uppercase w-full pt-[20px] md:pt-0">
+      <p class="font-sharp-grotesk-book-20 font-bold text-white text-[14px] md:text-[18px] leading-[22px] md:leading-normal not-italic text-center tracking-[14px] md:tracking-[23.4px] uppercase w-full pt-[20px] md:pt-0">
         anta beverly hills flagship
       </p>
 
-      <!-- Info section - flex-1 to fill remaining space -->
-      <div class="flex flex-col gap-[20px] md:gap-[40px] flex-1 items-center justify-center w-full">
-        <div class="flex flex-col gap-[24px] md:gap-[32px] items-center justify-center px-[20px] md:px-[40px] lg:px-[320px] py-0 w-full">
-          <!-- ANTA Logo -->
-          <div class="h-[120px] md:h-[180px] lg:h-[211px] w-[220px] md:w-[340px] lg:w-[390px] max-w-full relative shrink-0 flex items-center justify-center">
-            <img 
-              alt="ANTA Logo" 
-              class="block max-w-none w-full h-full object-contain"
-              src="https://www.figma.com/api/mcp/asset/8457c8dd-dd26-4ada-8fb6-4e3e9ab13455"
-            />
-          </div>
+      <!-- Info section - self-stretch flex-1 px-80 flex flex-col justify-center items-center -->
+      <div class="self-stretch flex-1 flex flex-col justify-center items-center gap-4 md:gap-6 lg:gap-8 px-6 md:px-20 lg:px-80">
+        <!-- ANTA Logo (inline SVG matching index page) -->
+        <div class="h-[97px] md:h-[103px] w-[180px] md:w-[190px] relative shrink-0 flex items-center justify-center">
+          <svg class="w-full h-full" width="191" height="103" viewBox="0 0 191 103" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ANTA Logo" role="img">
+            <title>ANTA Logo</title>
+            <path d="M29.9023 103H20.5L20.9316 97.136H12.1104L9.25293 103H0L22.3936 59.261H31.7637L29.9023 103ZM54.7881 82.6839L61.3174 59.2444H70.8193L58.626 103H49.3564L46.1494 81.2386L40.0859 103H30.8164L43.043 59.2444H51.3164L54.7881 82.6839ZM96.7686 68.6302H88.4121L78.8105 102.999H69.5732L79.1416 68.6302H70.3379L72.9619 59.2444H99.4092L96.7686 68.6302ZM111.105 102.999H101.736L102.151 97.136H93.3633L90.4727 102.999H81.1855L103.63 59.261H112.966L111.105 102.999ZM71.7998 0.00125122C100.123 -0.0526971 128.215 5.09272 154.68 15.1829L167.007 25.6487C149.091 20.9301 130.702 18.2329 112.186 17.6087C143.23 28.8513 170.164 49.1657 189.499 75.8977L190.414 77.1761L171.625 102.99C134.09 50.7354 73.6621 19.7825 9.32031 19.8518C6.64574 19.8518 2.65785 20.0179 0 20.0179L20.9814 5.58231C37.6621 1.84537 54.7057 -0.0263918 71.7998 0.00125122ZM16.0312 88.0491H21.4971L23.1582 72.6009L16.0312 88.0491ZM97.25 88.0491H102.716L104.377 72.5999L97.25 88.0491Z" fill="white"/>
+          </svg>
+        </div>
 
-          <!-- Thank You heading -->
-          <div class="flex flex-col font-sharp-grotesk-medium-25 justify-center leading-[0] md:leading-[52px] not-italic text-center text-white uppercase w-full max-w-[1038px]">
-            <p class="mb-0 text-[36px] md:text-[56px] lg:text-[66px] leading-[40px] md:leading-[52px] lg:leading-[52px]">
+          <!-- Thank You heading (font-anta to match Grand Opening on index) -->
+          <div class="flex flex-col font-anta justify-center not-italic text-center text-white font-normal uppercase w-full max-w-[1038px]">
+            <p class="mb-0 text-[36px] md:text-[100px] lg:text-[150px]">
               Thank you
             </p>
-            <p class="font-sharp-grotesk-book-25 text-[18px] md:text-[24px] lg:text-[28px] tracking-[1.8px] md:tracking-[4.2px] lg:tracking-[5.6px] leading-[24px] md:leading-[32px] lg:leading-[40px] mt-[8px] md:mt-0">
-              for signing up for ANTA First Access.
+            <p class="font-sharp-grotesk text-white text-xl font-normal uppercase leading-[52px] mt-1 md:mt-2 lg:mt-3">
+              for signing up for the new <strong class="font-bold">anta beverly hills flagship</strong>
             </p>
           </div>
 
-          <!-- Confirmation message -->
-          <div class="flex flex-col font-sharp-grotesk-book-20 justify-center leading-[0] md:leading-[40px] not-italic text-[14px] md:text-[18px] lg:text-[20px] text-center text-white w-full max-w-[1226px] px-[20px]">
-            <p class="leading-[22px] md:leading-[32px] lg:leading-[40px]">
-              <span>Confirmed guests will receive additional event details prior to </span>
-              <span class="font-sharp-grotesk-semibold-20 not-italic">January 17</span>.
-            </p>
-          </div>
 
           <!-- Back to Homepage button -->
           <a 
             href="/"
-            class="bg-[#d7000f] border border-solid border-white cursor-pointer flex items-center justify-center px-[24px] py-[16px] md:py-[20px] rounded-[4px] shrink-0 hover:bg-[#b8323d] transition-colors mt-[20px] w-full max-w-[314px]"
+            class="bg-[#d7000f] border border-solid border-white cursor-pointer flex items-center justify-center px-[24px] py-[16px] md:py-[20px] rounded-[4px] shrink-0 hover:bg-[#b8323d] transition-colors mt-2 md:mt-4 lg:mt-6 w-full max-w-[314px]"
           >
             <p class="font-sharp-grotesk-medium-20 leading-normal not-italic text-[14px] md:text-[18px] lg:text-[20px] text-center text-white tracking-[2px] md:tracking-[3px] lg:tracking-[4px] uppercase">
               back to homepage

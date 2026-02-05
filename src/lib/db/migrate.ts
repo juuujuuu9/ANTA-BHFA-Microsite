@@ -111,6 +111,20 @@ async function migrate() {
         console.log('Schema is already up to date. No migration needed.');
       }
     }
+
+    // Create grand_opening_entries table if it doesn't exist (idempotent)
+    console.log('Ensuring grand_opening_entries table exists...');
+    await sql.unsafe(`
+      CREATE TABLE IF NOT EXISTS grand_opening_entries (
+        id SERIAL PRIMARY KEY,
+        first_name VARCHAR(255) NOT NULL,
+        last_name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        additional_guests VARCHAR(50) NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW() NOT NULL
+      )
+    `);
+    console.log('  ✓ grand_opening_entries ready.');
     
     process.exit(0);
   } catch (error) {

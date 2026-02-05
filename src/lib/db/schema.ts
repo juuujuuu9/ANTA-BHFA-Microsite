@@ -25,8 +25,19 @@ export const formSubmissions = pgTable('form_submissions', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+export const grandOpeningEntries = pgTable('grand_opening_entries', {
+  id: serial('id').primaryKey(),
+  firstName: varchar('first_name', { length: 255 }).notNull(),
+  lastName: varchar('last_name', { length: 255 }).notNull(),
+  email: varchar('email', { length: 255 }).notNull(),
+  additionalGuests: varchar('additional_guests', { length: 50 }).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 export type Admin = typeof admins.$inferSelect;
 export type NewAdmin = typeof admins.$inferInsert;
 export type FormSubmission = typeof formSubmissions.$inferSelect;
 export type NewFormSubmission = typeof formSubmissions.$inferInsert;
+export type GrandOpeningEntry = typeof grandOpeningEntries.$inferSelect;
+export type NewGrandOpeningEntry = typeof grandOpeningEntries.$inferInsert;
 

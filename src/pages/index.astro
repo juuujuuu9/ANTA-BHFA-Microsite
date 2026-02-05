@@ -26,17 +26,17 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
     </div>
 
     <!-- Main content container -->
-    <div class="relative z-10 flex flex-col gap-[24px] md:gap-[40px] items-center overflow-clip px-[20px] py-0 w-full max-w-none">
+    <div class="relative z-10 flex flex-col gap-[24px] md:gap-[40px] items-center overflow-clip px-[20px] py-0 ml-[25px] md:ml-0 w-full max-w-none">
       <!-- Top label -->
-      <p class="font-sharp-grotesk-book-20 text-white text-[14px] md:text-[18px] leading-[22px] md:leading-normal not-italic text-center tracking-[14px] md:tracking-[23.4px] uppercase">
+      <p class="font-sharp-grotesk-book-20 font-bold text-white text-[14px] md:text-[18px] leading-[22px] md:leading-normal not-italic text-center tracking-[14px] md:tracking-[23.4px] uppercase">
         anta beverly hills flagship
       </p>
 
       <!-- Info section -->
       <div class="flex flex-col gap-[20px] md:gap-[40px] items-center w-full">
         <!-- Logo -->
-        <div class="h-[98px] md:h-[103px] w-[179px] md:w-[190px] relative pt-[16px] md:pt-[30px] mb-[20px]">
-          <svg width="191" height="103" viewBox="0 0 191 103" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="h-[97px] md:h-[103px] w-[180px] md:w-[190px] relative pt-[16px] md:pt-[30px] mb-[20px]">
+          <svg class="w-full h-full" width="191" height="103" viewBox="0 0 191 103" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M29.9023 103H20.5L20.9316 97.136H12.1104L9.25293 103H0L22.3936 59.261H31.7637L29.9023 103ZM54.7881 82.6839L61.3174 59.2444H70.8193L58.626 103H49.3564L46.1494 81.2386L40.0859 103H30.8164L43.043 59.2444H51.3164L54.7881 82.6839ZM96.7686 68.6302H88.4121L78.8105 102.999H69.5732L79.1416 68.6302H70.3379L72.9619 59.2444H99.4092L96.7686 68.6302ZM111.105 102.999H101.736L102.151 97.136H93.3633L90.4727 102.999H81.1855L103.63 59.261H112.966L111.105 102.999ZM71.7998 0.00125122C100.123 -0.0526971 128.215 5.09272 154.68 15.1829L167.007 25.6487C149.091 20.9301 130.702 18.2329 112.186 17.6087C143.23 28.8513 170.164 49.1657 189.499 75.8977L190.414 77.1761L171.625 102.99C134.09 50.7354 73.6621 19.7825 9.32031 19.8518C6.64574 19.8518 2.65785 20.0179 0 20.0179L20.9814 5.58231C37.6621 1.84537 54.7057 -0.0263918 71.7998 0.00125122ZM16.0312 88.0491H21.4971L23.1582 72.6009L16.0312 88.0491ZM97.25 88.0491H102.716L104.377 72.5999L97.25 88.0491Z" fill="white"/>
           </svg>
         </div>
@@ -47,68 +47,62 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
           <div class="flex flex-col gap-[20px] md:gap-[40px] items-center w-full">
                   <div class="flex flex-col gap-[32px] md:gap-[36px] items-center w-full">
                     <!-- FIRST ACCESS heading -->
-                    <div class="flex flex-col font-anta justify-center leading-[0] text-[60px] md:text-[80px] lg:text-[100px] xl:text-[140px] text-center text-white uppercase w-[325px] md:w-full">
-                      <p class="leading-[44px] md:leading-[70px] lg:leading-[90px] xl:leading-[110px] italic font-bold">FIRST ACCESS</p>
+                    <div class="flex flex-col font-anta justify-center text-center text-white font-normal uppercase w-[325px] md:w-full">
+                      <!-- Mobile: Grand/opening, a, nd RIBBON CUTTING ceremony -->
+                      <p class="md:hidden text-7xl leading-[66px]">Grand<br />opening</p>
+                      <p class="md:hidden text-4xl leading-10">and RIBBON CUTTING ceremony</p>
+                      <!-- Desktop: Grand Opening, and RIBBON CUTTING ceremony -->
+                      <p class="hidden md:block text-9xl leading-[110px]">Grand Opening</p>
+                      <p class="hidden md:block text-7xl leading-[76px] tracking-wide">and RIBBON CUTTING ceremony</p>
                     </div>
                     
                     <!-- Description text -->
                     <div class="flex flex-col min-h-[121px] items-center justify-center w-full max-w-[1278px]">
-                      <div class="flex flex-col font-sharp-grotesk-medium-15 items-center justify-center leading-[0] md:leading-[40px] lg:leading-[56px] not-italic text-white uppercase w-full gap-[10px]">
-                        <div class="flex flex-col justify-center text-[24px] md:text-[32px] lg:text-[40px]">
-                          <p class="leading-[28px] md:leading-[40px] lg:leading-[56px] tracking-[0.72px] md:tracking-[1.2px]">be among the first to experience</p>
-                        </div>
-                        <div class="flex flex-col justify-center items-center text-[32px] md:text-[40px] lg:text-[50px]">
-                          <p class="leading-[32px] md:leading-[56px] tracking-[0.96px] md:tracking-[2.5px] text-center">
-                            <span class="font-sharp-grotesk-book-15">the new </span>
-                            <span class="font-sharp-grotesk-bold-15">anta</span>
-                            <span class="font-sharp-grotesk-book-15"> beverly hills flagship</span>
+                          <p class="font-sharp-grotesk-medium-20 text-white text-2xl font-medium uppercase leading-8 tracking-wide text-center">
+                            be among the first to step inside our new <span class="font-bold">ANTA</span> Beverly Hills Flagship and celebrate as we officially open our doors to the community
                           </p>
-                        </div>
-                      </div>
                     </div>
                   </div>
                   
-                  <!-- KAI 3 CNY text -->
-                  <div class="flex flex-col gap-[12px] items-center w-full max-w-[1226px] px-[20px]">
-                    <div class="flex flex-col font-sharp-grotesk-medium-15 justify-center leading-[0] text-[20px] md:text-[24px] tracking-[0.6px] md:tracking-[0.8px] text-white uppercase text-center">
-                      <p class="leading-[28px] md:leading-[32px]">A FIRST LOOK INSIDE THE SPACE,</p>
-                    </div>
-                    <div class="flex flex-col font-sharp-grotesk-book-15 h-[51px] md:h-auto justify-center leading-[32px] md:leading-[40px] text-[32px] md:text-[40px] tracking-[0.96px] md:tracking-[1.2px] text-white w-full text-center">
-                      <p class="mb-0">PLUS THE LAUNCH OF</p>
-                      <p>
-                        <span>THE </span>
-                        <span class="font-sharp-grotesk-semibold-15">KAI 3 CNY</span>
-                      </p>
-                    </div>
-                  </div>
                 </div>
 
                 <!-- Date/Time card -->
                 <div class="bg-[rgba(255,255,255,0.1)] border-2 border-[rgba(255,255,255,0.5)] border-solid flex flex-col md:flex-row items-center justify-center px-0 py-[20px] rounded-[4px] w-full max-w-[854px] gap-0">
                   <div class="flex h-[47px] md:h-[77px] items-center justify-center w-full md:w-[364px]">
-                    <div class="flex flex-col font-sharp-grotesk-semibold-25 justify-center leading-[0] not-italic text-[28px] md:text-[36px] text-center text-white tracking-[0.84px] md:tracking-[1.08px] uppercase w-full md:w-[460px]">
-                      <p class="leading-[20px] whitespace-pre-wrap">sat 1.17.26 </p>
+                    <div class="flex flex-col font-sharp-grotesk-semibold-25 justify-center text-center text-white text-2xl md:text-4xl font-semibold uppercase leading-5 tracking-wide w-full md:w-[460px]">
+                      <p class="whitespace-pre-wrap">FRI 2.13.26</p>
                     </div>
                   </div>
                   <div class="flex h-[47px] md:h-[77px] items-center justify-center w-full md:w-[420px]">
-                    <div class="flex flex-col font-sharp-grotesk-semibold-25 justify-center leading-[0] not-italic text-[28px] md:text-[36px] text-center text-white tracking-[0.84px] md:tracking-[1.08px] uppercase whitespace-nowrap">
-                      <p class="leading-[20px]">10 AM – 12 PM</p>
+                    <div class="flex flex-col font-sharp-grotesk-semibold-25 justify-center text-center text-white text-2xl md:text-4xl font-semibold uppercase leading-5 tracking-wide whitespace-nowrap">
+                      <p>10:30 AM – 12 PM</p>
                     </div>
                   </div>
                 </div>
           </div>
 
           <!-- Form section -->
-          <div class="flex flex-col gap-[32px] md:gap-[28px] items-center px-[24px] pt-[35px] md:pt-[40px] pb-[20px] w-full">
+          <div class="flex flex-col gap-[32px] md:gap-[28px] items-center px-0 pt-[35px] md:pt-[0px] pb-[20px] w-full">
             <!-- Address -->
-            <div class="flex flex-col font-sharp-grotesk-semibold-25 justify-center leading-[0] not-italic text-[28px] md:text-[24px] lg:text-[32px] text-center text-white uppercase w-[325px] md:w-full max-w-[1226px]">
-              <p class="leading-[28px] md:leading-[40px] lg:leading-[56px] whitespace-pre-wrap">330 n beVERLY dR, bEVERLY hILLS, CA 90210</p>
+            <div class="flex flex-col font-sharp-grotesk-semibold-25 justify-center text-center text-white text-2xl font-semibold uppercase leading-7 w-[325px] md:w-full max-w-[1226px]">
+              <p class="whitespace-pre-wrap">330 n beVERLY dR, bEVERLY hILLS, CA 90210</p>
             </div>
 
-            <!-- Limit reached message -->
+            <!-- Event highlights -->
+            <div class="w-full max-w-[948px] p-6 md:p-10 bg-neutral-800/50 rounded-2xl border border-white flex flex-col md:flex-row md:items-center gap-6 md:gap-8">
+              <h2 class="font-anta text-white text-[40px] md:text-5xl text-center md:text-left font-normal uppercase leading-[48px] tracking-wide shrink-0">EVENT<br />HIGHLIGHTS</h2>
+              <ul class="font-sharp-grotesk-medium-20 text-white text-base font-medium leading-8 tracking-wide list-disc list-outside pl-6 space-y-2 marker:text-white [&_li]:pl-1 md:text-left">
+                <li>Ribbon Cutting Promptly at 10:30 AM with Special Guests</li>
+                <li>Exclusive First Look Inside the Store</li>
+                <li>Sneaker Showcase: KAI 3 Mentally & All-Star Weekend Experiences</li>
+                <li>Live DJ, Refreshments & Giveaways (while supplies last)</li>
+              </ul>
+            </div>
+
+            <!-- Limit reached message (hidden by default; show via JS when API returns limit) -->
             <div
               id="limit-reached-message"
-              class="flex flex-col gap-[20px] items-center w-full max-w-[730px] p-6 bg-[rgba(255,255,255,0.1)] border-2 border-[rgba(255,255,255,0.5)] rounded-[4px]"
+              class="hidden flex flex-col gap-[20px] items-center w-full max-w-[730px] p-6 bg-[rgba(255,255,255,0.1)] border-2 border-[rgba(255,255,255,0.5)] rounded-[4px]"
             >
               <p class="text-white text-[18px] md:text-[22px] font-semibold font-sharp-grotesk-semibold-15 text-center">
                 Registration is now closed
@@ -118,150 +112,59 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
               </p>
             </div>
 
-            <form id="registration-form" class="hidden flex flex-col gap-[24px] items-center w-full max-w-[876px]" method="POST">
-              <!-- Personal Information Fields -->
-              <div class="flex flex-col gap-[36px] items-center w-full">
-                <!-- Row 1: First Name & Last Name -->
-                <div class="flex items-start w-full">
-                  <div class="flex flex-[1_0_0] flex-col gap-[12px] items-start w-full">
-                    <div class="flex flex-col items-start w-full">
-                      <div class="flex flex-col md:flex-row gap-[10px] items-start w-full">
-                        <input
-                          type="text"
-                          id="firstName"
-                          name="firstName"
-                          required
-                          autocomplete="given-name"
-                          placeholder="First Name"
-                          class="bg-[rgba(255,255,255,0.5)] border border-solid border-white flex flex-[1_0_0] flex-col h-[48px] items-center justify-center px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
-                        />
-                        <input
-                          type="text"
-                          id="lastName"
-                          name="lastName"
-                          required
-                          autocomplete="family-name"
-                          placeholder="Last Name"
-                          class="bg-[rgba(255,255,255,0.5)] border border-solid border-white flex flex-[1_0_0] flex-col h-[48px] items-center justify-center px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
-                        />
-                      </div>
-                    </div>
-                    
-                    <!-- Row 2: Email & Phone -->
-                    <div class="flex flex-col items-start w-full">
-                      <div class="flex flex-col md:flex-row gap-[10px] items-start w-full">
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          required
-                          autocomplete="email"
-                          placeholder="Email Address"
-                          class="bg-[rgba(255,255,255,0.5)] border border-solid border-white flex flex-[1_0_0] flex-col h-[48px] items-center justify-center px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
-                        />
-                        <input
-                          type="tel"
-                          id="phone"
-                          name="phone"
-                          required
-                          autocomplete="tel"
-                          placeholder="Phone Number"
-                          class="bg-[rgba(255,255,255,0.5)] border border-solid border-white flex flex-[1_0_0] flex-col h-[48px] items-center justify-center px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
-                        />
-                      </div>
-                    </div>
-                    
-                    <!-- Row 3: Shirt Size & Sneaker Size -->
-                    <div class="flex flex-col items-start w-full">
-                      <div class="flex flex-col md:flex-row gap-[10px] items-start w-full">
-                        <select
-                          id="shirtSize"
-                          name="shirtSize"
-                          required
-                          class="bg-[rgba(255,255,255,0.5)] border border-solid border-white flex flex-[1_0_0] flex-col h-[48px] items-center justify-center px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] focus:outline-none focus:border-white transition-colors cursor-pointer appearance-none w-full"
-                        >
-                          <option value="" disabled selected class="text-[#212121]">Shirt Size</option>
-                          <option value="XS" class="text-[#212121]">XS</option>
-                          <option value="S" class="text-[#212121]">S</option>
-                          <option value="M" class="text-[#212121]">M</option>
-                          <option value="L" class="text-[#212121]">L</option>
-                          <option value="XL" class="text-[#212121]">XL</option>
-                          <option value="XXL" class="text-[#212121]">XXL</option>
-                        </select>
-                        <select
-                          id="sneakerSize"
-                          name="sneakerSize"
-                          required
-                          class="bg-[rgba(255,255,255,0.5)] border border-solid border-white flex flex-[1_0_0] flex-col h-[48px] items-center justify-center px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] focus:outline-none focus:border-white transition-colors cursor-pointer appearance-none w-full"
-                        >
-                          <option value="" disabled selected class="text-[#212121]">Sneaker Size</option>
-                          <option value="6.5" class="text-[#212121]">6.5 M</option>
-                          <option value="7" class="text-[#212121]">7 M</option>
-                          <option value="7.5" class="text-[#212121]">7.5 M</option>
-                          <option value="8" class="text-[#212121]">8 M</option>
-                          <option value="8.5" class="text-[#212121]">8.5 M</option>
-                          <option value="9" class="text-[#212121]">9 M</option>
-                          <option value="9.5" class="text-[#212121]">9.5 M</option>
-                          <option value="10" class="text-[#212121]">10 M</option>
-                          <option value="10.5" class="text-[#212121]">10.5 M</option>
-                          <option value="11" class="text-[#212121]">11 M</option>
-                          <option value="11.5" class="text-[#212121]">11.5 M</option>
-                          <option value="12" class="text-[#212121]">12 M</option>
-                          <option value="12.5" class="text-[#212121]">12.5 M</option>
-                          <option value="13" class="text-[#212121]">13 M</option>
-                          <option value="13.5" class="text-[#212121]">13.5 M</option>
-                          <option value="14" class="text-[#212121]">14 M</option>
-                          <option value="14.5" class="text-[#212121]">14.5 M</option>
-                          <option value="15" class="text-[#212121]">15 M</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            <form id="registration-form" class="flex flex-col gap-[24px] items-center w-full max-w-[876px]" method="POST">
+              <!-- Form title -->
+              <p class="text-white text-2xl font-medium font-sharp-grotesk leading-10 text-center w-full">
+                Please complete the form below:
+              </p>
 
-                <!-- Creator/Media section header -->
-                <div class="flex flex-col font-sharp-grotesk-medium-20 justify-center leading-[0] not-italic text-center text-white w-full max-w-[730px] whitespace-pre-wrap gap-[10px]">
-                  <p class="mb-0 text-[20px] leading-[28px]">Are you creator? Are you with media?</p>
-                  <p class="font-sharp-grotesk-book-20 text-[16px] leading-[32px]">If so, please enter your details below:</p>
-                </div>
-
-                <!-- Creator/Media fields -->
-                <div class="flex flex-col gap-[12px] items-start w-full">
-                  <div class="flex flex-col items-start w-full">
-                    <div class="flex flex-col md:flex-row gap-[10px] items-start w-full">
-                      <input
-                        type="email"
-                        id="creatorEmail"
-                        name="creatorEmail"
-                        autocomplete="email"
-                        placeholder="Email Address"
-                        class="bg-[rgba(255,255,255,0.5)] border border-solid border-white flex flex-[1_0_0] flex-col h-[48px] items-center justify-center px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
-                      />
-                      <input
-                        type="text"
-                        id="media"
-                        name="media"
-                        placeholder="Media you work with"
-                        class="bg-[rgba(255,255,255,0.5)] border border-solid border-white flex flex-[1_0_0] flex-col h-[48px] items-center justify-center px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
-                      />
-                    </div>
-                  </div>
-                  
-                  <!-- Instagram Profile -->
-                  <div class="flex items-start w-full">
-                    <input
-                      type="text"
-                      id="instagramProfile"
-                      name="instagramProfile"
-                      placeholder="Instagram Profile"
-                      class="bg-[rgba(255,255,255,0.5)] border border-solid border-white flex flex-[1_0_0] flex-col h-[48px] items-center justify-center px-[16px] py-[12px] rounded-[4px] font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
-                    />
-                  </div>
-                </div>
+              <!-- 2x2 fields: equal width and spacing -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full min-w-0">
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  required
+                  autocomplete="given-name"
+                  placeholder="First Name"
+                  class="min-w-0 h-[48px] px-4 py-3 rounded-[4px] bg-[rgba(255,255,255,0.5)] border border-solid border-white font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
+                />
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  required
+                  autocomplete="family-name"
+                  placeholder="Last Name"
+                  class="min-w-0 h-[48px] px-4 py-3 rounded-[4px] bg-[rgba(255,255,255,0.5)] border border-solid border-white font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
+                />
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  autocomplete="email"
+                  placeholder="Email Address"
+                  class="min-w-0 h-[48px] px-4 py-3 rounded-[4px] bg-[rgba(255,255,255,0.5)] border border-solid border-white font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
+                />
+                <select
+                  id="additionalGuests"
+                  name="additionalGuests"
+                  required
+                  class="min-w-0 h-[48px] px-4 py-3 rounded-[4px] bg-[rgba(255,255,255,0.5)] border border-solid border-white font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] focus:outline-none focus:border-white transition-colors cursor-pointer appearance-none w-full"
+                >
+                  <option value="" disabled selected class="text-[#212121]">Additional Guests</option>
+                  <option value="0" class="text-[#212121]">0</option>
+                  <option value="1" class="text-[#212121]">1</option>
+                  <option value="2" class="text-[#212121]">2</option>
+                  <option value="3" class="text-[#212121]">3</option>
+                  <option value="4" class="text-[#212121]">4</option>
+                  <option value="5+" class="text-[#212121]">5+</option>
+                </select>
               </div>
 
               <!-- Submit Button / Inline Confirmation Area -->
-              <div id="registration-action" class="flex items-center justify-center" aria-live="polite">
+              <div id="registration-action" class="flex items-center justify-center mt-10" aria-live="polite">
                 <button
                   id="register-button"
                   type="submit"
@@ -271,12 +174,6 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
                 </button>
               </div>
 
-              <!-- Disclaimer -->
-              <div class="flex flex-col gap-[40px] items-center">
-                <div class="flex flex-col font-sharp-grotesk-book-20 justify-center leading-[0] not-italic text-[14px] md:text-[16px] text-center text-white tracking-[0.7px] md:tracking-[0.8px] w-full max-w-[730px]">
-                  <p class="leading-[24px] md:leading-[32px] whitespace-pre-wrap" style="text-shadow: 0px 4px 4px rgba(0,0,0,0.25);">*LIMITED FIRST ACCESS, GIFTED ITEMS AVAILABLE WHILE SUPPLIES LAST.</p>
-                </div>
-              </div>
 
               <!-- Inline error box (hidden by default) -->
               <div
@@ -287,7 +184,7 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
             </form>
             <!-- Footer -->
             <div class="flex items-center justify-center px-0 py-[10px]">
-              <p class="font-sharp-grotesk-book-20 text-[14px] md:text-[18px] leading-[22px] md:leading-normal not-italic text-center text-white tracking-[14px] md:tracking-[23.4px] uppercase whitespace-pre-wrap w-full max-w-[1100px]">
+              <p class="font-sharp-grotesk-book-20 font-bold text-[14px] md:text-[18px] leading-[22px] md:leading-normal not-italic text-center text-white tracking-[14px] md:tracking-[23.4px] uppercase whitespace-pre-wrap w-full max-w-[1100px]">
                 anta beverly hills flagship
               </p>
             </div>
@@ -335,25 +232,13 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
     }
 
     try {
-      const response = await fetch('/api/signup', {
+      const response = await fetch('/api/grand-opening', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
 
       if (response.ok) {
-        const responseData = await response.json().catch(() => ({}));
-        
-        // Log email status for debugging
-        if (responseData.inviteeEmailSent === false) {
-          console.warn('⚠️ Invitee confirmation email was not sent:', responseData.inviteeEmailError);
-          console.warn('   Your RSVP was saved successfully, but the confirmation email failed.');
-          console.warn('   Please check server logs for details.');
-        } else if (responseData.inviteeEmailSent === true) {
-          console.log('✅ Invitee confirmation email sent successfully');
-        }
-        
-        // Redirect to success page
         window.location.href = '/success';
       } else {
         const errorData = await response.json().catch(() => ({}));

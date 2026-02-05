@@ -1,4 +1,4 @@
-import { db, formSubmissions } from './db';
+import { db, formSubmissions, grandOpeningEntries } from './db';
 import { eq, desc } from 'drizzle-orm';
 
 export async function createFormSubmission(data: {
@@ -45,5 +45,29 @@ export async function deleteSubmission(id: number) {
 
 export async function getTotalSubmissionCount(): Promise<number> {
   const result = await db.select().from(formSubmissions);
+  return result.length;
+}
+
+export async function createGrandOpeningEntry(data: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  additionalGuests: string;
+}) {
+  const [entry] = await db.insert(grandOpeningEntries).values({
+    firstName: data.firstName,
+    lastName: data.lastName,
+    email: data.email,
+    additionalGuests: data.additionalGuests,
+  }).returning();
+  return entry;
+}
+
+export async function getAllGrandOpeningEntries() {
+  return db.select().from(grandOpeningEntries).orderBy(desc(grandOpeningEntries.createdAt));
+}
+
+export async function getGrandOpeningEntryCount(): Promise<number> {
+  const result = await db.select().from(grandOpeningEntries);
   return result.length;
 }

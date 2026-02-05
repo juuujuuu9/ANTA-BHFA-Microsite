@@ -8,8 +8,8 @@ interface Props {
 }
 
 const { 
-  title = 'ANTA Beverly Hills First Access - January 17, 2026',
-  description = 'Be among the first to experience the new ANTA Beverly Hills flagship. First access event on Saturday, January 17, 2026.',
+  title = 'ANTA Beverly Hills Grand Opening - February 13, 2026',
+  description = 'Grand Opening & Ribbon Cutting ceremony at the new ANTA Beverly Hills Flagship. Friday Feb 13, 2026, 10:30 AM – 12 PM. 330 N Beverly Dr, Beverly Hills, CA 90210. RSVP now.',
   ogImage = '/images/Postlink.png'
 } = Astro.props;
 
@@ -85,16 +85,18 @@ const fullOgImageUrl = ogImage.startsWith('http')
     <!-- iOS Web App -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="ANTA First Access" />
+    <meta name="apple-mobile-web-app-title" content="ANTA Grand Opening" />
     <!-- Standard Web App (for modern browsers) -->
     <meta name="mobile-web-app-capable" content="yes" />
     
     <!-- Facebook Meta Tags -->
     <meta property="og:url" content={`${productionUrl}/`} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ANTA Beverly Hills Grand Opening" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={fullOgImageUrl} />
+    <meta property="og:image:alt" content="ANTA Beverly Hills Flagship Grand Opening - RSVP for Feb 13, 2026" />
     
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -181,11 +183,14 @@ const fullOgImageUrl = ogImage.startsWith('http')
   
   html {
     font-family: 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
   }
   
   body {
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+    min-width: 0;
   }
 </style>
 

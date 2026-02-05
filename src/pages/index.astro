@@ -1,11 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const title = 'ANTA Beverly Hills First Access - January 17, 2026';
+const title = 'ANTA Beverly Hills Grand Opening - February 13, 2026';
+const description = 'Grand Opening & Ribbon Cutting ceremony at the new ANTA Beverly Hills Flagship. Friday Feb 13, 2026, 10:30 AM – 12 PM. 330 N Beverly Dr, Beverly Hills, CA 90210. RSVP now.';
 ---
 
-<Layout title={title}>
-  <div class="min-h-screen relative flex flex-col items-center justify-center pt-[80px] md:pt-[50px] px-0 overflow-x-hidden">
+<Layout title={title} description={description}>
+  <div class="min-h-screen relative flex flex-col items-center justify-center pt-[80px] md:pt-[50px] px-0 w-full min-w-0 overflow-x-hidden">
     <!-- Background layers matching Figma design -->
     <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
       <!-- Blue base -->
@@ -25,8 +26,8 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
       
     </div>
 
-    <!-- Main content container -->
-    <div class="relative z-10 flex flex-col gap-[24px] md:gap-[40px] items-center overflow-clip px-[20px] py-0 ml-[25px] md:ml-0 w-full max-w-none">
+    <!-- Main content container - symmetric padding per Figma (left/right 20px on mobile) -->
+    <div class="relative z-10 flex flex-col gap-[24px] md:gap-[40px] items-center w-full max-w-none px-5 py-0 md:px-5 min-w-0">
       <!-- Top label -->
       <p class="font-sharp-grotesk-book-20 font-bold text-white text-[14px] md:text-[18px] leading-[22px] md:leading-normal not-italic text-center tracking-[14px] md:tracking-[23.4px] uppercase">
         anta beverly hills flagship
@@ -47,7 +48,7 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
           <div class="flex flex-col gap-[20px] md:gap-[40px] items-center w-full">
                   <div class="flex flex-col gap-[32px] md:gap-[36px] items-center w-full">
                     <!-- FIRST ACCESS heading -->
-                    <div class="flex flex-col font-anta justify-center text-center text-white font-normal uppercase w-[325px] md:w-full">
+                    <div class="flex flex-col font-anta justify-center text-center text-white font-normal uppercase w-full max-w-[325px] md:max-w-none">
                       <!-- Mobile: Grand/opening, a, nd RIBBON CUTTING ceremony -->
                       <p class="md:hidden text-7xl leading-[66px]">Grand<br />opening</p>
                       <p class="md:hidden text-4xl leading-10">and RIBBON CUTTING ceremony</p>
@@ -84,7 +85,7 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
           <!-- Form section -->
           <div class="flex flex-col gap-[32px] md:gap-[28px] items-center px-0 pt-[35px] md:pt-[0px] pb-[20px] w-full">
             <!-- Address -->
-            <div class="flex flex-col font-sharp-grotesk-semibold-25 justify-center text-center text-white text-2xl font-semibold uppercase leading-7 w-[325px] md:w-full max-w-[1226px]">
+            <div class="flex flex-col font-sharp-grotesk-semibold-25 justify-center text-center text-white text-2xl font-semibold uppercase leading-7 w-full max-w-[325px] md:max-w-[1226px]">
               <p class="whitespace-pre-wrap">330 n beVERLY dR, bEVERLY hILLS, CA 90210</p>
             </div>
 
@@ -168,7 +169,7 @@ const title = 'ANTA Beverly Hills First Access - January 17, 2026';
                 <button
                   id="register-button"
                   type="submit"
-                  class="bg-[#d7000f] border border-solid border-white cursor-pointer px-[24px] py-[16px] md:py-[20px] rounded-[4px] w-[294px] h-auto font-sharp-grotesk-semibold-15 text-[24px] md:text-[28px] lg:text-[32px] text-center text-white tracking-[2.4px] md:tracking-[3.2px] uppercase hover:bg-[#b8323d] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="bg-[#d7000f] border border-solid border-white cursor-pointer px-[24px] py-[16px] md:py-[20px] rounded-[4px] w-full max-w-[294px] h-auto font-sharp-grotesk-semibold-15 text-[24px] md:text-[28px] lg:text-[32px] text-center text-white tracking-[2.4px] md:tracking-[3.2px] uppercase hover:bg-[#b8323d] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   SUBMIT RSVP
                 </button>

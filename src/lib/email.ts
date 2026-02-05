@@ -93,6 +93,37 @@ export async function sendPasswordResetEmail(email: string, resetLink: string) {
   }
 }
 
+/** Sends a short confirmation to users who submit the RSVP form. */
+export async function sendUserRSVPConfirmationEmail(userEmail: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    if (!userEmail || !userEmail.includes('@')) {
+      return { success: false, error: 'Invalid email address' };
+    }
+    const configCheck = validateEmailConfig();
+    if (!configCheck.valid) {
+      return { success: false, error: configCheck.errors.join(', ') };
+    }
+    const fromEmail = getFromEmail();
+    const resendClient = getResend();
+    const html = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333;">
+        <p style="margin: 0 0 16px 0;">Thanks for RSVPing!</p>
+        <p style="margin: 0 0 16px 0;">Stay tuned for more info. Can't wait to see you!</p>
+      </div>
+    `;
+    await resendClient.emails.send({
+      from: `ANTA <${fromEmail}>`,
+      to: userEmail,
+      subject: 'Thanks for RSVPing!',
+      html,
+    });
+    return { success: true };
+  } catch (error) {
+    console.error('Error sending user RSVP confirmation:', error);
+    return { success: false, error: error instanceof Error ? error.message : String(error) };
+  }
+}
+
 export async function sendInviteeConfirmationEmail(inviteeEmail: string, firstName?: string) {
   try {
     console.log('=== INVITEE CONFIRMATION EMAIL PROCESS ===');

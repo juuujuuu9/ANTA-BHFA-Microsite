@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { createFormSubmission, getTotalSubmissionCount } from '@/lib/submissions';
 import { getAllAdmins } from '@/lib/auth';
-import { sendFormSubmissionEmail, sendInviteeConfirmationEmail } from '@/lib/email';
+import { sendFormSubmissionEmail, sendUserRSVPConfirmationEmail } from '@/lib/email';
 import { isFormClosedByTime } from '@/lib/form-closure';
 
 const MAX_ENTRIES = 50;
@@ -132,39 +132,26 @@ export const POST: APIRoute = async ({ request }) => {
       // Don't fail the request if email fails, submission is saved
     }
     
-    // Send confirmation email to invitee
-    let inviteeEmailSent = false;
-    let inviteeEmailError: string | undefined;
+    // Send confirmation email to user
+    let userEmailSent = false;
+    let userEmailError: string | undefined;
     try {
-      console.log('=== INVITEE EMAIL PROCESS ===');
-      console.log('Sending confirmation email to invitee:', email);
-      console.log('First name:', firstName);
-      
-      const inviteeResult = await sendInviteeConfirmationEmail(email, firstName);
-      
-      if (inviteeResult.success) {
-        console.log('✅ Invitee confirmation email sent successfully');
-        inviteeEmailSent = true;
+      const userResult = await sendUserRSVPConfirmationEmail(email);
+      if (userResult.success) {
+        userEmailSent = true;
       } else {
-        console.error('❌ Failed to send invitee confirmation email:', inviteeResult.error);
-        inviteeEmailError = inviteeResult.error;
-        // Don't fail the request if email fails, submission is saved
+        userEmailError = userResult.error;
       }
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      console.error('❌ Exception sending invitee confirmation email:', errorMessage);
-      if (error instanceof Error) {
-        console.error('Error stack:', error.stack);
-      }
-      inviteeEmailError = errorMessage;
-      // Don't fail the request if email fails, submission is saved
+      userEmailError = error instanceof Error ? error.message : String(error);
+      console.error('Error sending user RSVP confirmation:', userEmailError);
     }
-    
+
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         success: true,
-        inviteeEmailSent,
-        inviteeEmailError: inviteeEmailError || undefined
+        inviteeEmailSent: userEmailSent,
+        inviteeEmailError: userEmailError || undefined,
       }),
       { 
         status: 200, 

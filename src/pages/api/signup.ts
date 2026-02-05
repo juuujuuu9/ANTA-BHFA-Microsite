@@ -136,11 +136,14 @@ export const POST: APIRoute = async ({ request }) => {
     let userEmailSent = false;
     let userEmailError: string | undefined;
     try {
+      console.log('Sending user RSVP confirmation to', email);
       const userResult = await sendUserRSVPConfirmationEmail(email);
       if (userResult.success) {
         userEmailSent = true;
+        console.log('User RSVP confirmation sent');
       } else {
         userEmailError = userResult.error;
+        console.error('User RSVP confirmation failed:', userEmailError);
       }
     } catch (error) {
       userEmailError = error instanceof Error ? error.message : String(error);

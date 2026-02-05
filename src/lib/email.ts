@@ -97,10 +97,12 @@ export async function sendPasswordResetEmail(email: string, resetLink: string) {
 export async function sendUserRSVPConfirmationEmail(userEmail: string): Promise<{ success: boolean; error?: string }> {
   try {
     if (!userEmail || !userEmail.includes('@')) {
+      console.error('User RSVP email: invalid address', userEmail);
       return { success: false, error: 'Invalid email address' };
     }
     const configCheck = validateEmailConfig();
     if (!configCheck.valid) {
+      console.error('User RSVP email: config invalid', configCheck.errors);
       return { success: false, error: configCheck.errors.join(', ') };
     }
     const fromEmail = getFromEmail();
@@ -111,12 +113,20 @@ export async function sendUserRSVPConfirmationEmail(userEmail: string): Promise<
         <p style="margin: 0 0 16px 0;">Stay tuned for more info. Can't wait to see you!</p>
       </div>
     `;
-    await resendClient.emails.send({
+    const result = await resendClient.emails.send({
       from: `ANTA <${fromEmail}>`,
       to: userEmail,
       subject: 'Thanks for RSVPing!',
       html,
     });
+    // Resend SDK returns { data, error } and does not throw
+    const err = (result as { error?: { message?: string; name?: string } })?.error;
+    if (err) {
+      const msg = err.message || JSON.stringify(err);
+      console.error('User RSVP email: Resend error', { to: userEmail, error: msg });
+      return { success: false, error: msg };
+    }
+    console.log('User RSVP confirmation sent to', userEmail);
     return { success: true };
   } catch (error) {
     console.error('Error sending user RSVP confirmation:', error);

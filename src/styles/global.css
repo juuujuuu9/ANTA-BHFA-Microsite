@@ -194,6 +194,15 @@
   src: url('/fonts/SharpGrotesk-Bold15.otf') format('opentype');
 }
 
+/* Sharp Grotesk Bold 20 (tracking 20) */
+@font-face {
+  font-family: 'Sharp Grotesk Bold 20';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/SharpGrotesk-Bold20.otf') format('opentype');
+}
+
 /* Font utility classes */
 .font-sharp-grotesk-book-15 {
   font-family: 'Sharp Grotesk Book 15', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
@@ -229,5 +238,9 @@
 
 .font-sharp-grotesk-bold-15 {
   font-family: 'Sharp Grotesk Bold 15', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
+}
+
+.font-sharp-grotesk-bold-20 {
+  font-family: 'Sharp Grotesk Bold 20', 'Sharp Grotesk', system-ui, -apple-system, sans-serif;
 }
 

@@ -100,76 +100,25 @@ const description = 'Grand Opening & Ribbon Cutting ceremony at the new ANTA Bev
               </ul>
             </div>
 
-            <form id="registration-form" class="flex flex-col gap-[24px] items-center w-full max-w-[876px]" method="POST">
-              <!-- Form title -->
-              <p class="text-white text-2xl font-medium font-sharp-grotesk leading-10 text-center w-full">
-                Please complete the form below:
-              </p>
-
-              <!-- 2x2 fields: equal width and spacing -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full min-w-0">
-                <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  required
-                  autocomplete="given-name"
-                  placeholder="First Name"
-                  class="min-w-0 h-[48px] px-4 py-3 rounded-[4px] bg-[rgba(255,255,255,0.5)] border border-solid border-white font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
-                />
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  required
-                  autocomplete="family-name"
-                  placeholder="Last Name"
-                  class="min-w-0 h-[48px] px-4 py-3 rounded-[4px] bg-[rgba(255,255,255,0.5)] border border-solid border-white font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
-                />
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  autocomplete="email"
-                  placeholder="Email Address"
-                  class="min-w-0 h-[48px] px-4 py-3 rounded-[4px] bg-[rgba(255,255,255,0.5)] border border-solid border-white font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] placeholder:text-[#212121] focus:outline-none focus:border-white transition-colors w-full"
-                />
-                <select
-                  id="additionalGuests"
-                  name="additionalGuests"
-                  required
-                  class="min-w-0 h-[48px] px-4 py-3 rounded-[4px] bg-[rgba(255,255,255,0.5)] border border-solid border-white font-sharp-grotesk-book-20 text-[#212121] text-[14px] md:text-[16px] focus:outline-none focus:border-white transition-colors cursor-pointer appearance-none w-full"
-                >
-                  <option value="" disabled selected class="text-[#212121]">Additional Guests</option>
-                  <option value="0" class="text-[#212121]">0</option>
-                  <option value="1" class="text-[#212121]">1</option>
-                  <option value="2" class="text-[#212121]">2</option>
-                  <option value="3" class="text-[#212121]">3</option>
-                  <option value="4" class="text-[#212121]">4</option>
-                  <option value="5+" class="text-[#212121]">5+</option>
-                </select>
+            <!-- Entries Closed Message -->
+            <div class="flex flex-col gap-[24px] items-center w-full max-w-[876px] bg-[rgba(255,255,255,0.1)] border-2 border-[rgba(255,255,255,0.5)] border-solid px-8 py-12 rounded-[4px]">
+              <div class="text-center">
+                <h2 class="text-white text-3xl md:text-4xl font-sharp-grotesk-semibold-25 font-semibold uppercase leading-tight tracking-wide mb-4">
+                  RSVP Entries Are Now Closed
+                </h2>
+                <p class="text-white text-lg md:text-xl font-sharp-grotesk-medium-20 font-medium leading-relaxed tracking-wide">
+                  Thank you for your interest in the ANTA Beverly Hills Grand Opening! <br />
+                  RSVP submissions have ended as we prepare for this exciting event.
+                </p>
               </div>
-
-              <!-- Submit Button / Inline Confirmation Area -->
-              <div id="registration-action" class="flex items-center justify-center mt-10" aria-live="polite">
-                <button
-                  id="register-button"
-                  type="submit"
-                  class="bg-[#d7000f] border border-solid border-white cursor-pointer px-[24px] py-[16px] md:py-[20px] rounded-[4px] w-full max-w-[294px] h-auto font-sharp-grotesk-semibold-15 text-[24px] md:text-[28px] lg:text-[32px] text-center text-white tracking-[2.4px] md:tracking-[3.2px] uppercase hover:bg-[#b8323d] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  SUBMIT RSVP
-                </button>
+              
+              <div class="text-center mt-6">
+                <p class="text-white text-base md:text-lg font-sharp-grotesk-book-20 leading-relaxed tracking-wide opacity-90">
+                  We look forward to seeing everyone on <span class="font-sharp-grotesk-semibold-25 font-semibold">Friday, February 13, 2026</span> <br />
+                  at our Beverly Hills flagship store!
+                </p>
               </div>
-
-
-              <!-- Inline error box (hidden by default) -->
-              <div
-                id="registration-error"
-                class="hidden mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-lg text-center"
-                aria-live="polite"
-              ></div>
-            </form>
+            </div>
             <!-- Footer -->
             <div class="flex items-center justify-center px-0 py-[10px]">
               <p class="font-sharp-grotesk-bold-20 text-[14px] md:text-[18px] leading-[22px] md:leading-normal not-italic text-center text-white tracking-[14px] md:tracking-[23.4px] uppercase whitespace-pre-wrap w-full max-w-[1100px]">
@@ -183,89 +132,4 @@ const description = 'Grand Opening & Ribbon Cutting ceremony at the new ANTA Bev
   </div>
 </Layout>
 
-<script>
-  document.getElementById('registration-form')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
 
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    const actionContainer = document.getElementById('registration-action');
-    const errorContainer = document.getElementById('registration-error');
-    const registerButton = document.getElementById('register-button') as HTMLButtonElement;
-
-    // Clear previous error
-    if (errorContainer) {
-      errorContainer.textContent = '';
-      errorContainer.classList.add('hidden');
-    }
-
-    // Loading state
-    let originalButtonHTML: string | null = null;
-    if (registerButton) {
-      originalButtonHTML = registerButton.innerHTML;
-      registerButton.disabled = true;
-      registerButton.classList.add('opacity-60', 'cursor-not-allowed');
-      registerButton.setAttribute('aria-busy', 'true');
-      registerButton.innerHTML = `
-        <span class="inline-flex items-center gap-3">
-          <svg class="animate-spin h-6 w-6 text-white" viewBox="0 0 24 24" fill="none">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-          </svg>
-          Submitting...
-        </span>
-      `;
-    }
-
-    try {
-      const response = await fetch('/api/grand-opening', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-
-      if (response.ok) {
-        window.location.href = '/success';
-      } else {
-        const errorData = await response.json().catch(() => ({}));
-        const msg = errorData?.error ?? response.statusText ?? 'Request failed';
-        console.error('Server error:', response.status, msg);
-        if (errorContainer) {
-          errorContainer.textContent = errorData.error || 'Something went wrong. Please try again.';
-          errorContainer.classList.remove('hidden');
-        }
-        
-        if (registerButton && originalButtonHTML !== null) {
-          registerButton.disabled = false;
-          registerButton.classList.remove('opacity-60', 'cursor-not-allowed');
-          registerButton.removeAttribute('aria-busy');
-          registerButton.innerHTML = originalButtonHTML;
-        }
-      }
-    } catch (error) {
-      console.error('Form submission error:', error);
-      if (errorContainer) {
-        errorContainer.textContent = 'Something went wrong. Please try again.';
-        errorContainer.classList.remove('hidden');
-      }
-      if (registerButton && originalButtonHTML !== null) {
-        registerButton.disabled = false;
-        registerButton.classList.remove('opacity-60', 'cursor-not-allowed');
-        registerButton.removeAttribute('aria-busy');
-        registerButton.innerHTML = originalButtonHTML;
-      }
-    }
-  });
-</script>
-
-<style>
-  /* Custom select arrow styling */
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23212121' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    padding-right: 40px;
-  }
-</style>

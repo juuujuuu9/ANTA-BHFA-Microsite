@@ -1,4 +1,6 @@
 import { Resend } from 'resend';
+import path from 'path';
+import fs from 'fs';
 
 function getResendApiKey(): string {
   // Try import.meta.env first (Astro/Vite), then process.env (Node.js)
@@ -208,6 +210,20 @@ export async function sendInviteeConfirmationEmail(
     const baseUrl = (options?.baseUrl ?? getBaseUrl()).replace(/\/$/, '');
     const greeting = firstName ? `Hi ${firstName},` : 'Hi there,';
 
+    // When baseUrl is localhost, Resend rejects URL paths – use Buffer content from local files instead
+    const faviconPath = path.join(process.cwd(), 'public', 'favicon.png');
+    const logoPath = path.join(process.cwd(), 'public', 'images', 'anta-red.png');
+    const useLocalContent = baseUrl.includes('localhost') && fs.existsSync(faviconPath) && fs.existsSync(logoPath);
+    const attachments = useLocalContent
+      ? [
+          { filename: 'favicon.png', content: fs.readFileSync(faviconPath), inlineContentId: 'logo-favicon', contentType: 'image/png' as const },
+          { filename: 'anta-red.png', content: fs.readFileSync(logoPath), inlineContentId: 'anta-red-logo', contentType: 'image/png' as const },
+        ]
+      : [
+          { path: `${baseUrl}/favicon.png`, filename: 'favicon.png', inlineContentId: 'logo-favicon', contentType: 'image/png' as const },
+          { path: `${baseUrl}/images/anta-red.png`, filename: 'anta-red.png', inlineContentId: 'anta-red-logo', contentType: 'image/png' as const },
+        ];
+
     const emailContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; text-align: left;">
         <div style="margin-bottom: 24px;">
@@ -243,23 +259,21 @@ export async function sendInviteeConfirmationEmail(
       to: inviteeEmail,
       subject: 'ANTA Beverly Hills Grand Opening – You\'re Confirmed!',
       html: emailContent,
-      attachments: [
-        { path: `${baseUrl}/favicon.png`, filename: 'favicon.png', inlineContentId: 'logo-favicon', contentType: 'image/png' },
-        { path: `${baseUrl}/images/anta-red.png`, filename: 'anta-red.png', inlineContentId: 'anta-red-logo', contentType: 'image/png' },
-      ],
+      attachments,
     });
-    
-    console.log('Resend API response:', JSON.stringify(result, null, 2));
-    
-    // Resend SDK throws errors, so if we get here, the email was sent successfully
-    // Response structure: { data: { id: '...' } } or { id: '...' } depending on SDK version
-    const emailId = (result as any)?.data?.id || (result as any)?.id;
+
+    const resendResult = result as { data?: { id?: string }; error?: { message?: string } };
+    if (resendResult.error) {
+      const errMsg = resendResult.error.message ?? JSON.stringify(resendResult.error);
+      console.error('Resend error:', errMsg);
+      return { success: false, error: errMsg };
+    }
+
+    const emailId = resendResult.data?.id;
     if (emailId) {
       console.log('✅ Invitee confirmation email sent successfully! Email ID:', emailId);
-    } else {
-      console.log('✅ Invitee confirmation email sent successfully! (Response received)');
     }
-    return { success: true, resendResult: result };
+    return { success: true, resendResult };
   } catch (error) {
     console.error('❌ Error sending invitee confirmation email:', error);
     if (error instanceof Error) {

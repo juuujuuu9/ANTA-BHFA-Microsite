@@ -17,6 +17,7 @@
     "db:migrate": "tsx src/lib/db/migrate.ts",
     "test:email": "tsx src/lib/db/test-email.ts",
     "test:invitee-email": "tsx src/lib/db/test-invitee-email.ts",
+    "send-all-invitee-emails": "tsx src/lib/db/send-all-invitee-emails.ts",
     "diagnose:email": "tsx src/lib/db/diagnose-email.ts",
     "check:email-status": "tsx src/lib/db/check-email-status.ts"
   },
